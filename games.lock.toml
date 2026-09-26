@@ -1,13 +1,13 @@
-# Immutable external games included in P2000C SASI Distribution v1.0.0.
+# Immutable external games included in P2000C SASI Distribution v1.0.1.
 # Source archives and every installed artifact are SHA-256 verified.
 schema = 1
 
 [[games]]
 id = "chess"
 repository = "https://github.com/ifilot/p2000c-chess"
-version = "v1.0.0"
-commit = "72e72ec3994f0067b812eb1ec4cfb3cf46551f0a"
-archive_sha256 = "22941491458d253fdfacc0e6019fc9a93f098fd67f9ad353781f6a2e6deadac0"
+version = "v1.1.0"
+commit = "44bda2b5b5d119f4a7d20eb37257c0fd954a295d"
+archive_sha256 = "9a4ed2d077f5a280cfe7f3aff7809d9e62ff42e336aa7ce865092d4516218c65"
 build_date = "2026-09-26"
 build_command = ["make", "build"]
 drive = "F"
@@ -15,7 +15,7 @@ user = 0
 
 [[games.artifacts]]
 path = "build/SCHAKEN.COM"
-sha256 = "902010fd98014e624ca0e324e75b15e14d381b92f3daecedde0511960859518f"
+sha256 = "5c28e0ab4e03b610e90f9839b705441886991e184eea371fddf30c6c09d519a0"
 
 [[games.artifacts]]
 path = "build/SCHAKEN.GFX"
@@ -24,9 +24,9 @@ sha256 = "8d00d3adf373dd98fdcded61b9020387132c78afd75626b57c08ff477b247816"
 [[games]]
 id = "minesweeper"
 repository = "https://github.com/ifilot/p2000c-minesweeper"
-version = "v1.0.0"
-commit = "bc47e188757e90d476d21ddcc4d735de53fd1a38"
-archive_sha256 = "492761fa013f80fec813ffda55d706dfafc7748fc44ade25e91b1758a412ae03"
+version = "v1.0.1"
+commit = "177b0d40fe84c9da1dc95d16535215b65ef5fe59"
+archive_sha256 = "837e9b02ac75e3de1c54cf112ec05374ca731cd655df46199c688e206dcf4489"
 build_date = "2026-09-26"
 build_command = ["make", "build"]
 drive = "F"
@@ -34,22 +34,22 @@ user = 0
 
 [[games.artifacts]]
 path = "build/MINES.COM"
-sha256 = "0c0165018fc24d2097f6f9fa3e7225c7cfaf6370bbfcba478e96bc9adb68c717"
+sha256 = "03ffd04af46616975ac5e8f554cc3fad3a4e95653a1a62ecd3af6748b43bbf56"
 
 [[games]]
 id = "battleship"
 repository = "https://github.com/ifilot/p2000c-battleship"
-version = "v1.0.0"
-commit = "3286fde71ecde32accc239b0fbd2c804ff918b08"
-archive_sha256 = "8d4d32259a82be33cdc3ce8143d123b13b7ee16f24862796c471c1f3b3d5d11c"
-build_date = "2026-09-25"
+version = "v1.0.2"
+commit = "49b70781c2d0c3b13befdf1665ddcd228bed2afe"
+archive_sha256 = "fc8310fd2e8e4488253e44ed0f0d03e18920725fa6000d31dc2526635831b69b"
+build_date = "2026-09-26"
 build_command = ["make", "build"]
 drive = "F"
 user = 0
 
 [[games.artifacts]]
 path = "build/ZEESLAG.COM"
-sha256 = "d332337ae62ef0117e7689c5a48b850a6eb03bce387939d9303457185227d4d9"
+sha256 = "20c7edbd75275616f3998a5e512b15ca00f655505e64ff114021d9b8886ddbaf"
 
 [[games]]
 id = "othello"

@@ -130,6 +130,13 @@ extern void chain_program(void);
  */
 extern void idle_tick(void);
 
+/** Configures warm boot for an intentional Navigator exit to the CCP. */
+extern void set_menu_warm_boot(void);
+
+/** Configures the launched program returning by warm boot to restart Navigator.
+ */
+extern void set_program_warm_boot(void);
+
 /* ------------------------------------------------------------------------- */
 /* Terminal output.                                                          */
 /* ------------------------------------------------------------------------- */
@@ -344,9 +351,8 @@ static int read_data_byte(FILE *file) {
  * @param allow_empty Whether a zero-length string is valid.
  * @return Nonzero when the complete string is valid.
  */
-static int read_data_string(FILE *file, char *destination,
-                            unsigned char length, unsigned char maximum,
-                            unsigned char allow_empty) {
+static int read_data_string(FILE *file, char *destination, unsigned char length,
+                            unsigned char maximum, unsigned char allow_empty) {
   unsigned char index;
   int value;
 
@@ -458,8 +464,8 @@ static void load_config(void) {
       return;
     }
     category = &categories[category_index];
-    if (!read_data_string(file, category->label, label_length,
-                          MAX_LABEL_LENGTH, 0) ||
+    if (!read_data_string(file, category->label, label_length, MAX_LABEL_LENGTH,
+                          0) ||
         !read_data_string(file, category->description, description_length,
                           MAX_DESCRIPTION_LENGTH, 1)) {
       fclose(file);
@@ -482,8 +488,8 @@ static void load_config(void) {
         return;
       }
       entry = &entries[entry_count];
-      if (!read_data_string(file, entry->label, label_length,
-                            MAX_LABEL_LENGTH, 0) ||
+      if (!read_data_string(file, entry->label, label_length, MAX_LABEL_LENGTH,
+                            0) ||
           !read_data_string(file, entry->program, program_length,
                             MAX_PROGRAM_LENGTH, 0) ||
           !read_data_string(file, entry->args, argument_length,
@@ -501,8 +507,9 @@ static void load_config(void) {
     }
   }
   fclose(file);
-  if (entry_count != expected_entries || category_count != expected_categories ||
-      data_remaining || data_crc != expected_crc) {
+  if (entry_count != expected_entries ||
+      category_count != expected_categories || data_remaining ||
+      data_crc != expected_crc) {
     reject_menu_data();
   }
 }
@@ -685,7 +692,7 @@ static void draw_help(void) {
   move_cursor(9, 4);
   write_text("S spaart het scherm. R herlaadt MENU.DAT. Q sluit af.");
   move_cursor(12, 4);
-  write_text("Na afloop: typ USER 0 en daarna A:MENU om terug te keren.");
+  write_text("Na afloop van een programma keert Navigator automatisch terug.");
   move_cursor(20, 4);
   write_text("Druk op een toets om terug te keren.");
 }
@@ -948,6 +955,7 @@ static void launch_selected_program(void) {
   *(unsigned char *)4 = (entry->user << 4) | entry->drive;
   clear_screen();
   write_escape('C');
+  set_program_warm_boot();
   write_text("Start ");
   write_text(entry->label);
   write_text("...\r\n");
@@ -1066,6 +1074,7 @@ static void run_menu(void) {
  * @return Zero after the user returns to the CP/M command prompt.
  */
 int main(void) {
+  set_menu_warm_boot();
   home_drive = bdos(CPM_IDRV, 0);
   home_user = bdos(CPM_SUID, 255);
 

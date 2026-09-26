@@ -90,9 +90,9 @@ that immutable archive, builds it, and rejects a result with a different hash.
 
 | Program | Repository | Selected release | Installed file(s) |
 | --- | --- | --- | --- |
-| Schaken | [p2000c-chess](https://github.com/ifilot/p2000c-chess) | `v1.0.0` + current-Z88DK build fix (`72e72ec3994f0067b812eb1ec4cfb3cf46551f0a`) | `SCHAKEN.COM`, `SCHAKEN.GFX` |
-| Mijnenveger | [p2000c-minesweeper](https://github.com/ifilot/p2000c-minesweeper) | `v1.0.0` (`bc47e188757e90d476d21ddcc4d735de53fd1a38`) | `MINES.COM` |
-| Zeeslag | [p2000c-battleship](https://github.com/ifilot/p2000c-battleship) | `v1.0.0` (`3286fde71ecde32accc239b0fbd2c804ff918b08`) | `ZEESLAG.COM` |
+| Schaken | [p2000c-chess](https://github.com/ifilot/p2000c-chess) | `v1.1.0` (`44bda2b5b5d119f4a7d20eb37257c0fd954a295d`) | `SCHAKEN.COM`, `SCHAKEN.GFX` |
+| Mijnenveger | [p2000c-minesweeper](https://github.com/ifilot/p2000c-minesweeper) | `v1.0.1` (`177b0d40fe84c9da1dc95d16535215b65ef5fe59`) | `MINES.COM` |
+| Zeeslag | [p2000c-battleship](https://github.com/ifilot/p2000c-battleship) | `v1.0.2` (`49b70781c2d0c3b13befdf1665ddcd228bed2afe`) | `ZEESLAG.COM` |
 | Othello | [p2000c-othello](https://github.com/ifilot/p2000c-othello) | `v1.0.1` (`9a498d3483c7ba20ce1283d524d2c6e15bf0a219`) | `OTHELLO.COM` |
 | Tetris | [p2000c-tetris](https://github.com/ifilot/p2000c-tetris) | `v1.0.0` (`619d73057e08e42403d52ca4f7c7e0f74e4b1e25`) | `TETRIS.COM` |
 

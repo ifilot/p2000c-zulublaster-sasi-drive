@@ -1,13 +1,14 @@
 import configparser
 from hashlib import sha256
 import json
+import os
 from pathlib import Path
 
 import pytest
 
 from p2000c_disk.config import inspect_config
 from p2000c_disk.distribution import (
-    ROOT, build_distribution, build_trkdump, digest, main, package_name,
+    ROOT, _build_lock, build_distribution, build_trkdump, digest, main, package_name,
     system_tracks, verify_distribution,
 )
 from p2000c_disk.filesystem import list_files, read_file
@@ -22,8 +23,8 @@ def test_pro_builds_all_drives_reproducibly(tmp_path):
     manifest = json.loads((output / "manifest.json").read_text())
     assert manifest["schema"] == 4
     assert manifest["name"] == "P2000C SASI Distribution"
-    assert manifest["version"] == "1.0.0"
-    assert (output / "VERSION.txt").read_text() == "P2000C SASI Distribution v1.0.0\n"
+    assert manifest["version"] == "1.0.1"
+    assert (output / "VERSION.txt").read_text() == "P2000C SASI Distribution v1.0.1\n"
     expected = {("HD0_256.hda", "low"): 20, ("HD0_256.hda", "high"): 14,
                 ("HD1_256.hda", "low"): 0, ("HD1_256.hda", "high"): 16}
     for (image, partition), count in expected.items():
@@ -132,3 +133,34 @@ def test_standalone_capture_failed_rebuild_is_atomic(tmp_path):
     with pytest.raises(ValueError, match="Assembler not found"):
         build_trkdump(tmp_path, assembler="nonexistent-assembler-xyz")
     assert program.read_bytes() == original
+
+
+def test_build_lock_recovers_dead_and_legacy_owners(tmp_path):
+    lock = tmp_path / ".pro.lock"
+    lock.mkdir()
+    (lock / "owner.pid").write_text("999999999\n")
+    with _build_lock(lock):
+        assert (lock / "owner.pid").read_text().strip() == str(os.getpid())
+    assert not lock.exists()
+
+    lock.mkdir()
+    os.utime(lock, (0, 0))
+    with _build_lock(lock):
+        assert lock.is_dir()
+    assert not lock.exists()
+
+
+def test_build_lock_rejects_live_owner_and_cleans_up_failures(tmp_path):
+    lock = tmp_path / ".menu.lock"
+    lock.mkdir()
+    (lock / "owner.pid").write_text(f"{os.getpid()}\n")
+    with pytest.raises(ValueError, match="owned by live process"):
+        with _build_lock(lock):
+            pytest.fail("must not acquire a live lock")
+    (lock / "owner.pid").unlink()
+    lock.rmdir()
+
+    with pytest.raises(RuntimeError, match="interrupted"):
+        with _build_lock(lock):
+            raise RuntimeError("interrupted")
+    assert not lock.exists()

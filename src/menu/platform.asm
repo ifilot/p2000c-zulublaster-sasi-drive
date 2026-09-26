@@ -1,6 +1,6 @@
 ; Small hardware/transfer boundary; the menu, parser and launch preparation are C.
 SECTION code_user
-PUBLIC _idle_tick, _chain_program
+PUBLIC _idle_tick, _chain_program, _set_menu_warm_boot, _set_program_warm_boot
 EXTERN _launch_fcb, _launch_records
 
 _idle_tick:
@@ -10,6 +10,56 @@ idle_loop:
     ld a,b
     or c
     jr nz,idle_loop
+    ret
+
+; The verified Philips 62K BIOS has its warm-reload continuation at
+; F266h. The menu system image redirects it through a command-buffer helper so
+; a deliberate Navigator exit reaches the CCP prompt. Immediately before a
+; program is chained in, select the alternate reload helper: it restores
+; A: user 0, and the reloaded CCP then executes the disk-configured A:MENU
+; command. Navigator reinstalls the prompt redirect as soon as it starts again. Both routines first verify the expected
+; bytes, so running MENU.COM on an unrelated CP/M system does not patch it.
+WARM_RELOAD_JUMP equ 0f266h
+
+_set_menu_warm_boot:
+    ld hl,WARM_RELOAD_JUMP
+    ld a,(hl)
+    cp 0c3h
+    ret nz
+    inc hl
+    ld a,(hl)
+    cp 0c0h
+    jr z,menu_redirect_present
+    cp 0c7h
+    ret nz
+    inc hl
+    ld a,(hl)
+    cp 0d6h
+    ret nz
+    dec hl
+    ld (hl),0c0h
+    ret
+menu_redirect_present:
+    inc hl
+    ld a,(hl)
+    cp 0d6h
+    ret
+
+_set_program_warm_boot:
+    ld hl,WARM_RELOAD_JUMP
+    ld a,(hl)
+    cp 0c3h
+    ret nz
+    inc hl
+    ld a,(hl)
+    cp 0c0h
+    ret nz
+    inc hl
+    ld a,(hl)
+    cp 0d6h
+    ret nz
+    dec hl
+    ld (hl),0c7h
     ret
 
 _chain_program:

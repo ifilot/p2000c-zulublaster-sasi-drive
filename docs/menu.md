@@ -4,7 +4,7 @@
 
 The menu is a native CP/M 2.2 application written in C and compiled with
 Z88DK. It uses the P2000C's 80-column, 24-line character terminal, with a
-Dutch interface, a `P2000C NAVIGATOR v1.0.0` title bar and a `Home Computer Museum | SASI-distro v1.0.0` footer,
+Dutch interface, a `P2000C NAVIGATOR v1.0.1` title bar and a `Home Computer Museum | SASI-distro v1.0.1` footer,
 inverse selection bar, DOS-style cascading category windows, help and a dim
 moving screensaver. Navigator itself never enters graphics mode; a launched
 game may do so.
@@ -48,8 +48,8 @@ user area 0. From CP/M, enter `USER 0` and then `A:MENU`. The compiled data is
 always read from A: user 0, including when starting from another drive.
 The menu-edition disk marks `MENU.DAT` as a CP/M System file, so ordinary
 `DIR` does not show it; Navigator can still read it normally.
-Use the menu edition for cold-only automatic startup: simply setting an
-unmodified Philips system's autostart command repeats it on warm boots too.
+Use the menu edition for controlled automatic startup. Its guarded warm-boot
+switch distinguishes a program returning to Navigator from **Q** exiting to CP/M.
 
 ## Using the menu
 
@@ -64,10 +64,10 @@ unmodified Philips system's autostart command repeats it on warm boots too.
 - **Q**, **Escape** or **Ctrl-C** asks for confirmation before returning to the
   CP/M prompt. Answer **J** to confirm or **N** to remain in Navigator.
 
-After an application exits, CP/M shows its normal prompt. Enter `USER 0`,
-then `A:MENU` to return. The menu does not remain resident or automatically
-restart after applications. It cannot protect the screen while another
-application is running.
+After an application exits through the normal CP/M warm boot, Navigator starts
+again automatically. Choose **Q** and confirm to return deliberately to the
+CP/M prompt. Navigator does not remain resident and cannot protect the screen
+while another application is running.
 
 ## Editing the menu
 
@@ -173,13 +173,17 @@ The loader does not reduce the normal COM loading limit or change BDOS's
 reported memory boundary. A read failure during replacement prints `!` and
 warm-boots rather than executing a partial program.
 
-The menu edition also adjusts the bundled BIOS warm-reload continuation:
-a seven-byte helper in unused CCP command-buffer space clears the reloaded
-startup-command length before the original relocation continues. Cold boot
-still runs MENU; warm boot reaches the prompt. The builder guards the exact
-instruction sequence. Separate configuration profiles preserve the helper
-when editing startup settings (maximum 55 characters for this edition).
-This is a system-image adjustment, not a resident transient-memory hook.
+The menu edition also adjusts the bundled BIOS warm-reload continuation. One
+seven-byte helper clears the reloaded startup-command length, allowing **Q** to
+reach the prompt. A second helper selects A: user 0 while retaining `A:MENU`.
+Navigator selects that helper immediately before replacing itself with an
+application, so the next warm boot executes the menu command regardless of the
+application's drive or user area. When Navigator starts again it selects the
+prompt helper. Only the three-byte BIOS jump changes in RAM; no menu code
+remains resident and applications retain the complete transient program area.
+The builder guards the exact instruction sequence. Separate configuration
+profiles preserve both helpers when editing startup settings (maximum 55
+characters for this edition).
 
 Terminal output uses Philips ESC Y cursor positioning, ESC 0 attributes,
 ESC c/C cursor visibility, and form feed. The window borders use the native

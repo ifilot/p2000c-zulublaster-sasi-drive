@@ -1,16 +1,20 @@
-"""Cold-only startup for the two bundled, 62K Philips CP/M BIOS layouts.
+"""Controlled menu startup for the two bundled, 62K Philips CP/M BIOS layouts.
 
 The BIOS reloads CCP/BDOS at D680 before relocating them to DC00. Its warm
-reload continuation normally jumps to F269. Redirect it through seven bytes
+reload continuation normally jumps to F269. Redirect it through two seven-byte helpers
 in the unused end of the freshly loaded CCP command buffer: clear the source
-command length at D687, then continue the original relocation. Cold startup
+command length at D687 for a deliberate exit, or select A: user 0 while
+retaining A:MENU after an application, then continue the original relocation. Cold startup
 never takes this path. No resident menu code or disk writes are needed.
 """
 WARM_JUMP = 0x16E6
 HELPER = 0xC0
 ORIGINAL = bytes.fromhex("c369f2")
 REDIRECT = bytes.fromhex("c3c0d6")
-CODE = bytes.fromhex("af3287d6c369f2")
+CODE = bytes.fromhex(
+    "af3287d6c369f2"  # Deliberate menu exit: clear startup command.
+    "af320400c369f2"  # Program return: select A: user 0, retain command.
+)
 
 
 def is_menu_boot(system: bytes) -> bool:

@@ -22,14 +22,14 @@ Choose one package from the
 
 | Package | Startup | CoPower RAM disk |
 | --- | --- | --- |
-| [**Download CP/M**](https://github.com/ifilot/p2000c-zulublaster-sasi-drive/releases/latest/download/p2000c-zulublaster-v1.0.0-pro.zip) | CP/M prompt | No |
-| [**Download CP/M + CoPower**](https://github.com/ifilot/p2000c-zulublaster-sasi-drive/releases/latest/download/p2000c-zulublaster-v1.0.0-pro-coboard.zip) | CP/M prompt | G: |
-| [**Download Navigator**](https://github.com/ifilot/p2000c-zulublaster-sasi-drive/releases/latest/download/p2000c-zulublaster-v1.0.0-menu.zip) | P2000C Navigator | No |
-| [**Download Navigator + CoPower**](https://github.com/ifilot/p2000c-zulublaster-sasi-drive/releases/latest/download/p2000c-zulublaster-v1.0.0-menu-coboard.zip) | P2000C Navigator | G: |
+| [**Download CP/M**](https://github.com/ifilot/p2000c-zulublaster-sasi-drive/releases/latest/download/p2000c-zulublaster-v1.0.1-pro.zip) | CP/M prompt | No |
+| [**Download CP/M + CoPower**](https://github.com/ifilot/p2000c-zulublaster-sasi-drive/releases/latest/download/p2000c-zulublaster-v1.0.1-pro-coboard.zip) | CP/M prompt | G: |
+| [**Download Navigator**](https://github.com/ifilot/p2000c-zulublaster-sasi-drive/releases/latest/download/p2000c-zulublaster-v1.0.1-menu.zip) | P2000C Navigator | No |
+| [**Download Navigator + CoPower**](https://github.com/ifilot/p2000c-zulublaster-sasi-drive/releases/latest/download/p2000c-zulublaster-v1.0.1-menu-coboard.zip) | P2000C Navigator | G: |
 
 Each ZIP contains one complete, tested SD-card setup. Extract its contents
 directly to the root of a FAT32 SD card. Advanced users can also download the
-[standalone tools](https://github.com/ifilot/p2000c-zulublaster-sasi-drive/releases/latest/download/p2000c-zulublaster-v1.0.0-tools.zip)
+[standalone tools](https://github.com/ifilot/p2000c-zulublaster-sasi-drive/releases/latest/download/p2000c-zulublaster-v1.0.1-tools.zip)
 and [SHA-256 checksums](https://github.com/ifilot/p2000c-zulublaster-sasi-drive/releases/latest/download/SHA256SUMS.txt).
 
 ## Hardware installation

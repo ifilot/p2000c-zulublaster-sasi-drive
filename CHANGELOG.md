@@ -7,10 +7,25 @@ features, and PATCH for backwards-compatible fixes.
 
 ## [Unreleased]
 
+## [1.0.1] - 2026-09-26
+
 ### Added
 
 - `make dev` builds all four image variants from the current local game working
   trees, with source-fingerprinted caching and configurable parallel workers.
+
+### Changed
+
+- Updated Schaken to v1.1.0, Mijnenveger to v1.0.1, and Zeeslag to v1.0.2.
+- Refreshed every external-game lock against the newest tagged upstream release;
+  Othello remains at v1.0.1 and Tetris remains at v1.0.0.
+
+### Fixed
+
+- Development builds recover build locks left behind by interrupted processes,
+  while continuing to reject concurrent builds owned by a live process.
+- Programs launched from Navigator return automatically to Navigator through a
+  temporary, guarded warm-boot switch; confirmed **Q** exits still reach CP/M.
 
 ## [1.0.0] - 2026-09-26
 

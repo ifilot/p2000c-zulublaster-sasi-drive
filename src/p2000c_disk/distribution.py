@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 from concurrent.futures import ThreadPoolExecutor
+from contextlib import contextmanager
 from hashlib import sha256
 import json
 import os
@@ -12,6 +13,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import time
 
 from .assembly import ROOT, assemble_program, build_trkdump
 from .builder import build_image
@@ -90,8 +92,66 @@ def verify_distribution(directory: Path) -> None:
     if manifest["variant"] == "menu" and not is_menu_boot((directory / SD_FILES[0]).read_bytes()[:8192]):
         raise ValueError("Missing cold-only menu startup")
     actual = inspect_config(directory / SD_FILES[0]).fields["autostart"].value
-    if actual != ("MENU" if manifest["variant"] == "menu" else ""):
+    if actual != ("A:MENU" if manifest["variant"] == "menu" else ""):
         raise ValueError(f"Unexpected boot command: {actual!r}")
+
+
+def _process_exists(pid: int) -> bool:
+    """Return whether a process still owns a recorded build lock."""
+    try:
+        os.kill(pid, 0)
+    except ProcessLookupError:
+        return False
+    except PermissionError:
+        return True
+    return True
+
+
+@contextmanager
+def _build_lock(path: Path):
+    """Own a build lock and recover locks abandoned by dead processes."""
+    owner = path / "owner.pid"
+    for _ in range(3):
+        try:
+            path.mkdir()
+        except FileExistsError:
+            try:
+                pid = int(owner.read_text(encoding="ascii").strip())
+            except (OSError, ValueError):
+                try:
+                    recent = time.time() - path.stat().st_mtime < 2
+                except FileNotFoundError:
+                    continue
+                if recent:
+                    raise ValueError(
+                        f"Build lock exists: {path}; another build may be starting"
+                    )
+                pid = 0
+            if pid > 0 and _process_exists(pid):
+                raise ValueError(
+                    f"Build lock exists: {path}; owned by live process {pid}"
+                )
+            stale = path.with_name(f"{path.name}.stale-{os.getpid()}")
+            try:
+                path.rename(stale)
+            except FileNotFoundError:
+                continue
+            except FileExistsError:
+                raise ValueError(f"Could not recover stale build lock: {path}")
+            shutil.rmtree(stale)
+            continue
+        try:
+            owner.write_text(f"{os.getpid()}\n", encoding="ascii")
+            yield
+        finally:
+            try:
+                recorded = owner.read_text(encoding="ascii").strip()
+            except OSError:
+                recorded = ""
+            if recorded == str(os.getpid()):
+                shutil.rmtree(path, ignore_errors=True)
+        return
+    raise ValueError(f"Could not acquire build lock: {path}")
 
 
 def build_distribution(variant: str, dist: Path, *, coboard: bool = False,
@@ -107,11 +167,7 @@ def build_distribution(variant: str, dist: Path, *, coboard: bool = False,
     if destination.is_symlink():
         raise ValueError(f"Refusing symlink output: {destination}")
     lock = dist / f".{name}.lock"
-    try:
-        lock.mkdir()
-    except FileExistsError as exc:
-        raise ValueError(f"Build lock exists: {lock}; another build may be running") from exc
-    try:
+    with _build_lock(lock):
         with tempfile.TemporaryDirectory(prefix=f".{name}-", dir=dist) as temporary:
             work = Path(temporary)
             stage = work / name
@@ -146,7 +202,7 @@ def build_distribution(variant: str, dist: Path, *, coboard: bool = False,
                     stage / SD_FILES[0], "MENU.DAT", partition="low",
                     user_number=0,
                 )
-            apply_config_updates(stage / SD_FILES[0], ConfigUpdates(autostart="MENU") if variant == "menu"
+            apply_config_updates(stage / SD_FILES[0], ConfigUpdates(autostart="A:MENU") if variant == "menu"
                                  else ConfigUpdates(clear_autostart=True))
             if variant == "menu":
                 with (stage / SD_FILES[0]).open("r+b") as image:
@@ -187,8 +243,6 @@ def build_distribution(variant: str, dist: Path, *, coboard: bool = False,
                     backup.rename(destination)
                 raise
         return destination
-    finally:
-        lock.rmdir()
 
 
 def build_development_distributions(dist: Path, repositories: Path, *,

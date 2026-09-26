@@ -84,8 +84,8 @@ def test_menu_boot_navigation_help_and_exit(menu_package, headless_emulator):
     assert not (menu_package / "WORDSTAR.FLP").exists()
     state = scenario(menu_package, headless_emulator, "--run", "3000000")
     display = screen(state)
-    assert "P2000C NAVIGATOR v1.0.0" in display
-    assert "Home Computer Museum | SASI-distro v1.0.0" in display
+    assert "P2000C NAVIGATOR v1.0.1" in display
+    assert "Home Computer Museum | SASI-distro v1.0.1" in display
     assert "Spellen" in display and "Kantoor" in display and "Hulpmiddelen" in display
     assert 'command = "MBASIC"' in menu_source
     assert "Zork I" in display and "Zork II" in display and "Zork III" in display
@@ -178,13 +178,17 @@ def test_hardware_arrow_codes(menu_package, headless_emulator):
                      "--wait-for", "Ontdek klassieke avonturen")
     assert "Zork I" in screen(state)
 
-def test_real_application_and_warm_boot(menu_package, headless_emulator):
-    state = scenario(menu_package, headless_emulator,
-                     "--send", "\\n\\n\\x06\\r",
-                     "--wait-for", "D>")
-    assert "D: APPLICATIONS BY CP/M USER AREA" in screen(state)
+def test_real_application_warm_boot_returns_to_menu(menu_package, headless_emulator):
+    state = scenario(
+        menu_package,
+        headless_emulator,
+        "--send", "\\n\\n\\x06\\r",
+        "--wait-for", "D: APPLICATIONS BY CP/M USER AREA",
+        "--wait-for", "Omhoog/Omlaag kiezen",
+    )
+    assert "P2000C NAVIGATOR v1.0.1" in screen(state)
     assert "MENU?" not in screen(state)
-    assert state["cursor"]["visible"]
+    assert not state["cursor"]["visible"]
 
 
 
@@ -239,13 +243,16 @@ def test_tetris_launches_from_menu_in_text_mode(menu_package, headless_emulator)
         "--wait-for", "KIES STARTNIVEAU",
         "--send", "0",
         "--wait-for", "VOLGENDE",
-        "--run", "1000000",
+        "--send", "q",
+        "--wait-for", "KIES STARTNIVEAU",
+        "--send", "q",
+        "--wait-for", "Omhoog/Omlaag kiezen",
     )
     display = screen(state)
     assert state["graphics_mode"] == "character"
     assert state["nonzero_graphics_bytes"] == 0
-    assert all(label in display for label in ("SCORE", "LIJNEN", "NIVEAU",
-                                                "LIJNEN PER BEURT"))
+    assert "P2000C NAVIGATOR v1.0.1" in display
+
 
 def test_mbasic_521_launches_from_menu(menu_package, headless_emulator):
     state = scenario(
@@ -257,11 +264,11 @@ def test_mbasic_521_launches_from_menu(menu_package, headless_emulator):
         "--send", "PRINT 6*7\\r",
         "--wait-for", " 42 ",
         "--send", "SYSTEM\\r",
-        "--run", "3000000",
+        "--wait-for", "Omhoog/Omlaag kiezen",
     )
     display = screen(state)
-    assert "D>" in display
-    assert " 42" in display
+    assert "P2000C NAVIGATOR v1.0.1" in display
+    assert "MENU?" not in display
 
 def test_large_com_arguments_user_and_full_memory(menu_package, tmp_path, headless_emulator):
     package = custom_package(
@@ -316,8 +323,15 @@ message: db 'LARGE PROGRAM READY','$'
     assert fcbs[:12] == b"\x00INPUT   TXT"
     assert fcbs[16:28] == b"\x02????????DAT"
     assert tail.startswith(b"\x12 INPUT.TXT B:*.DAT\r")
-    state = scenario(package, headless_emulator, "--send", "\\r\\r",
-                     "--wait-for", "LARGE PROGRAM READY", "--send", "x", "--wait-for", "D>")
+    state = scenario(
+        package,
+        headless_emulator,
+        "--send", "\\r\\r",
+        "--wait-for", "LARGE PROGRAM READY",
+        "--send", "x",
+        "--wait-for", "Omhoog/Omlaag kiezen",
+    )
+    assert "P2000C NAVIGATOR" in screen(state)
     assert "MENU?" not in screen(state)
 
 
@@ -394,8 +408,12 @@ def test_menu_coboard_cold_and_warm_boot(tmp_path, headless_emulator):
     assert "menu-coboard" in inspect_config(package / "HD0_256.hda").profile_name
     state = run_scenario([
         "--hard-disk-0", str(package / "HD0_256.hda"), "--copower", "--fast-storage",
-        "--wait-for", "Omhoog/Omlaag kiezen", "--send", "q",
-        "--wait-for", "Navigator afsluiten", "--send", "j", "--wait-for", "A>",
+        "--wait-for", "Omhoog/Omlaag kiezen",
+        "--send", "\\n\\n\\x06\\r",
+        "--wait-for", "D: APPLICATIONS BY CP/M USER AREA",
+        "--wait-for", "Omhoog/Omlaag kiezen",
+        "--send", "q", "--wait-for", "Navigator afsluiten",
+        "--send", "j", "--wait-for", "A>",
         "--send", "G:\\rDIR\\r", "--wait-for", "NO FILE",
     ], command=headless_emulator)
     assert state["copower"]["enabled"]

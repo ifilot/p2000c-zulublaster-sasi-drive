@@ -26,7 +26,7 @@ four image variants are built with two workers by default. Set `DEV_JOBS=1` for
 sequential operation or raise it on a machine with enough CPU and memory.
 
 Every package reads its semantic version from the repository-root `VERSION`
-file; the initial SASI distribution is `v1.0.0`. All variants carry that version
+file; the current SASI distribution is `v1.0.1`. All variants carry that version
 in `manifest.json` and root `VERSION.txt`, and release ZIP filenames include it.
 Releases use stable Semantic Versioning (`MAJOR.MINOR.PATCH`). Increment MAJOR
 for incompatible distribution changes, MINOR for backwards-compatible features,
