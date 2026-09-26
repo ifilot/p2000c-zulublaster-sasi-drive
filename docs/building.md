@@ -10,8 +10,25 @@ The project produces a CP/M prompt edition and an optional [program-menu edition
 | `make menu` | `dist/menu/` | Text-mode program menu (Z88DK required) |
 | `make menu-coboard` | `dist/menu-coboard/` | Program menu, G: RAM enabled |
 | `make pro-coboard` | `dist/pro-coboard/` | CP/M prompt, G: RAM enabled |
+| `make dev` | `dist/dev/{pro,pro-coboard,menu,menu-coboard}/` | All editions with local game working trees |
 
-`make all` builds all four editions. Every package reads its semantic version from the repository-root `VERSION` file; the initial SASI distribution is `v1.0.0`. All variants carry that version in `manifest.json` and root `VERSION.txt`, and release ZIP filenames include it. Releases use stable Semantic Versioning (`MAJOR.MINOR.PATCH`). Increment MAJOR
+`make all` builds all four editions from the versions in `games.lock.toml`.
+`make dev` instead reads the sibling `p2000c-chess`, `p2000c-minesweeper`,
+`p2000c-battleship`, `p2000c-othello`, and `p2000c-tetris` repositories. It
+copies and builds their current working trees, including uncommitted source
+files, without changing those repositories. Set `GAME_REPOS=/path/to/parent`
+when the five repositories do not share this repository’s parent directory.
+Development output is kept under `dist/dev/` so it cannot replace a locked
+release build accidentally. Built games are cached in `dist/dev/.game-cache/`
+using a fingerprint of each working tree. A later `make dev` therefore rebuilds
+only games whose tracked or untracked source files changed. Local games and the
+four image variants are built with two workers by default. Set `DEV_JOBS=1` for
+sequential operation or raise it on a machine with enough CPU and memory.
+
+Every package reads its semantic version from the repository-root `VERSION`
+file; the initial SASI distribution is `v1.0.0`. All variants carry that version
+in `manifest.json` and root `VERSION.txt`, and release ZIP filenames include it.
+Releases use stable Semantic Versioning (`MAJOR.MINOR.PATCH`). Increment MAJOR
 for incompatible distribution changes, MINOR for backwards-compatible features,
 and PATCH for backwards-compatible fixes. The newest `CHANGELOG.md` entry must
 match `VERSION`; a tag named `v` plus that version is the only event that

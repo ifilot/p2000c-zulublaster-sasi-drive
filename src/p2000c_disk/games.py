@@ -1,7 +1,9 @@
 """Fetch and verify the immutable external games used by a distribution."""
 from __future__ import annotations
 
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
+from datetime import date
 from hashlib import sha256
 import os
 from pathlib import Path
@@ -203,6 +205,106 @@ def _cache_root(lock_path: Path) -> Path:
     root = Path(configured) if configured else Path.home() / ".cache/p2000c-disk-tool/games"
     return root / _digest(lock_path.read_bytes())
 
+
+LOCAL_SOURCE_IGNORES = frozenset({
+    ".git", "build", "__pycache__", ".pytest_cache", ".venv",
+})
+
+
+def _local_source_digest(repository: Path) -> str:
+    """Fingerprint source inputs that are copied into a development build."""
+    digest = sha256()
+    digest.update(date.today().isoformat().encode("ascii"))
+    for path in sorted(repository.rglob("*")):
+        relative = path.relative_to(repository)
+        if any(part in LOCAL_SOURCE_IGNORES for part in relative.parts):
+            continue
+        if path.is_symlink():
+            raise ValueError(f"local game repository contains a symlink: {path}")
+        if path.is_file():
+            encoded = relative.as_posix().encode("utf-8")
+            data = path.read_bytes()
+            digest.update(len(encoded).to_bytes(4, "big"))
+            digest.update(encoded)
+            digest.update(len(data).to_bytes(8, "big"))
+            digest.update(data)
+    return digest.hexdigest()
+
+
+def materialize_local_games(destination: Path, repositories: Path, cache: Path,
+                            lock_path: Path = ROOT / "games.lock.toml", *,
+                            jobs: int = 1) -> dict[str, dict[int, list[Path]]]:
+    """Build and stage current external-game working trees in parallel."""
+    if jobs < 1:
+        raise ValueError("development build jobs must be at least one")
+    games = load_game_lock(lock_path)
+    repositories = repositories.resolve()
+    cache.mkdir(parents=True, exist_ok=True)
+    destination.mkdir(parents=True, exist_ok=True)
+
+    def prepare(game: LockedGame) -> tuple[LockedGame, dict[str, Path]]:
+        repository = repositories / game.repository.rsplit("/", 1)[-1]
+        if not repository.is_dir() or not (repository / "Makefile").is_file():
+            raise ValueError(f"local game repository is missing: {repository}")
+        game_cache = cache / game.identifier
+        cached = {artifact.path: game_cache / Path(artifact.path).name
+                  for artifact in game.artifacts}
+        fingerprint = _local_source_digest(repository)
+        fingerprint_path = game_cache / "source.sha256"
+        valid = (fingerprint_path.is_file() and
+                 fingerprint_path.read_text(encoding="ascii") == fingerprint + "\n" and
+                 all(path.is_file() for path in cached.values()))
+        if not valid:
+            with tempfile.TemporaryDirectory(prefix=f".game-{game.identifier}-",
+                                             dir=destination) as temporary:
+                source = Path(temporary) / "source"
+                shutil.copytree(
+                    repository, source,
+                    ignore=shutil.ignore_patterns(*LOCAL_SOURCE_IGNORES),
+                )
+                environment = dict(os.environ)
+                environment["BUILD_DATE"] = date.today().isoformat()
+                try:
+                    subprocess.run(("make", "build"), cwd=source, env=environment,
+                                   check=True, capture_output=True, text=True)
+                except subprocess.CalledProcessError as exc:
+                    output = "\n".join(part.strip() for part in (exc.stdout, exc.stderr)
+                                               if part and part.strip())
+                    raise ValueError(output or
+                                     f"local game build failed: {game.identifier}") from exc
+                produced_artifacts: dict[str, Path] = {}
+                for artifact in game.artifacts:
+                    produced = source / artifact.path
+                    if not produced.is_file():
+                        produced = source / "build" / Path(artifact.path).name
+                    if not produced.is_file():
+                        raise ValueError(
+                            f"local game artifact was not produced: {game.identifier}/"
+                            f"{Path(artifact.path).name}"
+                        )
+                    produced_artifacts[artifact.path] = produced
+                game_cache.mkdir(parents=True, exist_ok=True)
+                fingerprint_path.unlink(missing_ok=True)
+                for artifact in game.artifacts:
+                    shutil.copyfile(produced_artifacts[artifact.path], cached[artifact.path])
+                fingerprint_path.write_text(fingerprint + "\n", encoding="ascii")
+        return game, cached
+
+    if jobs == 1:
+        prepared = tuple(prepare(game) for game in games)
+    else:
+        with ThreadPoolExecutor(max_workers=min(jobs, len(games))) as executor:
+            prepared = tuple(executor.map(prepare, games))
+
+    installed: dict[str, dict[int, list[Path]]] = {}
+    for game, cached in prepared:
+        for artifact in game.artifacts:
+            source = cached[artifact.path]
+            staged = destination / game.identifier / source.name
+            staged.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(source, staged)
+            installed.setdefault(game.drive, {}).setdefault(game.user, []).append(staged)
+    return installed
 
 def materialize_games(destination: Path, lock_path: Path = ROOT / "games.lock.toml") -> dict[str, dict[int, list[Path]]]:
     """Download, build, verify, and stage every game selected by the lock file."""

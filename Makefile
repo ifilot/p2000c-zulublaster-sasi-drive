@@ -6,6 +6,10 @@ ASSEMBLER ?= z80asm
 ZCC ?= zcc
 COBOARD_SYSTEM ?= assets/boot/hdboot-coboard.trk
 EMULATOR ?=
+DEV_DIST ?= dist/dev
+DEV_GAME_CACHE ?= $(DEV_DIST)/.game-cache
+DEV_JOBS ?= 2
+GAME_REPOS ?= ..
 
 ifeq ($(filter $(COBOARD),0 1),)
 $(error COBOARD must be 0 or 1)
@@ -14,7 +18,7 @@ endif
 BUILD = PYTHONPATH=src "$(PYTHON)" -m p2000c_disk.distribution
 RAM_FLAG = $(if $(filter 1,$(COBOARD)),--coboard)
 .DEFAULT_GOAL := help
-.PHONY: help all dist pro pro-coboard menu menu-coboard release run verify trkdump test emulator test-emulator menu-com
+.PHONY: help all dev dist pro pro-coboard menu menu-coboard release run verify trkdump test emulator test-emulator menu-com
 
 help:
 	@echo 'make pro                         Build the CP/M-prompt edition'
@@ -22,6 +26,7 @@ help:
 	@echo 'make menu                        Build the Navigator edition (requires Z88DK)'
 	@echo 'make menu-coboard                Build Navigator with the CoPower RAM disk'
 	@echo 'make all                         Build all four distribution editions'
+	@echo 'make dev                         Build all editions with local game working trees'
 	@echo 'make release                     Build all editions, tools, ZIPs and checksums'
 	@echo 'make run                         Preview Navigator in the graphical emulator'
 	@echo 'make run VARIANT=pro             Preview the CP/M prompt instead'
@@ -34,6 +39,9 @@ help:
 	@echo 'Add CONFIG=path.json             Select drive contents'
 
 all: pro pro-coboard menu menu-coboard
+
+dev:
+	$(BUILD) dev --dist "$(DEV_DIST)" --games-root "$(GAME_REPOS)" --game-cache "$(DEV_GAME_CACHE)" --jobs "$(DEV_JOBS)" --config "$(CONFIG)" --assembler "$(ASSEMBLER)" --zcc "$(ZCC)" --coboard-system "$(COBOARD_SYSTEM)"
 
 pro menu:
 	$(MAKE) dist VARIANT=$@

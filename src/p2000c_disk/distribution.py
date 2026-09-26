@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+from concurrent.futures import ThreadPoolExecutor
 from hashlib import sha256
 import json
 import os
@@ -16,7 +17,7 @@ from .assembly import ROOT, assemble_program, build_trkdump
 from .builder import build_image
 from .config import ConfigUpdates, apply_config_updates, inspect_config
 from .filesystem import put_files, set_system_attribute
-from .games import materialize_games
+from .games import materialize_games, materialize_local_games
 from .layout import detect_image_layout
 from .menu import build_menu
 from .menu_boot import cold_menu_boot, is_menu_boot
@@ -95,7 +96,9 @@ def verify_distribution(directory: Path) -> None:
 
 def build_distribution(variant: str, dist: Path, *, coboard: bool = False,
                        coboard_system: Path | None = None, config: Path | None = None,
-                       assembler: str = "z80asm", root: Path = ROOT, zcc: str = "zcc") -> Path:
+                       assembler: str = "z80asm", root: Path = ROOT, zcc: str = "zcc",
+                       external_games: dict[str, dict[int, list[Path]]] | None = None) -> Path:
+    dist = dist.resolve()
     name = package_name(variant, coboard)
     tracks = system_tracks(coboard, coboard_system, root)
     settings, payload = load_payload(config or root / "distribution.json", root)
@@ -113,8 +116,11 @@ def build_distribution(variant: str, dist: Path, *, coboard: bool = False,
             work = Path(temporary)
             stage = work / name
             stage.mkdir()
-            locked_games = materialize_games(work / "locked-games", root / "games.lock.toml")
-            for drive, areas in locked_games.items():
+            game_files = external_games
+            if game_files is None:
+                game_files = materialize_games(work / "locked-games",
+                                               root / "games.lock.toml")
+            for drive, areas in game_files.items():
                 for user, paths in areas.items():
                     payload[drive].setdefault(user, []).extend(paths)
             trkdump, readme = (work / f"{p}.COM" for p in ("TRKDUMP", "README"))
@@ -185,6 +191,45 @@ def build_distribution(variant: str, dist: Path, *, coboard: bool = False,
         lock.rmdir()
 
 
+def build_development_distributions(dist: Path, repositories: Path, *,
+                                    config: Path | None = None,
+                                    assembler: str = "z80asm", root: Path = ROOT,
+                                    zcc: str = "zcc",
+                                    coboard_system: Path | None = None,
+                                    game_cache: Path | None = None,
+                                    jobs: int = 2) -> tuple[Path, ...]:
+    """Build local games, then generate independent editions in parallel."""
+    if jobs < 1:
+        raise ValueError("development build jobs must be at least one")
+    dist = dist.resolve()
+    repositories = repositories.resolve()
+    config = config.resolve() if config is not None else None
+    coboard_system = coboard_system.resolve() if coboard_system is not None else None
+    cache = (game_cache or dist / ".game-cache").resolve()
+    variants = (("pro", False), ("pro", True),
+                ("menu", False), ("menu", True))
+
+    with tempfile.TemporaryDirectory(prefix="p2000c-dev-games-") as temporary:
+        game_files = materialize_local_games(
+            Path(temporary), repositories, cache, root / "games.lock.toml",
+            jobs=jobs,
+        )
+
+        def build(specification: tuple[str, bool]) -> Path:
+            variant, coboard = specification
+            return build_distribution(
+                variant, dist, coboard=coboard,
+                coboard_system=coboard_system if coboard else None,
+                config=config, assembler=assembler, root=root, zcc=zcc,
+                external_games=game_files,
+            )
+
+        if jobs == 1:
+            return tuple(build(specification) for specification in variants)
+        with ThreadPoolExecutor(max_workers=min(jobs, len(variants))) as executor:
+            return tuple(executor.map(build, variants))
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest="command", required=True)
@@ -198,6 +243,18 @@ def main(argv: list[str] | None = None) -> int:
             command.add_argument("--config", type=Path, default=ROOT / "distribution.json")
             command.add_argument("--assembler", default="z80asm")
             command.add_argument("--zcc", default=os.environ.get("ZCC", "zcc"))
+    development = commands.add_parser(
+        "dev", help="build all editions from sibling game working trees"
+    )
+    development.add_argument("--dist", type=Path, default=ROOT / "dist/dev")
+    development.add_argument("--games-root", type=Path, default=ROOT.parent)
+    development.add_argument("--game-cache", type=Path)
+    development.add_argument("--jobs", type=int, default=2)
+    development.add_argument("--coboard-system", type=Path,
+                             default=ROOT / "assets/boot/hdboot-coboard.trk")
+    development.add_argument("--config", type=Path, default=ROOT / "distribution.json")
+    development.add_argument("--assembler", default="z80asm")
+    development.add_argument("--zcc", default=os.environ.get("ZCC", "zcc"))
     for name in ("trkdump",):
         utility = commands.add_parser(name, help=f"build standalone {name.upper()}.COM")
         utility.add_argument("--dist", type=Path, default=ROOT / "dist")
@@ -209,6 +266,14 @@ def main(argv: list[str] | None = None) -> int:
                                         coboard_system=args.coboard_system, config=args.config,
                                         assembler=args.assembler, zcc=args.zcc)
             print(f"Built and verified {output}")
+        elif args.command == "dev":
+            outputs = build_development_distributions(
+                args.dist, args.games_root, config=args.config,
+                assembler=args.assembler, zcc=args.zcc,
+                coboard_system=args.coboard_system, game_cache=args.game_cache, jobs=args.jobs,
+            )
+            for output in outputs:
+                print(f"Built and verified {output}")
         elif args.command == "verify":
             output = args.dist / package_name(args.variant, args.coboard)
             verify_distribution(output)

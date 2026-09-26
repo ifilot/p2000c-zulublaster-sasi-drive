@@ -5,6 +5,13 @@ project uses stable [Semantic Versioning](https://semver.org/spec/v2.0.0.html):
 MAJOR for incompatible distribution changes, MINOR for backwards-compatible
 features, and PATCH for backwards-compatible fixes.
 
+## [Unreleased]
+
+### Added
+
+- `make dev` builds all four image variants from the current local game working
+  trees, with source-fingerprinted caching and configurable parallel workers.
+
 ## [1.0.0] - 2026-09-26
 
 ### Added
