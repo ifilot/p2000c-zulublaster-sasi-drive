@@ -24,6 +24,8 @@ features, and PATCH for backwards-compatible fixes.
 
 - Releases are created only by `vMAJOR.MINOR.PATCH` tags whose value matches the
   repository `VERSION` file and newest changelog entry.
+- Source-built game locks match clean builds with the pinned Z88DK image;
+  Schaken also uses its current-Z88DK memory-arena fix.
 - The P2000M MBASIC binary replaces the incompatible earlier copy.
 
 ### Removed

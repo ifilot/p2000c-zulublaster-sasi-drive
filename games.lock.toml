@@ -5,9 +5,9 @@ schema = 1
 [[games]]
 id = "chess"
 repository = "https://github.com/ifilot/p2000c-chess"
-tag = "v1.0.0"
-commit = "9ef1e5d3b2bdc6e54624fc2850f85d37d1327fea"
-archive_sha256 = "6525be34ffe77542c19be6604709a6bcb3606a14050bd162f0d2dee7dd7e67d9"
+version = "v1.0.0"
+commit = "72e72ec3994f0067b812eb1ec4cfb3cf46551f0a"
+archive_sha256 = "22941491458d253fdfacc0e6019fc9a93f098fd67f9ad353781f6a2e6deadac0"
 build_date = "2026-09-26"
 build_command = ["make", "build"]
 drive = "F"
@@ -15,7 +15,7 @@ user = 0
 
 [[games.artifacts]]
 path = "build/SCHAKEN.COM"
-sha256 = "7bc697ab44e1807e801cc901a67a57073b4f2256fce938d96545e0e1cefea653"
+sha256 = "902010fd98014e624ca0e324e75b15e14d381b92f3daecedde0511960859518f"
 
 [[games.artifacts]]
 path = "build/SCHAKEN.GFX"
@@ -24,7 +24,7 @@ sha256 = "8d00d3adf373dd98fdcded61b9020387132c78afd75626b57c08ff477b247816"
 [[games]]
 id = "minesweeper"
 repository = "https://github.com/ifilot/p2000c-minesweeper"
-tag = "v1.0.0"
+version = "v1.0.0"
 commit = "bc47e188757e90d476d21ddcc4d735de53fd1a38"
 archive_sha256 = "492761fa013f80fec813ffda55d706dfafc7748fc44ade25e91b1758a412ae03"
 build_date = "2026-09-26"
@@ -34,12 +34,12 @@ user = 0
 
 [[games.artifacts]]
 path = "build/MINES.COM"
-sha256 = "b301b10c121b1ec67c457d3c6bed498ff17e730c7fbe7d0930c541e4ce772e21"
+sha256 = "0c0165018fc24d2097f6f9fa3e7225c7cfaf6370bbfcba478e96bc9adb68c717"
 
 [[games]]
 id = "battleship"
 repository = "https://github.com/ifilot/p2000c-battleship"
-tag = "v1.0.0"
+version = "v1.0.0"
 commit = "3286fde71ecde32accc239b0fbd2c804ff918b08"
 archive_sha256 = "8d4d32259a82be33cdc3ce8143d123b13b7ee16f24862796c471c1f3b3d5d11c"
 build_date = "2026-09-25"
@@ -49,12 +49,12 @@ user = 0
 
 [[games.artifacts]]
 path = "build/ZEESLAG.COM"
-sha256 = "6c2533643817e36c62b176772f8dde85bbebecbb5eef3375b2e1f11b044bbe6e"
+sha256 = "d332337ae62ef0117e7689c5a48b850a6eb03bce387939d9303457185227d4d9"
 
 [[games]]
 id = "othello"
 repository = "https://github.com/ifilot/p2000c-othello"
-tag = "v1.0.1"
+version = "v1.0.1"
 commit = "9a498d3483c7ba20ce1283d524d2c6e15bf0a219"
 release_url = "https://github.com/ifilot/p2000c-othello/releases/download/v1.0.1/OTHELLO.COM"
 drive = "F"
@@ -67,7 +67,7 @@ sha256 = "ae2e39ff034b2533560f4ecd52d7cdab9f2c3a3ff2e457c89efda0859916c962"
 [[games]]
 id = "tetris"
 repository = "https://github.com/ifilot/p2000c-tetris"
-tag = "v1.0.0"
+version = "v1.0.0"
 commit = "619d73057e08e42403d52ca4f7c7e0f74e4b1e25"
 archive_sha256 = "93e710f6e8e86baca6b3c031a3f41f8a5ced3ffe4dce92d41f6e0b1609d16cc7"
 build_date = "2026-09-26"
@@ -77,4 +77,4 @@ user = 0
 
 [[games.artifacts]]
 path = "build/TETRIS.COM"
-sha256 = "c8727b08e21bd96a42db5a27695e87da52c8d5ebb8c806d331ccb57810b9ce5a"
+sha256 = "fede564de887f97be709925e824a1180d18b686cd74ba73ede1139755223d7ab"

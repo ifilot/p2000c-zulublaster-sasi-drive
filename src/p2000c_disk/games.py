@@ -36,7 +36,7 @@ class LockedGame:
 
     identifier: str
     repository: str
-    tag: str
+    version: str
     commit: str
     drive: str
     user: int
@@ -89,7 +89,7 @@ def load_game_lock(path: Path = ROOT / "games.lock.toml") -> tuple[LockedGame, .
         context = f"games[{index}]"
         if not isinstance(raw, dict):
             raise ValueError(f"{context} must be a table")
-        allowed = {"id", "repository", "tag", "commit", "drive", "user", "artifacts",
+        allowed = {"id", "repository", "version", "commit", "drive", "user", "artifacts",
                    "archive_sha256", "build_date", "build_command", "release_url"}
         unknown = set(raw) - allowed
         if unknown:
@@ -101,7 +101,9 @@ def load_game_lock(path: Path = ROOT / "games.lock.toml") -> tuple[LockedGame, .
         repository = _require_string(raw, "repository", context)
         if not re.fullmatch(r"https://github\.com/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+", repository):
             raise ValueError(f"{context}.repository must be a GitHub repository URL")
-        tag = _require_string(raw, "tag", context)
+        version = _require_string(raw, "version", context)
+        if not re.fullmatch(r"v(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)", version):
+            raise ValueError(f"{context}.version must be vMAJOR.MINOR.PATCH")
         commit = _require_string(raw, "commit", context).lower()
         if not COMMIT_RE.fullmatch(commit):
             raise ValueError(f"{context}.commit must be a 40-character commit ID")
@@ -140,7 +142,7 @@ def load_game_lock(path: Path = ROOT / "games.lock.toml") -> tuple[LockedGame, .
                 raise ValueError(f"{context}.build_date must use YYYY-MM-DD")
             if not build_command or not all(isinstance(part, str) and part for part in build_command):
                 raise ValueError(f"{context}.build_command must be a non-empty string list")
-        games.append(LockedGame(identifier, repository, tag, commit, drive, user,
+        games.append(LockedGame(identifier, repository, version, commit, drive, user,
                                 tuple(artifacts), archive_sha256, build_date,
                                 tuple(build_command or ()), release_url))
     return tuple(games)
@@ -234,7 +236,10 @@ def materialize_games(destination: Path, lock_path: Path = ROOT / "games.lock.to
                         subprocess.run(game.build_command, cwd=source, env=environment,
                                        check=True, capture_output=True, text=True)
                     except subprocess.CalledProcessError as exc:
-                        raise ValueError(exc.stderr or f"locked game build failed: {game.identifier}") from exc
+                        output = "\n".join(part.strip() for part in (exc.stdout, exc.stderr)
+                                           if part and part.strip())
+                        raise ValueError(output or
+                                         f"locked game build failed: {game.identifier}") from exc
                     sources = {artifact.path: (source / artifact.path).read_bytes()
                                for artifact in game.artifacts}
                 for artifact in game.artifacts:
