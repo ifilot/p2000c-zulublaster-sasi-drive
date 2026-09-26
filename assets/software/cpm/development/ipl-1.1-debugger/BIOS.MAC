@@ -1,0 +1,377 @@
+;CONSOLE STATUS RETURNS 0FFH IF CHAR READY
+;AND 00 IF NOT
+CONST:	LD	A,(KSTAT)
+	AND	A
+	RET
+;
+;==============================================
+;READ (OR WRITE) DATA FROM FLOPPY OR HARD DISK;
+;IF DRIVE=10H, MEMORY DISK IS ADDRESSED	      ;
+;==========INTERRUPT
+	EI
+	POP	AF
+	CALL	JPHL
+	PUSH	AF
+;IN DEBUGGER THE NEXT COMMAND IS
+;MODIFIED TO 'LD A 0'
+CORRIGє	LД	A,2
+	DI
+	OUT	(MEMMGR),A
+	LД	(MSWBYT),Б	;SWITCИ BACK
+	EI
+	POP	AF
+	POP	HL
+	LD	SP,HL
+RETURN:	RET
+;
+;======================================================================
+READSEC: LD	BC,0846H	;FLOPPY CODE
+	DEFB	21H	;SKIP NEXT INSTRUCTION
+;
+WRITSEC: LD	BC,0A45H ;FLOPPY CODE
+RWSEC:	LD	A,(DRIVE)
+	CP	10H
+	JR	NZ,RWDISK
+;
+;==============================================
+;READ-WRITE TO============
+;PRINT ONE CHARACTER FROM PRINT TABLE
+;ON ENTRY:	DE=PRINT TABLE ADDRESS
+;==============================================
+LIST1:	LD	HL,LSTTAB
+	JR	ROMCALL
+;
+;==============================================
+;MAKE REBOOT FROM DRIVE IN 'BOOTD MEMORY DISK
+;THE 16K BLOCKS ARE PRESENT AT 4000-7FFF
+;IF PORT FF IS WRITTEN WITH 08,18,...F8
+;==============================================
+	LD	HL,(TRACK)
+	LD	DE,40H
+	SBC	HL,DE
+	JR	C,MEMD2 ;OK
+RETFF:	OR	0FFH
+	RET		;TRACK TOO HIGH
+MEMD2:	LD	A,LR'
+;==============================================
+BOOTER:	LD	HL,BOOTR
+	JR	ROMCALL
+;
+;==============================================
+;SEND A COMMUNICATION CHARACTER FROM 'C'
+;==============================================
+COMOJP:	LD	HL,COMOUT
+	JR	
+;
+;START WITH F8 PAGE TO PRESERVE THE FIRST 240K
+;EVEN AFTER DEBUGGER
+	CPL
+	AND	03CH
+	RLCA
+	RLCA
+	DI	;INTERRUPT LEADS TO BREAKDOWN
+	LD	H,E	;HL = 4000H
+	LD	D,(HL)	;SAVE RAM VALUE
+	OR	8
+	OUФ	(MEXTP),Б ;SELECФ BLOCK
+	LD	B,A	;SAVE I/O ADDR
+	LD	E,ROMCALL
+;
+;==============================================
+;GET ONE CHARACTER FROM COMMUNICATION TO 'A'
+;==============================================
+COMIJP:	LD	HL,COMIN
+	JR	ROMCALL
+;
+
+;==============================================
+;GET ONE CHA(HL)	;GET VALUE FROM EXT
+	LD	A,D
+	CPL
+	LD	(HL),A	;WRITE TO EXT RAM
+	SUB	A
+	OUT	(MEXTP),A ;BACK TO NORMAL RAM
+	LD	A,(HL)	;EXTENSION PRESENT
+	CP	D	;IF NO CHANGE
+	LD	(HL),D	;RESTORE NORMAL RAM
+	JR	NZ,MEMD4 ;NO EXTENSION RAM !
+	LD	A,B
+	OUT	(MEXTP),ARACTER FROM KEYBOARD
+;==============================================
+CONIJP:	LD	HL,CONIN
+	JR	ROMCALL
+;
+;==============================================
+;OUTPUT ONE CHARACTER TO CONSOLE
+;THROUGH DMA CHANNEL-3
+;CHARACTER IN REG "C" ON INPUT
+;======== ;RESTORE CACHE
+	LD	(HL),E	;OLD EXT VALUE
+;
+	LD	A,(SECTOR)
+	DEC	A
+	ADD	A,40H
+	LD	H,A
+	LD	A,L
+	AND	3
+	RRCA
+	RRCA
+	RRCA
+	RRCA
+	OR	H
+	LD	D,A
+	LD	A,C	;GET FUNCTION CODE
+	LD	BC,(RWLGT) ;TRANSF LENGTH-1
+	INC	BC
+	LD	E,0	;DE=CACHE MEM ADDR
+	LD	H======================================
+CONOUT:	PUSH	HL
+TTO1:	EI
+	NOP		;WAIT FOR INTERRUPT
+	DI
+	LD	A,(TBUCOU)	;BUFFER COUNTER
+	CP	TBULGT	;BUFFER FULL?
+	JR	Z,TTO1	;YES, WAIT
+	INC	A
+	LD	(TBUCOU),A	;INCREMENT COUNTER
+	LD	HL,TTOBUF-1
+	ADD	A,L
+	LD	L,L,(RWBUFF) ;TRANSFER ADDR
+	CP	45H	;WRITE?
+	JR	Z,MEMD3
+	EX	DE,HL
+MEMD3:	LDIR
+	SUB	A	;SET ZERO FLAG
+	OUT	(MEXTP),A ;SWITCH EXTENSION OUT
+MEMD4:	EI
+	JR	NZ,RETFF
+	RET		;NO ERROR
+;
+;=============================================
+;READ-WRITE TO FLOPPYA
+	JR	NC,TTO2
+	INC	H	;HL = NEXT FREE BUFFER ADDR
+TTO2:	LD	(HL),C	;CHARACTER TO OUTPUT
+	LD	A,(TBUCOU)
+	CP	1	;FIRST CHARACTER?
+	JR	NZ,TTO3	;NO
+;DMA COUNTER = LGTH OF DMA BLOCK
+	LD	(TDMLGT),A
+	CALL	TTODMA	;START DMA
+TTO3:	EI
+	POP	HL
+	RET
+;
+;==== OR HARD DISK
+;DIRVER ROUTINES IN ROM
+;=============================================
+RWDISK:	LD	HL,RW0	;ADDR OF READ-WR SUBR
+ROMCALL: LD	(DSKSP+14H),SP
+	LD	SP,DSKSP+14H
+	PUSH	AF
+	SUB	A
+	DI
+	OUT	(MEMMGR),A	;SWITCH TO PROM
+	LД	(MSWBYT),Б	;MARЛ FOТ ==========================================
+;START DMA CHANNEL-3 FOR TTY OUTPUT
+;ON INPUT A=LENGTH OF BLOCK
+;==============================================
+TTODMA:	DEC	A
+	DI
+	OUT	(DMA+7),A	;LO LENGTH
+	LD	A,80H
+	OUT	(DMA+7),A	;HI LENGTH
+	LD	A,TTOBUF AND 0FFH
+	OUT	(DMA+6),A	;LO BUFFER ADDR
+	LD	A,TTOBUF SHR 8
+	OUT	(DMA+6),A	;HI BUFFER ADDR
+	LD	HL,DMSTAT
+	SET	3,(HL)	;TTY OUTPUT FLAG
+	SUB	A
+	OUT	(DMA+8),A	;DISABLE ALL CHANNELS
+	LD	A,(HL)
+	OUT	(DMA+8),A	;ENABLE THEM
+	RET
+;
+;===================ARACTER IN BUFFER THEN EXIT
+;ELSE MOVE NEW DATA TO BUFFER BEGIN & START DMA
+;==============================================
+	LD	BC,(TDMLGT)	;B=TBUCOU
+	LD	A,B	
+	SUB	C	;HOW MANY NEW CHAR IN BUFF?
+	LD	H,A
+	LD	L,A
+	LD	(TDMLGT),HL	;BUFFER STARTS WHERE D==========================
+;LISTAT CHECKS THE LIST STATUS
+;ON EXIT A=FF AND ZERO BIT RESET IF READY
+;	 A=0  AND ZERO BIT SET IF NOT READY
+;=============================================
+LISTAT:	IN	A,(USART3+1)
+	AND	81H
+	SUB	81H		;READY?
+	JP	Z,RETFFMA ENDS
+	JR	Z,DMARET	;NO NEW CHARACTER
+;
+	LD	DE,TTOBUF	;START OF BUFFER AREA
+	LD	B,0
+	LD	H,B
+	LD	L,C
+	ADD	HL,DE
+	LD	C,A
+	LDIR		;MOVE DOWN NEW DATA
+	CALL	TTODMA	;START DMA
+DMARET:	POP	BC
+	POP	DE
+	POP	HL
+	POP	AF
+	LD	SP,(SPSAVE)
+	EI
+	RET
+;
+
+	SUB	A
+	RET		;NO
+;
+;==============================================
+;PRINT ONE OR MORE SCREEN LINES
+;ON ENTRY: BC = SCREEN ADDRESS (STARTS WITH 0)
+;	   A  = NUMBER OF LINES
+;==============================================
+PRSCR:	LD	HL,PRISCR
+	JP	RO;==============================================
+;TIMER INTERRUPT APPEARS EVERY 16.6MS. ACTIONS:
+;1. DECREMENT TIME COUNT AND EXIT IF NONZERO
+;2. IF RDWR FLAG OF DSKFLG BYTE IS SET, THEN
+;   SET THE COMPL & NOTREADY FLAGS (DISK NOT
+;   READY) AND EXITMCALL
+;
+;==============================================
+;GET A CHARACTER FROM ANY RAM ADDRESS INTO 'A'
+;THIS ROUTINE CAN BE CALLED FROM ROM
+;==============================================
+LDAHL:	LD	A,2
+	DI
+	OUT	(MEMMGR),A
+	LD	A,(HL)
+	PUSH	AF
+	SU
+;3. IF MOTSWO FLAG IS SET (MOTOR RUN-UP READY)
+;   THIS FLAG IS RESET AND MOTON FLAG IS SET.
+;4. IF MOTON FLAG IS SET, RESET IT AND SWITCH
+;   THE MOTOR OFF
+;==============================================
+TIMER:	EI	;LET HIGHER PRIORITY INTR
+	PUSH	AFВ	A
+	OUT	(MEMMGR),A
+	EI
+	POP	AF
+	RET
+;
+;############# INTERRUPT ROUTINES #############
+;
+;==============================================
+;FDC INTERRUPT ROUTINE
+;==============================================
+FDCINT:	PUSH	HL
+	LD	HL,DSKFLG
+	SET	
+	LD	(HLSAVE),HL
+	LD	HL,CLOCK
+	LD	A,4
+TIM0:	INC	(HL)
+	JR	NZ,TIM1
+	INC	HL
+	DEC	A
+	JR	NZ,TIM0
+TIM1:	LD	HL,(TBYTE)
+	DEC	HL
+	LD	(TBYTE),HL
+	LD	A,H
+	OR	L
+	JR	NZ,TIM9
+;
+	LD	HL,DSKFLG
+	BIT	1,(HL)	;READ-WRITE OPR?
+	JR	Z,TIM3	;NO
+;
+	LD	A,(HL)
+	0,(HL)	;COMPLETED
+	RES	1,(HL)	;READ/WRITE IS OVER
+	RES	2,(HL)	;RESET IS OVER
+	POP	HL
+	EI
+	RETI
+;
+;==============================================
+;INTERRUPT SUBROUTINE FOR DMA
+;==============================================
+INTDMA:	LD	(SPSAVE),SPOR	NOTRDY+COMPL+RESET ;DISK,NOT READY!
+	LD	(HL),A
+	JR	TIM9
+;
+TIM3:	BIT	6,(HL)	;TRANSIENT FOR MOTOR ON?
+	RES	6,(HL)
+	JR	Z,TIM7
+	SET	5,(HL)	;MOTOR RUNS OK
+	LD	A,4
+	LD	(TBYTE+1),A ;STOP IF NOTHING COMES
+	JR	TIM9
+TIM7:	RES	5,(HL)	;MOTON FLAG
+	LD	A,
+	LD	SP,SPSAVE
+	PUSH	AF
+	PUSH	HL
+	PUSH	DE
+	PUSH	BC
+	LD	HL,DMSTAT
+	LD	A,(HL)	;WHICH HAS BEEN BUSY?
+	LD	BC,DMA+8
+	OUT	(C),B	;SHORT DISABLE
+	IN	B,(C)	;GET STATUS BYTE
+	XOR	B
+	CALL	IRET	;ENABLE CTC LOGIC
+	OUT	(C),A	;ENABLE CHANNELS NOT RDY
+	LD	(HL(HL)
+	AND	SASINT
+	OR	NOTRES
+	OUT	(FDCWRO),A
+;
+;EXTERNAL INTERRUPT ROUTINE IS IN RAM !!!
+;CONSIDER IF PREVIOUSLY IN ROM OR RAM?
+TIM9:	LD	A,2	;SWITCH TO RAM
+	OUT	(MEMMGR),A
+	POP	AF	;CPM STACK IS POOR
+	CALL	TINEX-1	;EXTERNAL INTERRUPT
+	PUSH	AF
+	LD),A	;SAVE NEW OCCUPATION BYTE
+	BIT	3,B
+	JR	Z,DMARET ;NO TERMINAL TRANSFER
+;
+;==============================================
+;VARIABLES:   TDMLGT = PREVIOUS DMA LENGTH
+;	      TBUCOU = BUFFER INPUT POS COUNTER
+;UPDATE TDMLGT AND TBUCOU
+;IF NO NEW CH	A,(MSWBYT)
+	OUT	(MEMMGR),A
+	LD	HL,(HLSAVE)
+	JR	KIEX
+;
+;==============================================
+;CONSOLE INTERRUPT ROUTINE IS ENTERED AFTER THE
+;SIOB HAS RECEIVED A CHARACTER
+;RTS BIT IS TURNED OFF UNTIL THE PORT IS READ
+;==============================================
+CONINT:	PUSH	AF
+	IN	A,(SIOBD)
+	LD	(KBYTE),A	;SAVE CHAR
+	LD	A,5
+	OUT	(SIOBC),A
+	LD	A,0E8H
+	OUT	(SIOBC),A	;DISABLE RTS
+	LD	A,0FFH
+	LD	(KSTAT),A	;SET STATUS
+KIEX:	POP	AF
+RETIN:	EI
+IRET:	RETI
+;
+;======================ееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее

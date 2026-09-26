@@ -1,0 +1,210 @@
+pprop "x "bury "true
+pprop "princ "bury "true
+pprop ".system "bury "true
+to writebuff 
+if emptyp :buff [pr char 26 stop]
+pr first :buff
+make "buff bf :buff
+writebuff
+end
+
+to writeok? 
+make "writeok "false
+catch "error [close "invent.dat make "wname first :buff make "buff bf :buff make "val first :buff make "buff bf :buff handlefile stop]]
+if :key = char 27 [showfile rkey stop]
+make "key rc
+modify
+end
+
+to printloop 
+setread "invent.dat
+if readeofp [stop]
+type se [item :] rl
+make "amt rwriteok "true]
+if not :writeok = "true [pr [disk is write - protected] wait 50]
+closeall
+end
+
+to wrdata 
+open "invent.dat
+setwrite "invent.dat
+pr :name
+pr :value
+setwrite "con
+writeok?
+end
+
+to findname 
+local "ans
+make "pos readpos
+make "an
+setcursor se first cursor 28
+pr se [$] form :amt 5 2
+make "total :amt + :total
+printloop
+end
+
+to loadbuff 
+if readeofp [closeall stop]
+make "buff lput rl :buff
+loadbuff
+end
+
+to eddata 
+ct settc [0 7]
+setcursor [1 5]
+repeat 18 [type "\ ]
+ss rl
+if :ans = :name [change stop]
+if readeofp [pr "  pr [can't find the listing] pr "  pr [type 1 to view, 3 to edit, esc to exit] closeall rkey stop]
+findname
+end
+
+to change 
+make "buff []
+loadbuff
+local "key
+make "val first :buff
+make "buff betcursor [2 5]
+pr [\ editing the file\ ]
+setcursor [3 5]
+repeat 18 [type "\ ]
+settc [7 0]
+setcursor [9 3]
+type [enter the name of the listing]
+setcursor [10 3]
+type [to be changed :]
+make "name rl
+open "invent.dat
+setread "invent.dat
+findname
+f :buff
+ct
+setcursor [3 3]
+pr se [item :] :name
+setcursor [5 3]
+pr se [stated value : $] :val
+setcursor [8 2]
+pr [do you want to :]
+setcursor [10 2]
+pr [1 change the name of the item]
+setcursor [12 2]
+pr [2 change the stated value]
+setcursor [1end
+
+to showfile 
+ct
+setcursor [3 3]
+pr [household inventory]
+pr "  pr " 
+open "invent.dat
+make "total 0
+printloop
+pr "  pr " 
+closeall
+setcursor se first cursor 18
+pr se [total: $] form :total 6 2
+pr " 
+pr [2 to print, 3 to edit, esc to exi4 2]
+pr [3 remove the listing altogether]
+setcursor [16 2]
+pr [esc to leave the listing unchanged]
+pr " 
+make "key rc
+modify
+end
+
+to handlefile 
+open "invent.dat
+setwrite "invent.dat
+setwritepos :pos
+writebuff
+make "last "false
+setwrite "cont]
+end
+
+to addata 
+ct
+setcursor [7 5]
+label "entername
+type [item name :]
+make "name rl
+make "size sizer :name
+if :size = 0 [pr [i need a name...] setcursor se first cursor 5 go "entername]
+if :size > 20 [pr [maximum name length is 20 characters
+writeok?
+end
+
+to fixbuff 
+make "buff fput :val :buff
+make "buff fput :name :buff
+end
+
+to sizer :list
+if emptyp :list [op 0]
+if (count :list) = 1 [op count first :list]
+op (count first :list) + (sizer bf :list) + 1
+end
+
+to modify 
+label "ne] setcursor se first cursor 5 go "entername]
+label "enterval
+setcursor se first cursor 5
+type [value: $]
+make "value rw
+if numberp :value = "false [pr [please enter a number] go "enterval]
+if or :value > 99999 :value < 0 [pr [a value from $0 to $9999wname
+if :key = 1 [type [enter new name :] make "name rl make "size sizer :name (if :size = 0 [pr [i need a name...] go "newname]) (if :size > 20 [pr [20 characters maximum] go "newname]) fixbuff handlefile stop]
+label "wrongnum
+if :key = 2 [type [enter9, please] go "enterval]
+wrdata
+pr "
+setcursor se first cursor 5
+type [any more items to add?]
+make "ans rl
+if emptyp :ans = "false [if first first :ans = "y [addata]]
+end
+
+to edfile 
+ct
+local "ans
+setcursor [5 2]
+type [do you want to make an  new value : $] make "val rw if numberp :val = "false [pr [value not numeric] go "wrongnum] [if or :val > 99999 :val < 0 [pr [a value from $0 to $99999, please] go "wrongnum]] fixbuff handlefile stop]
+if :key = 3 [if emptyp :buff [handlefile stop] [make "entry?]
+make "ans rl
+if emptyp :ans = "false [if first first :ans = "y [addata showfile stop]]
+setcursor se first cursor 2
+type [do you want to change a listing?]
+make "ans rl
+if emptyp :ans = "false [if first first :ans = "y [eddata]]
+showfile
+end
+
+to rkey 
+local "key
+make "key rc
+if :key = 1 [showfile]
+if :key = 2 [catch "error [dribble "lpt1 showfile nodribble rkey] pr [can't print without a printer]]
+if :key = 3 [edfile]
+if :key = char 27 [demo]
+rkey
+end
+
+to start 
+closeall
+setprecееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееision 10
+ct ts
+setcursor [2 8]
+pr [household inventory file]
+setcursor [4 3]
+pr [this program is a demonstration of]
+pr [ibm logo's file handling capabilities.]
+pr [a disk file of household articles is]
+pr [created, and may be edited, updated,]
+prееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее [viewed or printed, following a simple]
+pr [menu format. the file consists of an]
+pr [item name and the value of that item.]
+pr [sample entries are provided.]
+pr [if a write - protect tab is on the]
+pr [diskette, file editing is impossible.]
+setcursееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее

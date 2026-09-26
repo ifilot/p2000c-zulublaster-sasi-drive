@@ -1,0 +1,13 @@
+ZBU ;BACK-UP GLOBALS AND/OR ROUTINES TO FLOPPY DISK
+ K  W !,"FLOPPY DISK BACKUP OF ROUTINES AND/OR GLOBALS",!
+ D ^%DATE S DEV=2
+D R !,"DESTINATION DRIVE (DEFAULT=B): ",DRV I DRV="" S DRV="B" W "(B)"
+ I DRV'?1U W !,"ENTER THE LETTER OF THE DESIRED DRIVEוווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווו" G D
+E R !,"FILE NAME: ",FIL I FIL="" G END
+ D ^%NAMES S TYP=$E("GR",%V-1) S %Q=0,EOL=$C(13)_$C(10),EOR=$C(13)_$C(10)
+ D OPEN W !,"DISK FILE ",DRV,":",FIL," OPENED"
+ R !,"DESCRIPTION OF FILE: ",TTL,!
+ D WRITE
+ C DEV:0 U 0
+ G E
+ERR W !!!,"DISK ERROוווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווו

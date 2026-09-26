@@ -1,0 +1,176 @@
+                          ***************************       
+                          *     WORLD STANDARD      *   
+                          *                         *
+                          * M O D E M   W S 2 0 0 0 *
+                          ideeen, tips o.d. heeft kunt u deze zenden naar : -
+Theo Vermolen (C.A.C.), Israelslaan 17, 3431 AS Nieuwegein.
+Vidibus 400004966.
+
+DE TELEFOON-AANSLUITING.
+=======================
+   De simpelste telefoonaansluiting verkrijgt u door tussen de telefo*                         *
+                          *   krijgt meer uit uw    *
+                          *                         *
+                          *   KAYPRO II, 4, 10, 16  *
+                          ***************************
+
+    Eon-
+stekker van uw telefoontoestel en contactdoos een zgn dubbelstekker te
+plaatsen. Dit is een stekker, die tevens een contactdoos inhoud, waarin
+u dan weer de stekker van uw telefoontoestel plaatst.
+   De PTT probeert het zelf knutselen te verhindereEN MINDER KOSTEND MULTI-SPEED, MULTI-STANDAARD MODEM MET OPTIES VOOR
+    AUTO-ANSWER, AUTO-DIAL EN FULL COMPUTER-DRIVEN SOFTWARE CONTROL.
+   
+
+Ontworpen voor Viewdata, Telex, User-User, Timesharing en Internationale 
+data communicatie.
+
+            n door de telefoonmontage-
+voorschriften niet vrij te geven. U moet de PTT om toestemming vragen als
+u aan het telefoonnet gaat sleutelen. Omdat u geen wijzigingen in de 
+leidingen of apparatuur mag aanbrengen, of iets mag bevestigen aan de 
+leidingen               V21 compatible     300 bts Full Duplex 
+                          V23 compatible     600 bts Half Duplex
+                          V23 compatible     1200/75 bts Viewdata
+                          V23 compatible     75/1200 bts VD Host 
+ of apparatuur, zonder toestemming of medewerking van de directeur 
+van het telefoondistrict.
+   Verzuimt u die te vragen, dan overtreedt u artikel 8 van de leverings-
+voorwaarden. Dat kan u komen te staan op afsluiting van het telefoonnet
+en men kan u                          BELL103 compatible 300 bts Full Duplex
+                          BELL202 compatible 1200 bts Half Duplex
+
+Ontworpen en gefabriceerd in U.K. door Miracle Technology (UK) Ltd.
+
+PTT goedgekeurd.
+
+De demonstratie van de Kaypro eaansprakelijk stellen voor schade.
+      
+   Het WS2000 modem is voorzien van een type 603A plug, bedraad als volgt:
+
+      Pin 1 --
+      Pin 2 -> Wit   (line)
+      Pin 3 -> Groen              
+      Pin 4 -> Blauw (shunt)
+      Pin 5 -> Red   (ln zijn communicatie mogelijkheden op de 
+landelijke bijeenkomst van de Kaypro Gebruikersgroep op 16 maart 1985
+in het Jaarbeurscongresgebouw te Utrecht heeft bewezen dat er enorme
+belangstelling bestaat om de pc's meer geschikt te maken voor gebruik alsine)
+      Pin 6 --
+
+In de aan Nederland geleverde WS2000 modems is deze bedrading en plug reeds
+aangebracht. Het WS2000 modem is beschikbaar voor aansluiting aan 2 netlijns
+telefoon-circuits of, waar een "loop-disconnect dialler option" is aangebrach
+terminal.
+
+Dit artikel wil een inzicht geven in het datatransport per telefoonlijn en
+verder een beschrijving geven van de aan- en toepassingen, bruikbare
+software, kabels, protocols enz. gericht op de succesvolle combinatie :
+     
+               t
+voor aansluiting aan een 3 netlijns.
+
+De stekker/contactdoos aansluiting:
+
+Rood  ------------------------------------------     
+Groen --------------   |                       |
+                   |   |                   a   | 
+                 O           KAYPRO ---> MODEM WS2000
+
+Gebruik om deze documentatie-file te lezen op uw scherm de file SHOW.COM
+en om te printen PRINT.COM. Beide files, ieder 2K staan op dezelfde
+Drive/User 7/15, waar deze file KAYMODEM.DOC staat.
+
+Indien u bruikbare  O   O O                 O   O
+                  a     b                  |   b
+Wit   --------------------------------------  
+               Gr O     O EB             Gr O O EB              
+                  |     |                   | |
+                  |     --------------------|--
+                  |                         |
+Blauw ---------------------------------------
+                contactdoos               stekker
+
+DE NET-AANSLUITING.
+==================
+De netaansluiting heeft twee d----->--   Pin 3
+Pin 4   ------REQUEST TO SEND--------RTS----------------------<--   Pin 4
+Pin 5   ------CLEAR TO SEND----------CTS---------------------->--   Pin 5
+Pin 6   ------DATA SET READY---------DSR-------------------------   Pin 6
+Pin 7   -----raden, een bruin gekleurd voor de + en
+                                     een blauw gekleurd voor de - .
+
+De MODEM WS2000 --> KAYPRO RS232 AANSLUITING.
+============================================
+De WS2000 is evenals de KAYPRO uitgevoerd met een 25-GROUND (common return)-GND-------------------------   Pin 7
+Pin 8   ------DATA CARRIER DETECTOR--DCR---------------------->--   Pin 8
+Pin 20  ------DATA TERMINAL READY----DTR----------------------<--   Pin 20                   
+
+Bij een 5 aderige kabe polige D-FEMALE-
+Konnektor.
+
+Voor de verbinding dient u gebruik te maken van een kabel met aan beide
+zijden een 25 polige D-MALE Konnektor.
+Teneinde het losschieten van de konnektor aan de zijde van de KAYPRO te
+voorkomen is een kap met rechte kabell zijn aangesloten de pennen :
+2 (TxD) - 3 (RxD) - 6 (DSR) - 7 (GND) - 20 (DTR). 
+Deze aansluiting is minimaal vereist.
+
+Voor een optimaal gebruik bij bijv. 600 en 1200 baud half duplex kan
+de software de RTS lijn gebruiken voor kontrole van de transmuitvoer aan te bevelen met schroef-
+vergrendeling.
+Aan de zijde van het modem kan zowel een rechte als een haakse kap zonder
+schroefvergrendeling dienen. 
+Voor kabel kan gebruik worden gemaakt van een 5 of 9 aderige kabel,
+afhankelijk van de gewenste issie.
+Wij hebben met een 8 aderige kabel de pennen 2 t/m 20 aangesloten.
+
+De bijgevoegde User Manual is duidelijk wat betreft de mogelijkheden
+voor Viewtext - Bulletin Boards - User to User - 300 Baud Full Duplex -
+600 en 1200 BAUD HALF DUPLEX - 1200aansluiting.
+
+Eveneens kan toegepast worden een bandkabel met D-MALE-konnektoren aangepast
+aan het 1.27 mm raster van de bandkabel. Voor een betrouwbare kabelverbinding
+wordt door middel van een ponsverbinding voorzien. Het hiervoor benodigde
+montage /75 en 75/1200 TRANSMIT en RECEIVE.
+
+ De bij de CP/M versie aanwezige file TERM.COM kan uitstekend dienen
+om offline het modem voor -> ieder <- gebruik te checken.
+Daarbij verschijnt de ingetypte tekst op het scherm en lichten de 
+Tx- en RxDATA Led's gereedschap hebben goede elektronika zaken in huis, zodat op een
+snelle wijze een professionele kabel te maken is zonder bijkomende kosten.
+(Display-Elektronika in Utrecht, Haarlem en Tilburg).
+
+Zowel de RS232 port aan de WS2000 als aan de KAYPRO zijn op.
+
+Ons advies is Offline (LOCAL TEST) de diverse procedure's met software
+te beoefenen. Indien U bijv. bij de PD software gebruik maakt van de
+R optie ziet u de TxDATA Led oplichten bij het zenden van de initieele
+NAK (Negative Acknowledgement), hetstandaard de
+RS232 aanbevelingen. De navolgende pennen worden gebruikt:
+
+RS232 Port:                                                    RS232 Port:
+Modem WS2000                                                   KAYPRO (J4)
+------------                 sein aan de Host om met zenden te
+beginnen.
+
+Na iedere verandering van MODE (de rechtse knop op uw modem) dient het
+modem UIT en AAN gezet te worden. Het WS2000 modem bezit een micro-
+processor om de vele interne operaties te kontroleren en de softwa                                   -----------
+Pin 1   ------GROUND (protective)- --GND-------------------------   Pin 1 
+Pin 2   ------TRANSMIT DATA----------TxD----------------------<--   Pin 2
+Pin 3   ------RECEIVE DATA-----------RxD-----------------re in 
+de microprocessor moet >>RESET<< worden na iedere verandering van MODE.
+
+Voor het gebruik van de KAYPRO met het WS2000 modem is uiteindelijke
+onze keuze gevallen op het KAYPRO-programma SUPRTERM.COM en uit
+de Public Domain de programma's MDM714.COM (Version for KAYPRO) en
+MODEM7.COM (as of 12/18/80 Originally Written by Ward Christensen
+Revised by Jim Willing for WRAM Computer Corp.).
+Voor de documentatie dient de file MODEM7.DOC.
+
+Het programma MDM714.COM wordt door ons gebruikt voor de Te≈. ДуЌ$с.:Eл< ДуЅѓ√леЌiн6јбЅ}2Eл√xн€ЌућЅс… Ќућт…лN ! ~жАБO> ИG~жАG! ~ЗЗЗЗхАGхб}бµж…Ќп*Cл! еr#r#rЌхн фЌ^н Ќ•убе_yЦ#xЮ#{ЮЏфs+p+qЌ-п√дуб…*Cл  Ќ•у!! q#p#w…*ѓх:BлOЌкмелЌYлбћGл}Ў*ѓхMDЌн"ѓх√£о:÷х!BлЊ»w√!ф>€2ёх*Cл~ж=2÷хю“uф:Bл2ях~rminal Mode,
+het programma MODEM7.COM voor de File Transfer S en R Optie's.
+Het programma SUPRTERM.COM is zowel voor de Terminal - als de 
+File Transfer Mode uitstekend bruikbaar. Tussen de programma's kan
+ONLINE via de A> prompt rustig gewisseld worde2ахжаwЌEф:Aл*Cлґw…>"√л!  "≠х"ѓхѓ2Bл!А "±хЌЏн√!фЌrнЌQф√QрЌQф√Ґр л~ю? ¬фЌ¶м~ю?ƒrнЌQфЌп√йн*ўх"CлЌQфЌ-п√йнЌQфЌЬп√пЌQф√ЉсЌQф√юс

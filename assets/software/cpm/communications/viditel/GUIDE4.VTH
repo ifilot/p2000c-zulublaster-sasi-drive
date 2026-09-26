@@ -1,0 +1,188 @@
+-------------------------------------------------------------------------------
+VIEWTEXT USER GUIDE   Section 4.1                            (C) T SYSTEMS 1984
+Version 1.0                                                  (C) TANDATA   1984
+-------------                               (C) TANDATA   1984
+-------------------------------------------------------------------------------
+PREPARING A COMMAND FILE - The command file is produced using any text editor  
+which does not introduce "special" characte------------------------------------------------------------------
+                 DRIVING VIEWTEXT FROM A COMMAND FILE                          
+                                                                               
+The VIEWTEXT system can bers into the file (VIEWTEXT editor or
+WORDSTAR in non-document mode). In most cases, the sequence of characters is   
+that which would be entered via the keyboard, with the following exceptions:-  
+                                                         driven via a file using RUN COMMAND FILE (function 5
+of the MAIN MENU). This allows a user to perform operations required regularly 
+without having to enter the commands each time via the keyboard.               
+                                                              
+ESCAPE      -      use the (!) sequence    RETURN    -    use the \ character  
+SPACE       -      use the (.) sequence    END CONDITION  -  use (\) sequence  
+CTRL chars  -      enclose in () brackets  ie.  (N) will return a val                                        
+The user is prompted for the name of the command file (ie B:RUNCMD.DEM). If the
+extension is omitted, the default extension .PRC is used. The user then enters 
+an (optional) time delay in hours, minutes and seconue of 14  
+HASH        -      use the character currently set in configuration menu       
+COMMENTS    -      ignores all chars between (*) and the next (*) sequence     
+                                                                               
+Sds after which the command 
+file will be executed. The default scaling is seconds. To enter a time in      
+minutes, enter the number of minutes followed by "." to separate the minutes   
+from the seconds :-                                              paces, CR and LF are ignored in the Run Command mode, so the layout of the    
+file is at the user's discretion, but remember that all sequences which are    
+not fixed length (ie. filenames) must be followed by the \ character. All input
+characters (wi              
+                                                                               
+1.45.0  = 1 hour, 45 minutes, 0 secs  (1.77.128 is also a valid input, but the 
+minutes and seconds fields will be truncated to 59). The most significant     th the exception of CTRL characters) can be in upper or lower    
+case, as VIEWTEXT converts to upper case for command inputs.                   
+-------------------------------------------------------------------------------
+Press any key to continue o 
+field is not truncated, so 160.0 will be 160 minutes.                          
+-------------------------------------------------------------------------------
+Press any key to continue or press ESCAPE twice to return to MAIN MENU
+
+-----------------r press ESCAPE twice to return to MAIN MENU
+
+------------------------------------------------------------------------------$
+-------------------------------------------------------------------------------
+VIEWTEXT USER GUIDE   Section 4.3              -------------------------------------------------------------$
+-------------------------------------------------------------------------------
+VIEWTEXT USER GUIDE   Section 4.2                            (C) T SYSTEMS 1984
+Version 1.0                                 (C) T SYSTEMS 1984
+Version 1.0                                                  (C) TANDATA   1984
+-------------------------------------------------------------------------------
+CONDITIONAL EXECUTION - In order to allow simple decisions to be taken by the  
+run command system, a conditional test instruction is included which takes the 
+result of the last page comparison performed and will branch on that result.   
+                                                                         quence, as this will trigger the initial delay. This sequence will be 
+ignored if no external delay has been set, and therefore it is normal to use   
+it at the start of every command file.                                         
+                            
+When 2 pages are compared (function 13 of MAIN MENU) a flag is set if the pages
+are different in any way (this includes attributes such as colour, height). The
+headers are not compared, so the date and string are ignored. Page layout is   
+signi                                                         
+IMPORTANT NOTE - the VIEWTEXT system is a highly "parallel" system, and will   
+respond to keyboard inputs immediately when the modem is "live". In order to   
+protect the incoming pages, time deficant. The flag can be tested, and if the test fails all commands up to  
+the next (\) will be skipped. The test command (0) will skip if the flag was   
+set, and (1) will skip if the flag was clear. The flag state is not changed.   
+If the () sequencelays MUST be used between a page request    
+and the next run command file character. The delay should be long enough to    
+receive a full page. For example, the sequence:-                               
+                                                 is used, no test is made, but the flag is complemented. This
+allows the flag to be used without a comparison ie. (0)()  sets the flag.      
+                                                                               
+13\ (1) 12\ C:LIST\ O\ R\\ (\)                                
+*799! [20] (P) *800! [20] (!)(!)   will fetch page 799, wait for 20 seconds,   
+switch screens, fetch page 800, wait for 20 seconds and then exit to the main  
+menu (assuming that ! is used as the HASH character).        (!)(!)            would test 2 displayed pages. 
+If the pages were different, the right page would be saved in the drive C file 
+LIST.PGE overwriting any existing file, then unconditional exit to MAIN MENU.  
+--------------------------------------------                  
+-------------------------------------------------------------------------------
+Press any key to continue or press ESCAPE twice to return to MAIN MENU
+
+------------------------------------------------------------------------------$
+-----------------------------------
+Press any key to continue or press ESCAPE twice to return to MAIN MENU
+
+------------------------------------------------------------------------------$
+-----------------------------------------------------------------------------------------------------------------------------------------------
+VIEWTEXT USER GUIDE   Section 4.5                            (C) T SYSTEMS 1984
+Version 1.0                                                  (C) TANDATA   1984
+----------------------------
+VIEWTEXT USER GUIDE   Section 4.4                            (C) T SYSTEMS 1984
+Version 1.0                                                  (C) TANDATA   1984
+-----------------------------------------------------------------------------------------------------------------------------------------------
+All VIEWTEXT modules will respond to remote programming, but there are certain 
+operations which are hazardous - for example, editing or loading a dialling    
+directory item. When a run--
+RUN COMMAND TIMING - time delays can be built into the command file using the  
+[h.m.s] command. The format for the time fields is identical to the initial    
+delay prompt. If an initial delay is used, the command file should start with  
+the [] se command file is used to dial a number, it is safer  
+to call the DIAL function in the dialling directory, turn on the modem, display
+the modem directory, then press ESCAPE twice and run the command file. This is 
+primarily if the system is to run unattended. The run command system can be    
+"paused" by pressing ESCAPE once, and will restart on the next non-ESCAPE key. 
+If the second key hit was also ESCAPE, the run command terminates.             
+                                                    e "live"  
+during the CAROUSEL display, and if RETURN is pressed, the MAIN MENU will be   
+displayed. The command file contains:                                          
+                                                                               
+[                           
+For security when the system is running unattended, always end the command     
+file with an exit to MAIN MENU, and then the sequence:-                        
+                                                                 ] 1\ D\ [20] 1 [30] (P)(P) *799! [20] (P) *800! [20]     dials and gets pages 
+   (!)(!) 17\\ 13\ (!)(!) (1) 12\ B:RP1\ O\ L\     test and save first page    
+   (1) Tandata(.)home(.)page\ (\)                  save second, load carousel  
+   (!)(!) 12\               
+18\ \     which will exit to CP/M, and although this will not prevent the disc 
+          from being copied, it will stop any unauthorised use. Remember, the  
+passwords in the dialling directory are not visible, but can be seen when theyB:RP2\ O\ R\\ (!)(!) 2\ *B* \\       run carousel with a ten     
+   16\ 10\ N                                       second display delay        
+-------------------------------------------------------------------------------
+Press any key to continue o 
+are loaded to a Viwdata Adapter which is driving a separate monitor.           
+-------------------------------------------------------------------------------
+Press any key to continue or press ESCAPE twice to return to MAIN MENU
+
+-----------------r press ESCAPE twice to return to MAIN MENU
+
+------------------------------------------------------------------------------$
+-------------------------------------------------------------------------------
+VIEWTEXT USER GUIDE   Section 4.7              -------------------------------------------------------------$
+-------------------------------------------------------------------------------
+VIEWTEXT USER GUIDE   Section 4.6                            (C) T SYSTEMS 1984
+Version 1.0                                 (C) T SYSTEMS 1984
+Version 1.0                                                  (C) TANDATA   1984
+-------------------------------------------------------------------------------
+                                                                                           (C) TANDATA   1984
+-------------------------------------------------------------------------------
+The file RUNCMD.DEM on the VIEWTEXT disc is a typical example of the facility. 
+In order to use it, program the modem direc                   
+TERMINATION OF COMMAND FILES - when the command file has been prepared, an end 
+of file marker must be added to it. This marker is a CTRL-Z character (ASCII   
+value 26 decimal, 1A hex). This is a safety marker to prevent VIEWTEXT retory no 1 with a number and your    
+password and id, and then repeat the pre-dialling sequence described in section
+4.5 of the User Guide. A logged-on disc should be in drive B.                  
+                                                        ading 
+past the end of the command file in the command buffer in the event of a format
+error. This is only needed for editors which do not automatically add CTRL-Z,  
+and can be added using the file transfer utility PIP.COM as shown:             
+                            
+This command file will dial the number, read 2 pages (799 and 800), save 799   
+on the disc (drive B) if different, save 800, and then load them to the file   
+CAROUSEL and display them with a 10 second delay. The keyboard will b                                                                          
+A>PIP B:filename.ext = B:filename.ext,EOF:           for CP/M systems.         
+                                                                               
+If the VIEWTEXT editor is used to create or edit run command files the file    
+extension .PRC must be used. This ensures that the file is saved without the   
+date and string header, which would otherwise confuse the command interpreter. 
+Any lines which are conditionalrepetitive tasks can be placed 
+in files, and with a combination of commonly used command files and a small    
+amount of keyboard input, complex operations can be performed easily.          
+                                                              (using the (0) or (1) codes) must be terminated
+with the (\) sequence, as this marks the end of a conditional section.         
+                                                                               
+--------------------------------------------                  
+-------------------------------------------------------------------------------
+Press any key to return to the HELP MENU or press ESCAPE twice to return to the
+MAIN MENU                                                                 -----------------------------------
+Press any key to continue or press ESCAPE twice to return to MAIN MENU
+
+------------------------------------------------------------------------------$
+----------------------------------------------------------------     
+------------------------------------------------------------------------------%
+
+---------------
+VIEWTEXT USER GUIDE   Section 4.8                            (C) T SYSTEMS 1984
+Version 1.0                                                  (C) TANDATA   1984
+-----------------------------------------------------------------------------ееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее--
+Note the longer delays during the dialling sequence. These may have to be      
+adjusted as the speed of the computer system can vary widely, and are given as 
+an approximate figure. Note that any delay is in addition to the time taken to 
+perform tееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееhe actual VIEWTEXT function, and adjustments will therefore be needed.
+The command file can be up to 4000 characters in length which is sufficient to 
+cope with quite complex operations. If required, the run command file can call 
+a second run command f

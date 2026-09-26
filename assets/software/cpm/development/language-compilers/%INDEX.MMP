@@ -1,0 +1,26 @@
+INDEX ;REL - INDEX & CROSS-REFERENCE ; 02/21/81
+ W !!!,"CROSS-REFERENCE ROUTINE",! K ^XCR D ^%RSET S RTN="",NRO=0
+ R !,"DO YOU WISH TO NOTE UNREFERENCED LABELS ?  Y => ",IOP4 S IOP4=IOP4=""!(IOP4?1"Y".E)
+ R !!,"DO YOU WISH TO PRINT INDEX ?  Y => ",IOP1 S:CH=" " I=I+1 S LIN=$E(LIN,I,999) Q
+QUOTE S I=I+1,CH=$E(LIN,I) IF CH="" S ERR=6 G ER^%INDX1
+ G QUOTE:CH'="""" S I=I+1,CH=$E(LIN,I) G:CH="""" QUOTE Q
+CMD ;,BREAK,CLOSE,DO,ELSE,FOR,GOTO,HALT,HANG,IF,KILL,LOCK,OPEN,PRINT,QUIT,READ,SET,USE,VIEW,WRITE,XECUTS IOP1=IOP1=""!(IOP1?1"Y".E) G:'IOP1 BEG
+ R !!,"DO YOU WISH TO LIST ROUTINES ?  Y => ",IOP2 S IOP2=IOP2=""!(IOP2?1"Y".E)
+ R !!,"DO YOU WISH TO PRINT ERRORS AND WARNINGS ?  Y => ",IOP3 S IOP3=IOP3=""!(IOP3?1"Y".E)
+ W ! D ^%IS
+BEG S RTN=$O(^UTILITY($J,RTE,
+ G:CH="""" QUOTE Q
+CMD ;,BREAK,CLOSE,DO,ELSE,FOR,GOTO,HALT,HANG,IF,KILL,LOCK,OPEN,PRINT,QUIT,READ,SET,USE,VIEW,WRITE,XECUTееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееN)) IF RTN="" G:IOP1 PR^%INDX1 K ^XCR,^UTILITY($J) Q
+ W !,RTN S X="ZL "_RTN_" S ^XCR(RTN,0,1)="""" F LC=1:1:99 S ^(LC)=$T(+LC)"
+ X (X_" IF ^(LC)="""" K ^(LC) S LC=LC-1 Q")
+ S LAB=RTN,LABO=0,NRO=NRO+1 IF $P(^XCR(RTN,0,1)," ",1)'=LAB S ERR=17 D ER^%INDX1ееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее
+ F TXT=1:1:LC S LIN=^XCR(RTN,0,TXT) D LN W "."
+ S LAB=-1,LABO=0
+BC S LAB=$N(^XCR(RTN,"I",LAB)) G:LAB="@(" BC IF LAB=-1 G BD:IOP4,BEG
+ G:$D(^XCR(RTN,"T",LAB)) BC S ERR=14 D ER^%INDX1 G BC
+BD S LAB=$N(^XCR(RTN,"T",LAB)) G BEG:LAB=-1,BD:LAB=RTN
+ G:$D(^XееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееCR(RTN,"I",LAB)) BD S ERR=16 D ER^%INDX1 G BD
+LN K V IF $P(LIN," ",1)="" S LABO=LABO+1 G CD
+ S LAB=$P(LIN," ",1),LABO=0 IF $D(^XCR(RTN,"T",LAB)) S ERR=15 D ER^%INDX1 G CD
+ S ^XCR(RTN,"T",LAB)=""
+CD S I=$L(LIN) IF $E(LIN,I)=" " S ERR=13 D ER^%INDX1 F CHееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее

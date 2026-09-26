@@ -1,0 +1,155 @@
+	.Z80
+	TITLE UTIL88 TABLES AND MESSAGES
+	SUBTTL FLOPPY CONVERSION TABLES
+;
+	.SALL
+DEFT	MACRO STRING1
+	LOCAL	DEFT1
+	DEFB	DEFT1-$-1
+	DEFB	STRING1
+DEFT1:
+	ENDM
+LOCH	MACRO	BASE,NUMBER
+LOCAL	N1,N2,NB
+NB	DEFL	BASE
+	REPT	NUMBER
+N1	DEFL	(NB AND 0FH)e '
+XUK1D:	DEFB	XUK1E-XUK1D-1
+	DEFB	ESC,'0PMS-DOS HARDDISK INSTALLATION'
+	DEFW	CRLF
+	DEFB	ESC,'0@'
+XUK1E:	DEFT	'Too many harddisk volumes in this CP/M configuration'	;1EH
+	DEFT	'No hard disk in this CP/M configuration'	;1FH
+XUK20:	DEFB	XUK21-XUK20-1+'0'
+	IF	N1 GT '9'
+N1	DEFL	N1+7
+	ENDIF
+N2	DEFL	NB/16+'0'
+	IF	N2 GT '9'
+N2	DEFL	N2+7
+	ENDIF
+	DEFB	3,3FH,N2,N1
+NB	DEFL	NB+1
+	ENDM
+	ENDM
+;
+;
+CR	EQU	0DH
+LF	EQU	0AH
+ESC	EQU	1BH
+CRLF	EQU	0A0DH
+;
+TABLES:
+	INCLUDE MSUTILT.MAC	;GET TABLES
+	REPT
+	DEFB	'Switch on harddisk, if online press any key (ESC,'  ;20H
+	DEFB	' or "0" to exit)'
+	DEFW	CRLF
+	DEFB	'Make sure you have a harddisk configured in your system'
+XUK21:	DEFT	'HARDDISK READ ERROR '
+XUK22: 	DEFB	XUK23-XUK22-1
+	DEFB	'ERROR occurred 	TABLES+800H-$	;TABLE RESERVE
+	DEFB	0FFH
+	ENDM
+;
+;=============================================
+;HERE FOLLOW THE TEXT LINES
+;=============================================
+;
+YN:	DEFB	'YN'
+;
+;THIS IS THE ACTUAL TEXT BLOCK FOR ENGLISH
+UK0:	LOCH 0,2during write operation.'
+	DEFW	CRLF
+	DEFB	'Harddisk contents may be destroyed; so USE YOUR BACKUP !'
+	DEFW	CRLF
+XUK23:	DEFB	XUK24-XUK23-1
+	DEFB	'MS-DOS is installed. If you want to boot MS-DOS from the hard disk some',CR,LF
+	DEFB	'system files must b
+XUK2:	DEFB	XUK3-XUK2-1
+	DEFB	ESC,'03'
+	DEFB	'DISK ERROR'
+	DEFB	ESC,'0',40H
+XUK3:	DEFT	'VERIFICATION ERROR!'
+XUK4:	LOCH 4,0CH
+XUK10:	DEFB	XUK11-XUK10-1
+	DEFB 'Enter (sequentially) the DRIVE NUMBER(S) containing the disks'
+	DEFW CRLF
+	DEFB 'to be e copied on it. To do this execute  MSBOOT  in CP/M,',CR,LF
+	DEFB	'insert the  MS-DOS  system floppy in drive-1 and type  RETURN  4 times.',CR,LF,LF
+XUK24:	DEFB	XUK25-XUK24-1
+	DEFB	'Then type:  0PSYS C:0@, and then:  0PCOPY COMMAND.COM C:0@',CR,LF
+formatted, terminate with <CR>'
+	DEFW CRLF
+	DEFB 'Exit with <ESC> or <0>'
+	DEFW CRLF
+	DEFB 'Formatting continues cyclically until an empty drive is found'
+	DEFW CRLF,CRLF
+	DEFB 'Drive(s) to format (1 to 4) : '
+XUK11:	DEFB XUK12-XUK11-1
+	DEFB 'Inser	DEFB	'If you want to  start  the  preboot program from the hard disk',CR,LF
+	DEFB	'automatically, start the CP/M configuration program and define',CR,LF
+	DEFB	'MSBOOT as  AUTOSTART file!'
+XUK25:	DEFT 'Directory full. Not enough space to install MSDOS ot disk(s) - NOTE: Any data on the disks will be destroyed'
+XUK12:	DEFB	XUK13-XUK12-1
+	DEFW	CRLF
+	DEFB	'to return to CP/M you need a system disk in A:'
+	DEFB	' then enter any key'
+XUK13:	DEFT	'DRIVE -'
+	DEFT	'   TRACK -'
+	DEFT	'(y/n) ? '		;15
+	DEFФ	n harddisk'
+	DEFT	'Program aborted, MS-DOS NOT INSTALLED.'	;26H
+	DEFT	'Space on hard disk is under 500 KBytes,'	;27H
+XUK28:	DEFT	'   SIDE -'		;28
+	DEFT	'Sorry , not yet implemented ... '
+	DEFT	'DISK NOT READY'	;2A
+	DEFT	'Press any key to return to ma'0PFORMAT FLOPPY DISK TO THE SELECTED FORMAT0@§ ;16
+	DEFT	'Press any key when ready'	;17
+	DEFT	'DISK OPERATION , please wait ! ' ;18
+	DEFT	'Ready:'		;19
+	DEFT	'Disk is full'		;1A
+XUK1B:	DEFB	XUK1C-XUK1B-1
+	DEFB	'MS-DOS already on harddisk, type YESin menu'		;2B
+	DEFT	'Press any key when ready'	;2C
+	DEFT	'stopped from keyboard';2D
+	DEFT	'to escape enter <ESC> OR <0>' ;2E
+	LOCH	2FH,1
+	DEFT	'SELECT:' 
+	DEFT	'FORMAT FLOPPY DISK'
+	DEFT	'COPY FLOPPY DISK'
+	DEFT	'CONFIGURE HARD DISK FOR MS-DOS'
+	L to overwrite'
+	DEFW	CRLF
+	DEFB	'NOTE THAT ALL MSDOS FILES WILL BE OVERWRITTEN!'
+XUK1C:	DEFB	XUK1D-XUK1C-1
+	DEFB	'5MB (high) and/or 8mb volume(s) on harddisk.'
+	DEFW	CRLF
+	DEFB	'Have YOU made a BACKUP of this volume(s) ?'
+	DEFB	' Type YES to continuOCH	34,3
+	DEFT	'Select DESTINATION disk type :' ;37
+	DEFT	'Enter SOURCE drive (1 to 4)      : ' ;38
+	DEFT	'Enter DESTINATION drive (1 to 4) : ' ;39
+	DEFT	'Do you wish to verify while copying '		;3A
+	DEFT	'0PCOPY FLOPPY DISK0@§ ;3B
+	DEFT	'Illegal DESTINATION disk ! '
+	DEFT	'Select SOURCE disk type : '	;3D
+	DEFT	'Which SYSTEM?'			;3E
+	DEFT	'Next copy'			;3F
+	DEFT	'WARNING : Destination disk will be DELETED!';40
+	LOCH	41,4
+XUK45:	DEFT	'YES'				;45
+	LOCH	46,3
+	DEFT	'Actual hard disk capacity in ееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееKBYTES:' ;49
+	DEFT	'K TOTAL disk space on harddisk'	;4A
+	DEFT	'K total CP/M space'			;4B
+	DEFT	'K USED by CP/M'			;4C
+	DEFT	'K MAXIMUM MS-DOS space available'	;4D
+XUK4E:	DEFB	XUK4F-XUK4E-1
+	DEFB	'K MININUM MS-DOS space on harddisk'	;4E
+	DEFW	CRLF,CRееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееLF
+	DEFB	'Enter REQUIRED MS-DOS size in Kbytes (between MIN and MAX) and press RET'
+XUK4F:	DEFB	XUK50-XUK4F-1
+	DEFB	'WARNING - Because of the different head widths the',CR,LF
+	DEFB	'written data may not be error free on the host system !'
+XUK50:	DEFT	

@@ -1,0 +1,5 @@
+%GLBSTAT	;COUNT THE NUMBER OF UNUSED GLOBAL BLOCKS
+ U 0 R !,"WHICH DRIVE IS THE GLOBAL FILE ON? ",DRV I DRV'?1U W "  ???" G %GLBSTAT+1
+ O 2:(DRV:"GLOBALS.DAT") W ! U 2 S OF=4
+ F I=1:1:3 R *X ;READ BLOCK NUMBER FOR DIRECTORY CHAIN
+	R *N ;GET NUMBER OF Bееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее

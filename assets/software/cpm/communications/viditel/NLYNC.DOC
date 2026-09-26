@@ -1,0 +1,321 @@
+        ***********************************
+        **  Kurzbeschreibung    L Y N C  **
+        ***********************************
+
+Es gibt drei Betriebsarten.
+
+<LYNC> Verbindung zwischen zwei Rechnern,  die beide 
+       das Programm LYNC haben.
+
+ren Rechners (Gro~rechner).
+
+
+REMOTE    Fernbedienung
+
+Umschalten in die Betriebsart <REMOTE>.  Der eigener 
+Rechner   kann  jetzt  von  einem  fremden   Rechner 
+(Terminal) fernbedient werden.
+
+
+END oder EXIT oder QUIT
+
+Beenden des LYNC-Pro
+
+<TERM> Der  eigene Rechner wirkt als Terminal  eines 
+       beliebigen fremden Rechners.
+
+
+<REMOTE>  Ein fremder Rechner wirkt als Terminal und 
+       kann den eigenen Rechner fernbedienen.
+
+
+
+  ******************** <LYNC> ******************gramms und R}ckkehr zu CP/M.
+
+
+CALL, LIST und DIAL
+
+dienen dazu, in Verbindung mit einem Automatik-Modem 
+eine  Telefon-Nummer selbstt{tig zu w{hlen.  F}r uns 
+nicht sinnvoll anwendbar.
+
+
+
+  ******************** <TERM> ********************
+
+De**
+
+Wenn man LYNC startet, dann erscheint alles, was der 
+eine eintippt, auf beiden Bildschirmen und umgekehrt.
+
+Daneben gelangt man mit ^A in die Befehlsebene,  von 
+der  aus man verschiedene Funktionen aufrufen  kann. 
+Als  Best{tigung  erscheint r eigener Rechner wirkt als Terminal eines fremden 
+Rechners.  Alles,  was man eintippt,  wird ohne Echo 
+abgeschickt  (einschlie~lich der Steuerzeichen)  und 
+alles, was ankommt, wird auf den Schirm geschrieben.
+
+Daneben gelangt man mit ^A in die Bef am Anfang  einer  neuen 
+Bildschirmzeile @: . Danach kann einer der folgenden 
+Befehle eingegeben werden.
+
+
+HELP oder ?    Zeigt Hilfsmen} an
+
+
+SEND      (Senden)
+
+Damit  kann man eine Datei vom eigenen  Rechner  zum 
+anderen Rechner schicken. ehlsebene,  von 
+der  aus man verschiedene Funktionen aufrufen  kann. 
+Als  Best{tigung  erscheint am  Anfang  einer  neuen 
+Bildschirmzeile @: . Danach kann einer der folgenden 
+Befehle eingegeben werden.
+
+
+HELP oder ?    Zeigt Hilfsmen} an
+
+
+SEMan wird gefragt nach
+	Filename.typ =
+Dabei kann man auch mehrere Dateien,  getrennt durch 
+Zwischenraum, angeben und Mehrfachnamen mit ? und *.
+
+
+FETCH     (Holen)
+
+Damit  kann  man eine Datei vom fremden Rechner  zum 
+eigenen holen. Weiteres wieND dateiname
+
+Zeilenweises  Senden  einer  Textdatei  vom  eigenen 
+Rechner  zum Fremdrechner.  Nach jeder Zeile  wartet 
+der  eigene Rechner auf eine Quittung bzw.  ein Echo 
+des fremden Rechners.  (Sinnvoll  bzw.  erforderlich 
+bei vielen Gro~rechn SEND.
+
+
+DIR       Eigenes Directory
+
+Anzeigen des eigenen Disketten-Inhaltsverzeichnisses 
+auf dem angemeldeten Laufwerk.
+
+
+RDIR      Fremdes Directory
+
+Anzeigen des fremden Disketten-Inhaltsverzeichnisses 
+auf dem angemeldeten Laufwerk.
+
+
+ern).
+
+
+FSEND dateiname
+
+Ununterbrochenes  Senden einer Textdatei vom eigenen 
+Rechner  zum  Fremdrechner.  F}r unsere  Zwecke  das 
+]blichere,  z.B. beim Anwerfen der ]bertragung eines 
+fremden CP/M-Rechners mit PIP datei=PTR:
+
+
+XSEND dateinameDRIVE d
+
+Umschalten des eigenen angemeldeten Laufwerks auf d.
+
+
+RDRIVE d
+
+Umschalten des fremden angemeldeten Laufwerks auf d.
+
+
+USER n
+
+Umschalten des eigenen Benutzerbereichs auf n.
+
+
+RUSER n
+
+Umschalten des fremden Benutzerbereichs auf 
+
+Wie  FSEND,  wandelt  aber vor der  ]bertragung  die 
+Datei  in  HEX-Format um.  Damit  lassen  sich  alle 
+Dateien }bertragen, ob Text oder nicht. 
+
+
+SAVE dateiname
+
+Abspeichern aller ankommenden Daten im Rechnerpuffer 
+und  anschlie~endes Schn.
+
+
+^C        Abbruch 
+
+Abbrechen der Daten}bertragung (oder sonstigen Funk
+tion) und Testen der Daten-Verbindung.
+
+
+TERM      Terminal
+
+Umschalten  in die Betriebsart <TERM>.  Der  eigener 
+Rechner wirkt als Terminal (Bedienpult) eines  andereiben auf Diskette unter dem 
+angegebenen  Dateinamen.  Nach Eingabe  des  Befehls 
+erscheint zun{chst
+
+<Buffer ready>      Puffer bereit
+<TERM>
+
+Man  ist also wieder im Terminalbetrieb und es  pas
+siert folgendes:  Alle ankommenden Zeichen werden im 
+Speicher des Rechners gepuffert,  einschlie~lich der 
+Zeichen, die man selber tippt, sofern sie der fremde 
+Rechner  als  Echo zur}ckgibt.  Wenn man  (in  einer 
+Pause)  ^A eingibt,  werden die Daten vom Puffer auf 
+Diskette  geschrieben.  Nach nbedient werden.
+
+
+END oder EXIT oder QUIT
+
+Beenden des LYNC-Programms und R}ckkehr zu CP/M.
+
+
+LOG dateiname
+
+Automatisches  Einloggen,  das hei~t  Datenaustausch 
+beim  Beginn des Zugriffs zu einem  Gro~rechner  mit 
+Benutzernummer,  Name,  GeRETURN ist der  Rechner 
+wieder empfangsbereit. Ist alles Gew}nschte angekom
+men,  mu~  man  die Datei mit dem Befehl  CLOSE  ab
+schlie~en.  Ist der Puffer fast voll, so sendet LYNC 
+ein  XOFF  (^S).  Sofern damit  der  fremde  Rechner 
+stoppt,  kanheimwort  und dergleichen. 
+Kann eventuell f}r eigenes Frage- und  Antwort-Spiel 
+zum   Verbindungstest  und  {hnlichem   "mi~braucht" 
+werden.
+
+
+CALL, LIST, DIAL und / 
+
+dienen dazu, in Verbindung mit einem Automatik-Modem 
+eine  Telefon-Nummer sn  man  die Daten speichern und mit  XON 
+(^Q) den fremden Rechner wieder starten.  Falls  der 
+fremde Rechner nicht stoppt,  dann wird der Speicher 
+ganz gef}llt, die Meldung
+
+  <buffer full>		voll
+
+ausgegeben  und das bisher Gespeicherte auf Diskeelbstt{tig zu w{hlen.  F}r uns 
+nicht sinnvoll anwendbar.
+
+
+ ******************** <REMOTE> ********************
+
+Achtung: Bei REMOTE sind die eigene Tastatur und der 
+Bildschirm  tot  und  man kann  nur  mit  Hilfe  des 
+fremden Rechners wieder hertte 
+geschrieben.  Die Tastatur bleibt }brigens die ganze 
+Zeit aktiv.
+
+
+CLOSE     (siehe bei SAVE)
+
+
+ASAVE dateiname
+
+Arbeitet {hnlich wie SAVE,  jedoch werden die  Daten 
+selbstt{tig  auf Diskette geschrieben,  wenn  l{nger 
+als  15 Sekunden auskommen (oder RESET).
+
+Es  gibt mehrere M|glichkeiten,  in die  Betriebsart 
+REMOTE zu kommen.
+
+Man  kann von LYNC oder TERM aus den   e i g e n e n  
+Rechner nach REMOTE bringen.  Praktisch das  gleiche 
+erh{lt  man ohne LYNC,  wenn man von der  nichts mehr kommt.  Ebenso  erfolgt 
+nach dem XOFF und dem Schreiben selbstt{tig ein XON. 
+Nach dem letzten Schreiben erscheinen  die Meldungen
+
+  <file closed>          Datei abgeschlossen
+  <buffer off>           aus
+
+
+QSAVE dateiname
+
+ArbeitetCP/M-Ebene 
+aus   STAT CON:=CRT:   aufruft.
+
+Man  kann  mit dem INSTALL  als  Anfangs-Betriebsart 
+REMOTE  angeben (normalerweise nicht empfehlenswert, 
+da man da nicht rauskommt ohne neues Installieren).
+
+Zwei  Rechner  sind mit einander verbunden   wie ASAVE,  jedoch werden die  ankommenden 
+Daten  nicht am Bildschirm angezeigt.  Das ist sinn
+voll,  wenn  die Daten zu schnell kommen oder  nicht 
+darstellbar sind (.COM-Datei)
+
+
+DIR       Eigenes Directory
+
+Anzeigen des eigenen Disketten-Inh und  auf 
+beiden  l{uft LYNC.  Wenn beim fremden  Rechner  von 
+TERM  aus  ein  ^X eingegeben wird,  dann  wird  der 
+eigene  Rechner auf REMOTE  geschaltet.  Zuvor  wird 
+jedoch  ein Password (Geheimwort) abgefragt und ent
+sprechend
+
+Remote Accesaltsverzeichnisses 
+auf dem angemeldeten Laufwerk.
+
+
+DRIVE d
+
+Umschalten des eigenen angemeldeten Laufwerks auf d.
+
+
+USER n
+
+Umschalten des eigenen Benutzerbereichs auf n.
+
+
+^C        Abbruch 
+
+Abbrechen   der  Daten}bertragung  (oder   sons GRANTED      fremder Zugriff gestattet
+ oder
+Remote Access DENIED       fremder Zugriff abgelehnt
+
+Das Password kann bei INSTALL angegeben werden.  Zum 
+Zur}ckschalten ruft der fremde Rechner auf dem eige
+nen am besten wieder das Programm LYNC aufstigen 
+Funktion) und Testen der Daten-Verbindung.
+
+
+LYNC
+
+Umschalten in die Betriebsart LYNC
+
+
+REMOTE    Fernbedienung
+
+Umschalten in die Betriebsart <REMOTE>.  Der eigener 
+Rechner   kann  jetzt  von  einem  fremden   Rechner 
+(Terminal) fer. Mit STAT 
+CON:=TTY: geht es auch, man landet dann nat}rlich in 
+der CP/M-Ebene.
+
+
+ *****  Erstellen einer  Auto - LOG - Datei  *****
+
+Eine LOG-Datei ist eine Textdatei (WS-N) mit folgen
+der Form:
+
+@anfangstext
+meldung1@antwort1
+meldung2@antwort2@
+ usw.
+
+Dabei bezeichnet @ ein frei w{hlbares  Trennzeichen, 
+das im normalen Text nicht vorkommt. Der Anfangstext  
+(kann auch fehlen) wird sofort gesendet, die Antwor
+ten werden gesendet,  wenn die entsprechende Meldung 
+erkannt wurde. Dabeiíõõ&õ-õAõGõMõôSõëë›õ!ÊèÍåèþÊ  É!ÕèÃ´è!áèÃ´è!ÜèÍåèÃ  Bdos Err On  : $Bad Sector$Select$File R/O$åÍÉé:BëÆA2ÆèºèÍÓéÁÍÓé!ë~6 ·ÀÃ	öÍûèÍéØõOÍéñÉþÈþ
+Èþ	ÈþÈþ É:ë·ÂEéÍöæÈÍ	öþÂBéÍ	öþÊ  ¯É2ë>É:
+ë·ÂbéÅÍ#éÁÅÍöÁÅ:ë·ÄöÁy!ëþÈ4þ Ð5~·ÈyþÂyé5Éþ
+À6 Éy

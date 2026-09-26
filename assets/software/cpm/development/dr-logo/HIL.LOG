@@ -1,0 +1,14 @@
+to hilbert :size :level :parity
+if :level = 0 [stop]
+lt :parity * 90
+local "l
+make "l :level - 1
+hilbert :size :l (-:parity)
+fd :size
+rt :parity * 90
+hilbert :size :l :parity
+fd :size
+hilbert :size :l :parity
+rt :parity * 90
+fd :size
+hilbert :ееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее

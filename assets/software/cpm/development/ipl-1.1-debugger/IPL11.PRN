@@ -1,0 +1,1860 @@
+IPL1.1  83-10-24	MACRO-80 3.44	09-Dec-81	PAGE	1
+
+
+                                TITLE IPL1.1  83-10-24
+                                	SUBTTL INITIALIZATION AND IPL
+                                	.Z80
+                                	.PHASE 0
+      C      SIOAC	EQU	29H
+  002A                   C      SIOBD	EQU	2AH
+  002B                   C      SIOBC	EQU	2BH
+  00FF                   C      MEXTP	EQU	0FFH	;MEM EXTENSION PORT
+  FFD0                   C      INTVEC	EQU	0FFD0H
+  FFD0                                  C      	INCLUDE AEQU.MAC
+                         C      ;EQUATES FOR AMBER CBIOS
+                         C      ;
+  0001                   C      BIT0	EQU	1
+  0002                   C      BIT1	EQU	2
+  0004                            C      PAR	EQU	INTVEC
+  0055                   C      INIFLG	EQU	55H	;INIT VALUE FOR ROMINI
+  D600                   C      FRSTLD	EQU	0D600H	;FIRST IPL ADDRESS
+                                 GLOBAL PAR,DRIVE,TRACK,SECTOR,HEAD
+              C      BIT2	EQU	4
+  0008                   C      BIT3	EQU	8
+  0010                   C      BIT4	EQU	10H
+  0020                   C      BIT5	EQU	20H
+  0040                   C      BIT6	EQU	40H
+  0080                   C      BIT7	EQU	80H
+                            GLOBAL RWBUFF,RWLGT,READSEC,WRITSEC
+                                 GLOBAL RESULT,CORRIG,PR1,PRCONT;
+                                 EXTERNAL DINIT
+                                ;
+                                ;===============                 C      ;
+  0007                   C      BELL	EQU	7
+  000D                   C      CR	EQU	13
+  000A                   C      LF	EQU	10
+  001B                   C      ESC	EQU	1BH
+                         C      ;PORT ADDRESSES
+  000===============================
+                                ;SET STACK POINTER,  INITIALIZE PORTS	      ;
+                                ;TRANSFER BIOS AND INTERRUPT ADDRESSES TO RAM ;
+                                ;==============================0                   C      DMA	EQU	0
+  007F                   C      DEL	EQU	7FH
+  0014                   C      USART3	EQU	14H
+  0016                   C      SASIDA	EQU	16H
+  0018                   C      SASICO	EQU	18H
+  0000                   C   ================
+  0000    F3                    START:	DI		;FOR DEBUGGER G 0
+  0001    31 D600               	LD	SP,FRSTLD
+  0004    21 05E8               	LD	HL,IOTAB
+  0007    3E 0E                 	LD	A,14	;13 OUTPUT BLOCKS
+  0009    46              REQ	EQU	0
+  0003                   C      BUSY	EQU	3
+                         C      ;
+  001A                   C      FDSTAT	EQU	1AH	;FLOPPY STATUS INPUT
+  001B                   C      FDDAT	EQU	1BH	;FLOPPY DATA INPUT/OUTPUT
+  001E                        PORINI:	LD	B,(HL)	;NUMBER OF OUTPUTS
+  000A    23                    	INC	HL
+IPL1.1  83-10-24	MACRO-80 3.44	09-Dec-81	PAGE	1-1
+INITIALIZATION AND IPL
+
+  000B    4E                    	LD	C,(HL)	;PORT ADDRESS
+  000C    23                        C      MEMMGR	EQU	1EH	;MEMORY MANAGER
+  001F                   C      FDCWRO	EQU	1FH	;FLOPPY WRITE ONLY PORT
+  0010                   C      NOTRES	EQU	BIT4	;NOT RESET
+  0020                   C      MOTON	EQU	BIT5
+  0040                   C      D	INC	HL
+  000D    ED A3                 PORIN1:	OUTI
+  000F    20 FC                 	JR	NZ,PORIN1
+  0011    3D                    	DEC	A
+  0012    20 F5                 	JR	NZ,PORINI
+  0014    DB 28                 	IN	A,(SIOAD) ;REMOVE GARBAGE
+  00S4EN	EQU	BIT6
+  0080                   C      SFSEL	EQU	BIT7
+                         C      ;
+  0020                   C      CTC1	EQU	20H
+  0024                   C      CTC2	EQU	24H
+  0028                   C      SIOAD	EQU	28H
+  0029             16    DB 2A                 	IN	A,(SIOBD)
+  0018    DB 08                 	IN	A,(DMA+8) ;CLEAR STAT BITS
+                                ;HL POINTS TO ADDR OF CBIOS1 IN PROM
+  001A    11 F606               	LD	DE,CBIOS1
+  001D    01 0057               	LD	BC,BIOS2S-BIOS1S
+  0020    ED B0                 	LDIR 		;TRANSFER CBIOS1
+  0022    11 FD40               	LD	DE,CBIOS2
+  0025    01 01CD               	LD	BC,BUFTAB-BIOS2S
+  0028    ED B0                 	LDIR		;TRANSFER CBIOS2
+  002A    11 FF80  005F    7E                    	LD	A,(HL)
+  0060    21 05CE               	LD	HL,BADROM
+  0063    18 05                 	JR	CONTIN
+  0065    00                    	DEFB	0
+                                	IF	$-66H
+                                	BAD A              	LD	DE,RAMBUF
+  002D    0E 3F                 	LD	C,INTTAB-BUFTAB
+  002F    ED B0                 	LDIR		;TRANSFER BUFTAB
+  0031    11 FFD0               	LD	DE,INTVEC
+  0034    0E 20                 	LD	C,20H
+  0036    ED B0            DDRESS FOR NONMASKABLE INT!
+                                	ENDIF
+  0066    2A FF93               	LD	HL,(NONMI)
+  0069    E9                    JPHL:	JP	(HL)		;NORMALLY DEBUG
+  006A    20 03                 CONTIN:	JR	NZ,BADCHS
+  006C    BA              	LDIR		;TRANSFER INT VECTORS
+  0038    7A                    	LD	A,D		;INT VEC HI
+  0039    ED 47                 	LD	I,A
+  003B    ED 5E                 	IM	2
+  003D    FB                    	EI		;INTERRUPT IS ENABLED
+                                      	CP	D
+  006D    28 05                 	JR	Z,CHSOK
+IPL1.1  83-10-24	MACRO-80 3.44	09-Dec-81	PAGE	1-2
+INITIALIZATION AND IPL
+
+  006F    CD 059B               BADCHS:	CALL	TXOUT
+  0072    18 FE                 	JR	$
+  0074    21 05D8            ;
+                                ;MAKE INITIAL HANDSHAKE WITH TERMINAL
+  003E    CD 03D3               	CALL	CONIN
+  0041    4F                    	LD	C,A
+  0042    CD FDE5               	CALL	CONOUT
+  0045    CD 03D3               	CALL	CONIN
+        CHSOK:	LD	HL,HELLO
+  0077    CD 059B               	CALL	TXOUT
+  007A    DB 1A                 	IN	A,(FDSTAT)
+  007C    17                    	RLA
+  007D    30 14                 	JR	NC,NOFLPY	;IGNORE FLOPPY!
+  007F    21 FFB2               	L  0048    4F                    	LD	C,A
+  0049    CD FDE5               	CALL	CONOUT
+                                ;
+                                ;============================================
+                                ;COMPARE CHECKSUM WITH D	HL,DSKFLG
+  0082    CB 9E                 	RES	3,(HL)
+                                ;
+  0084    CD 031B               	CALL	INTWAI	;FOR FLOPPY INTERR
+  0087    CD 02B4               	CALL	SENSIN	;RESTORE AFTERWARDS
+  008A    21 05E4               THE STORED VALUE	    ;	
+                                ;============================================
+  004C    01 10FE               	LD	BC,10FEH	;BYTE COUNTER
+  004F    97                    	SUB	A
+  0050    67                    	LD	H,A
+  0051    6	LD	HL,SPECBL
+  008D    CD 02E7               	CALL	OUT	;DO SPECIFY COMMD
+  0090    CD 02B4               	CALL	SENSIN	;RESTORE INTERRUPT
+                                ;
+                                ;BOOT FROM FLOPPY OR HARD DISK
+  0093    3E 00 F                    	LD	L,A		;BYTE POINTER
+  0052    57                    	LD	D,A		;D AND A ARE
+  0053    86                    CHS:	ADD	A,(HL)		;CHSUM COUNTER
+  0054    23                    	INC	HL
+  0055    30 01                 	JR	NC,$+3
+  0057                NOFLPY:	LD	A,0	;SEE FLOPPY-1
+  0095    32 FF97               	LD	(DRIVE),A
+  0098    3E 55                 	LD	A,INIFLG
+  009A    32 FFB1               	LD	(BOOTDR),A ;PREVENT ERR MSG 
+  009D    CD 00E0               ROMB1:	CALL	BOOTR
+    14                    	INC	D
+  0058    0D                    	DEC	C
+  0059    20 F8                 	JR	NZ,CHS
+  005B    10 F6                 	DJNZ	CHS
+  005D    BE                    	CP	(HL)		;CHSUM-LO
+  005E    23                    	INC	HL
+   00A0    28 13                 	JR	Z,ROMB2	;OK
+  00A2    21 FF97               	LD	HL,DRIVE
+  00A5    35                    	DEC	(HL)	;SEE HARD DISK
+  00A6    7E                    	LD	A,(HL)
+  00A7    FE FE                 	CP	0FEH
+  00A9    20 06                 	JR	NZ,ROMB15
+  00AB    3E 01                 	LD	A,1
+  00AD    77                    	LD	(HL),A	;SEE FLOPPY-2
+  00AE    32 FFB1               	LD	(BOOTDR),A ;ENABLE ERR MESSAGE
+  00B1    30 EA                 ROMB15:	JR	NC,ROMB1
+  00B3       ;	81H	LOAD 2 TRACKS FROM SINGLE SD
+                                ;	82H	LOAD 2 TRACKS FROM DOUBLE SD
+                                ;	OTHERWISE WRONG DISK
+  00E0    21 0000               BOOTR:	LD	HL,0
+  00E3    22 FF98               	LD	(TRAC    18 DE                 	JR	NOFLPY	;REPEAT FROM FLOPPY-1
+                                ;
+                                ;LOAD SUCCESSFUL
+  00B5    3A FF97               ROMB2:	LD	A,(DRIVE)
+  00B8    32 FFB1               	LD	(BOOTDR),A
+          K),HL	;SET TRACK-0
+  00E6    23                    	INC	HL		;SIDE=0, SECT=1
+  00E7    22 FF9A               	LD	(TRACK+2),HL
+  00EA    21 D600               	LD	HL,FRSTLD	;LOADING ADDR
+  00ED    22 FF9C               	LD	(RWBUFF),HL
+  00F0    21 0FFF                       ;
+                                ;RRECONFIGURE PRINT AND COMMUNICATION SPEED
+  00BB    3E 45                 	LD	A,45H
+  00BD    0E 22                 	LD	C,CTC1+2
+  00BF    2A D604               	LD	HL,(FRSTLD+4)
+  00C2    ED 7              	LD	HL,0FFFH
+  00F3    22 FF9E               	LD	(RWLGT),HL	;LOADED LGTH-1
+  00F6    01 0846               	LD	BC,0846H
+  00F9    CD 0137               	CALL	RW0		;READ DATA
+  00FC    20 22                 	JR	NZ,BOOTR3	;1ST TRACK BAD
+  9                 	OUT	(C),A
+  00C4    ED 69                 	OUT	(C),L	;PR SPEED
+  00C6    0D                    	DEC	C
+  00C7    ED 79                 	OUT	(C),A
+  00C9    ED 61                 	OUT	(C),H	;COMM SPEED
+                                00FE    3A D603               	LD	A,(FRSTLD+3)	;IDENT BYTE
+  0101    D6 80                 	SUB	80H		;UCSD?
+  0103    C8                    	RET	Z
+  0104    FE 02                 	CP	2
+  0106    28 02                 	JR	Z,BOOTR1
+  0108    30 16      ;
+                                ;UPDATE STEP RATE FROM DISK
+  00CB    21 05E5               	LD	HL,SPECBL+1 ;SPECIFY CMD
+  00CE    CD 030D               	CALL	OUT1
+  00D1    21 D606               	LD	HL,FRSTLD+6 ;D0: 6MS, E0:4MS
+  00D4    CD 030D              	JR	NC,BOOTR3	;WRONG IDENT
+  010A    3D                    BOOTR1:	DEC	A
+  010B    32 FF9B               	LD	(HEAD),A	;1 IF DOUBLE
+  010E    20 04                 	JR	NZ,BOOTR2	;     SIDED
+  0110    3C                    	INC	A
+  0111    32            	CALL	OUT1
+  00D7    21 05E7               	LD	HL,SPECBL+3
+  00DA    CD 030D               	CALL	OUT1
+                                ;
+                                ;INIT MEM DISK AND START LOADED PROGR
+  00DD    C3 F618               	 FF98               	LD	(TRACK),A	;SINGLE SIDED
+  0114    3E E6                 BOOTR2:	LD	A,10H+(FRSTLD SHR 8) ;NEXT ADDR
+  0116    32 FF9D               	LD	(RWBUFF+1),A
+  0119    01 0846               	LD	BC,0846H
+  011C    CD 0137               	CAJP	MEMDIN	
+                                	SUBTTL	ROM RESIDENT HARDWARE DRIVERS
+                                	PAGE
+IPL1.1  83-10-24	MACRO-80 3.44	09-Dec-81	PAGE	1-3
+ROM RESIDENT HARDWARE DRIVERS
+
+                                
+               LL	RW0		;READ NEXT TR
+  011F    C8                    	RET	Z		;OK
+                                ;
+                                ;DISK ERROR, SEE IF FIRST LOAD, THEN NO MESSAGE
+  0120    3A FFB1               BOOTR3:	LD	A,(BOOTDR)
+  0123    FE 55                   ;
+                                ;BOOT 1 OR 2 TRACKS FROM THE GIVEN DRIVE
+                                ;IF THE 3RD BYTE OF THE LOADED DISK IS:
+                                ;	80H	LOAD ONLY 1 TRACK (UCSD)
+                                        	CP	INIFLG
+  0125    CA 04BA               	JP	Z,EXFF		;NONZERO & RET
+  0128    21 05BF               SENERR:	LD	HL,DERMSG
+  012B    CD 059B               	CALL	TXOUT
+  012E    CD 03D3               	CALL	CONIN
+  0131    D6 1B                 	SUB	1BH		;ESCAPE?
+  0133    C0                    	RET	NZ
+  0134    C3 0000*              	JP	DINIT		;TO DEBUGGER
+                                ;
+                                ;
+                                ;============================                	DJNZ	$-2
+  0157    09                    	ADD	HL,BC	;B=0, C=SECTOR-1
+  0158    88                    	ADC	A,B
+  0159    47                    	LD	B,A	;SAVE ADDR-HI
+  015A    3A FF97               	LD	A,(DRIVE) ;=FF FOR DRIVE-0,
+  015D==================
+                                ;READ AND WRITE ONE SECTOR		      ;
+                                ;ON ENTRY: SET 'DRIVE', 'TRACK' AND 'SECTOR'  ;
+                                ;	  AS WELL AS RWCOMD		      ;
+                          3C                    	INC	A	;ELSE DRIVE-1
+  015E    28 02                 	JR	Z,$+4
+  0160    3E 20                 	LD	A,20H	;ADDRESS DRIVE-1
+  0162    80                    	ADD	A,B	;COMBINE WITH HI BYTE
+  0163    EB                    	EX	DE,HL          ;IN CASE OF ERROR 8 TIMES RETRY, IF NO SUCCESS;
+                                ;RECALIBRATE  SEEK,AND TRY AGAIN UP TO 8 TIMES;
+                                ;ON EXIT:  RESULT IS NONZERO IF ERROR	      ;
+                                ;====
+  0164    77                    	LD	(HL),A
+  0165    23                    	INC	HL
+  0166    72                    	LD	(HL),D	;ADDR MIDDLE BYTE
+  0167    23                    	INC	HL
+  0168    73                    	LD	(HL),E	;ADDR LO
+  0169    23 ==========================================
+  0137    79                    RW0:	LD	A,C
+  0138    32 FF85               	LD	(RWCOMD+1),A	;FLOPPY COMMAND
+  013B    3A FF97               	LD	A,(DRIVE)
+  013E    FE 04                 	CP	4
+  0140    38 3B                   	INC	HL
+  016A    3A FF9F               	LD	A,(RWLGT+1)
+  016D    3C                    	INC	A
+  016E    77                    	LD	(HL),A	;BLOCK COUNT
+  016F    23                    	INC	HL
+  0170    97                    	SUB	A
+                  	JR	C,RWFLO
+                                ;
+                                ;==============================================
+IPL1.1  83-10-24	MACRO-80 3.44	09-Dec-81	PAGE	1-4
+ROM RESIDENT HARDWARE DRIVERS
+
+                          0171    77                    	LD	(HL),A	;CONTROL BYTE
+  0172    06 02                 	LD	B,2	;DO TWICE (TOGETHER 8)
+  0174    C5                    XRW:	PUSH	BC
+  0175    CD 03A1               	CALL	XRWPRO
+  0178    C1                    	POP	BC
+         ;ADDRESS XEBEC CONTROLLER		      ;	
+                                ;==============================================
+  0142    21 FFC4               	LD	HL,XEBEC ;SHARES 'RESULT' FIELD
+  0145    70                    	LD	(HL),B	;FUNCTION
+  0146  0179    C8                    	RET	Z
+  017A    10 F8                 	DJNZ	XRW
+  017C    C9                    	RET
+                                ;
+                                ;FLOPPY READ-WRITE SUBROUTINE
+  017D    3A FFB2               RWFLO:	  23                    	INC	HL
+  0147    EB                    	EX	DE,HL
+                                ;
+                                ;COMPUTE TRACK*10H+SECTOR
+  0148    2A FF98               	LD	HL,(TRACK)
+  014B    ED 4B FF9A            	LD	BCLD	A,(DSKFLG)
+  0180    E6 08                 	AND	NOFLOP
+  0182    20 5D                 	JR	NZ,FFRET ;NO FLOPPY CONTROLLER!
+  0184    CD 02C4               	CALL	MOTON?	;SW MOTOR ON IF NEEDED
+  0187    CD 027C               	CALL	SEEK	;STEP IF NECESS,(SECTOR)
+  014F    0D                    	DEC	C
+  0150    97                    	SUB	A	;FOR OVERFLOW
+  0151    06 04                 	LD	B,4
+  0153    29                    	ADD	HL,HL
+  0154    17                    	RLA		;GET CARRY
+  0155    10 FC ARY
+  018A    3A FF9B               	LD	A,(HEAD)
+  018D    32 FF88               	LD	(RWCOMD+4),A	;HEAD
+  0190    07                    	RLCA
+  0191    07                    	RLCA
+  0192    2A FF97               	LD	HL,(DRIVE) ;DRIVE AND TRACK
+  0195    B5                    	OR	L
+  0196    6F                    	LD	L,A	;COMBINE HEAD INFO
+  0197    CD FFB6               	CALL	DSKTR	;TRACK INCR
+  019A    22 FF86               	LD	(RWCOMD+2),HL
+  019D    3A FF9A               	LD	A,(SECTOR)
+  01A0     ;
+  01E4                          RWPROC:
+  01E4    21 FFB2               RWP0:	LD	HL,DSKFLG
+  01E7    CB 6E                 	BIT	5,(HL)
+  01E9    28 F9                 	JR	Z,RWP0	;WAIT 0.3 SEC IF NOT UP
+  01EB    CB CE                 	SET	1,(HL)   32 FF89               	LD	(RWCOMD+5),A ;ACTUAL SECTOR
+  01A3    0E 02                 	LD	C,2	;RESEEK ONCE ON ERROR
+  01A5    06 08                 RWS1:	LD	B,8	;READ/WRITE 8 TIMES
+IPL1.1  83-10-24	MACRO-80 3.44	09-Dec-81	PAGE	1-5
+ROM RESIDENT HARD	;RDWR FLAG
+  01ED    CD 0237               	CALL	DDMSET	;SET DISK DMA
+  01F0    21 FF84               	LD	HL,RWCOMD
+  01F3    CD 02E7               	CALL	OUT	;SEND COMMAND BYTES
+  01F6    CD 031B               	CALL	INTWAI	;WAIT FOR INTERRUPT
+  01F9 WARE DRIVERS
+
+  01A7    C5                    RWS2:	PUSH	BC
+  01A8    CD 01E4               	CALL	RWPROC
+  01AB    C1                    	POP	BC
+  01AC    C8                    	RET	Z
+  01AD    3A FFB2               	LD	A,(DSKFLG)
+  01B0    CB 67      21 0384               	LD	HL,15*60 ;15 SEC FOR MOTOR OFF
+  01FC    22 FF7E               	LD	(TBYTE),HL
+  01FF    21 FFB2               	LD	HL,DSKFLG
+  0202    CB 66                 	BIT	4,(HL)	;NOT READY?
+  0204    20 0F                 	JR	NZ,RWP2              	BIT	4,A	;NONZERO IF NOT RDY
+  01B2    20 2D                 	JR	NZ,FFRET ;NO REPEAT
+  01B4    3A FFC5               	LD	A,(RESULT+1)
+  01B7    CB 4F                 	BIT	1,A	;WRITE PROTECT?
+  01B9    20 26                 	JR	NZ,FFRET ;N	;
+  0206    06 07                 	LD	B,7
+  0208    CD 0323               	CALL	INP	;GET RESULT BYTES
+  020B    CD 025A               	CALL	DDMRES	;RESET DISK DMA
+  020E    C0                    	RET	NZ
+  020F    3A FFC4               	LD	A,(RESULT)O RETRY
+  01BB    10 EA                 	DJNZ	RWS2
+  01BD    0D                    RWS3:	DEC	C
+  01BE    28 21                 	JR	Z,FFRET
+  01C0    C5                    	PUSH	BC
+  01C1    3A FF98               	LD	A,(TRACK)
+  01C4    F5            
+  0212    E6 C0                 	AND	0C0H	;ZERO IF OK
+  0214    C9                    	RET
+                                ;
+  0215    3E 20                 RWP2:	LD	A,MOTON
+  0217    D3 1F                 	OUT	(FDCWRO),A	;RESET FDC
+  0219    3E 30          	PUSH	AF
+  01C5    C6 0A                 	ADD	A,10
+  01C7    32 FF98               	LD	(TRACK),A
+  01CA    FE 14                 	CP	20
+  01CC    DC 027C               	CALL	C,SEEK	;STEP OUT 10 IF TRACK<10
+  01CF    21 FFB2               	LD	H               	LD	A,MOTON+NOTRES
+  021B    D3 1F                 	OUT	(FDCWRO),A	;LET MOTOR RUN
+  021D    21 FFB2               	LD	HL,DSKFLG
+  0220    CB 56                 RWP3:	BIT	2,(HL)	;RESET?
+  0222    20 FC                 	JR	NZ,RWP3	;WAIT UNL,DSKFLG
+  01D2    CB D6                 	SET	2,(HL)	;SIMULATE NOTREADY
+  01D4    CD 0215               	CALL	RWP2	;RESET CONTROLLER
+  01D7    F1                    	POP	AF
+  01D8    32 FF98               	LD	(TRACK),A ;RESTORE TRACK NUMBER
+  01DB    TIL INTERRUPT
+  0224    E5                    	PUSH	HL
+  0225    21 FFFF               	LD	HL,-1
+  0228    22 FF80               	LD	(TRACK0),HL ;DEL TRACK NUMBERS
+  022B    22 FF82               	LD	(TRACK0+2),HL
+IPL1.1  83-10-24	MACRO-80 3.44	09-DeCD 027C               	CALL	SEEK	;STEP AGAIN
+  01DE    C1                    	POP	BC
+  01DF    18 C4                 	JR	RWS1
+  01E1    F6 FF                 FFRET:	OR	0FFH	;SET NONZERO
+  01E3    C9                    	RET
+                            c-81	PAGE	1-6
+ROM RESIDENT HARDWARE DRIVERS
+
+  022E    CD 02B4               	CALL	SENSIN	;NEEDED AFTER RESET!
+  0231    CD 025A               	CALL	DDMRES
+  0234    E1                    	POP	HL
+  0235    B6                    	OR	(HL)	;SET NONZERO
+  0236    C9                    	RET
+                                ;
+                                ;SET	DISK,DMA
+  0237    F3                    DDMSET:	DI
+  0238    3A FF9C               	LD	A,(RWBUFF)
+  023B    D3 00                 	OUT	(DMA),         	OUT	(DMA+8),A	;OTHER CHANNELS
+  027A    FB                    	EI
+  027B    C9                    	RET
+                                ;
+                                ;==============================================
+                        A	;ADDRESS
+  023D    3A FF9D               	LD	A,(RWBUFF+1)
+  0240    D3 00                 	OUT	(DMA),A
+  0242    2A FF9E               	LD	HL,(RWLGT)
+  0245    7D                    	LD	A,L	;LO LENGTH-1
+  0246    D3 01                 	OUT	(DMA+1),A        ;SEEK THE TRACK GIVEN IN 'TRACK'	      ;
+                                ;==============================================
+  027C    3A FF97               SEEK:	LD	A,(DRIVE)
+  027F    21 FF7F               	LD	HL,TRACK0-1
+  0282    3C            
+  0248    3A FF85               	LD	A,(RWCOMD+1)
+  024B    2F                    	CPL
+  024C    0F                    	RRCA
+  024D    0F                    	RRCA
+  024E    E6 C0                 	AND	0C0H	;SET DIRECTION
+  0250    B4                          	INC	A
+  0283    23                    SEEK0:	INC	HL
+  0284    3D                    	DEC	A
+  0285    20 FC                 	JR	NZ,SEEK0
+  0287    3A FF98               SEEK1:	LD	A,(TRACK)
+  028A    47                    	LD	B,A
+  028B    BE   	OR	H	;HI LENGTH-1
+  0251    D3 01                 	OUT	(DMA+1),A
+  0253    21 FFB3               	LD	HL,DMSTAT
+  0256    CB C6                 	SET	0,(HL)	;CHANNEL 0 ENABLED
+  0258    18 18                 	JR	DDMEX
+                                                   	CP	(HL)	;SAME TRACK?
+  028C    C8                    	RET	Z	;DO NOTHING
+  028D    7E                    	LD	A,(HL)
+IPL1.1  83-10-24	MACRO-80 3.44	09-Dec-81	PAGE	1-7
+ROM RESIDENT HARDWARE DRIVERS
+
+  028E    3C                    	;
+  025A    21 FFB3               DDMRES:	LD	HL,DMSTAT
+  025D    CB 86                 	RES	0,(HL)
+                                ;
+                                ;SEE IF ALL BYTES TRANSFERRED. IF NOT,
+                                ;RETURN WITH NOINC	A	;ZERO IF UNDEFINED
+  028F    78                    	LD	A,B
+  0290    77                    	LD	(HL),A	;UPDATE TRACK NUMBER
+  0291    CC 0299               	CALL	Z,RECALI
+  0294    21 FF95               	LD	HL,SKCOMD
+  0297    18 15              NZERO AND READ USART3
+                                ;TO TRIGGER LOGIC STATE ANALYZER
+  025F    DB 01                 	IN	A,(DMA+1)
+  0261    3C                    	INC	A
+  0262    28 04                 	JR	Z,DDMR1
+  0264    DB 01                 	IN   	JR	RECAL1
+                                ;
+                                ;RECALIBRATE DRIVE
+  0299    3A FF97               RECALI:	LD	A,(DRIVE)
+  029C    32 FF90               	LD	(RECOMD+2),A ;SET DRIVE
+  029F    21 FF8E               	LD	HL,	A,(DMA+1)
+  0266    18 08                 	JR	DDMR2
+  0268    DB 01                 DDMR1:	IN	A,(DMA+1)
+  026A    E6 3F                 	AND	3FH
+  026C    FE 3F                 	CP	3FH
+  026E    28 02                 	JR	Z,DDMEX
+  0270    DB 14     RECOMD
+  02A2    CD 02AE               	CALL	RECAL1	     ;DO OPERATION
+  02A5    3A FFC4               	LD	A,(RESULT)
+  02A8    E6 C0                 	AND	0C0H
+  02AA    C8                    	RET	Z	     ;OK
+  02AB    21 FF8E               	LD	HL,RECO            DDMR2:	IN	A,(USART3)	;ERR TRIGGER	
+  0272    3E 00                 DDMEX:	LD	A,0
+  0274    F3                    	DI
+  0275    D3 08                 	OUT	(DMA+8),A
+  0277    7E                    	LD	A,(HL)		;ENABLE
+  0278    D3 08        MD    ;REPEAT
+  02AE    CD 02E7               RECAL1:	CALL	OUT
+  02B1    CD 031B               	CALL	INTWAI	;WAIT FOR INTERRUPT
+                                ;
+  02B4    11 F080               SENSIN:	LD	DE,0F080H ;UNTIL RDY FOR OUTP
+  02B7    CD 0314               	CALL	WAIT
+  02BA    3E 08                 	LD	A,8	;SENSE INTERRUPT
+  02BC    D3 1B                 	OUT	(FDDAT),A
+  02BE    06 02                 	LD	B,2
+  02C0    CD 0323               	CALL	INP
+  02C3    C9                    	RET
+CD 02C4               	CALL	MOTON?	;SW MOTOR ON IF NOT RUN
+  02EB    E1                    	POP	HL
+  02EC    46                    	LD	B,(HL)	;GET LENGTH
+  02ED    FB                    OUT0:	EI
+  02EE    23                    	INC	HL
+  02EF    11 E08                                ;
+                                ;==============================================
+                                ;SWITCH	MOTOR ON IF IT DOES NOT RUN	      ;
+                                ; (NO WAITING LOOP!)			      ;0               OUT2:	LD	DE,0E080H ;MASK=F0 COMPARE=80
+  02F2    CD 0314               	CALL	WAIT	;WAIT UNTIL READY
+IPL1.1  83-10-24	MACRO-80 3.44	09-Dec-81	PAGE	1-8
+ROM RESIDENT HARDWARE DRIVERS
+
+  02F5    7E                    	LD	A,(HL)	;GET DATA
+                                ;ON EXIT:	NONZERO IF RUNS		      ;
+                                ;==============================================
+  02C4    F3                    MOTON?:	DI
+  02C5    21 001E               	LD	HL,30	;0.5 S START RUN-UP
+  02F6    F3                    	DI		;PREVENT EARLY INTERRUPT
+  02F7    D3 1B                 	OUT	(FDDAT),A ;TO FLOPPY CONTROLLER
+  02F9    10 F2                 	DJNZ	OUT0
+  02FB    21 FFB2               	LD	HL,DSKFLG
+  02FE    CB 86                
+  02C8    22 FF7E               	LD	(TBYTE),HL
+  02CB    21 FFB2               	LD	HL,DSKFLG
+  02CE    CB BE                 	RES	7,(HL)	;NO SASI
+  02D0    3A FF97               	LD	A,(DRIVE)
+  02D3    FE 03                 	CP	3	;IF DRIVE-3, ENABLE B 	RES	0,(HL)	;RESET OP-READY FLAG
+  0300    CB A6                 	RES	4,(HL)	;DISK NOT-RDY FLAG
+  0302    CB 4E                 	BIT	1,(HL)	;READ/WRITE?
+  0304    FB                    	EI
+  0305    C8                    	RET	Z	;NO TIMOUT NECESSARY
+ IT
+  02D5    3E 30                 	LD	A,MOTON+NOTRES
+  02D7    20 02                 	JR	NZ,MOT1
+  02D9    F6 40                 	OR	DS4EN
+  02DB    D3 1F                 MOT1:	OUT	(FDCWRO),A
+  02DD    7E                    	LD	A,(HL)
+  02DE    E6 6 0306    21 0025               	LD	HL,37	   ;617 MS FOR
+  0309    22 FF7E               	LD	(TBYTE),HL ;DISK NOT READY
+  030C    C9                    	RET
+  030D    06 01                 OUT1:	LD	B,1	;OUT 1 BYTE
+  030F    18 DE                 	JR	OUT0                 	AND	MOTON+MOTSWO	;ALREADY ON?
+  02E0    20 03                 	JR	NZ,MOT2
+  02E2    CB F6                 	SET	6,(HL)	;STARTUP FLAG
+  02E4    97                    	SUB	A	;SAY NOT RUNS
+  02E5    FB                    MOT2:	EI
+  02E62
+                                ;
+  0311    11 E0C0               WAITINP: LD	DE,0E0C0H ;UNTIL READY FOR INP
+                                ;
+                                ;WAIT UNTIL FLOPPY CONTROLLER RDY FOR IN OR OUT
+                              C9                    	RET
+                                ;
+                                ;==============================================
+                                ;SEND COMMAND TO DISK CONTROLLER	      ;
+                                ;E      ;ON ENTRY: D=MASK E=COMPARE BYTE FOR STATUS REG
+  0314    DB 1A                 WAIT:	IN	A,(FDSTAT)
+  0316    A2                    	AND	D
+  0317    BB                    	CP	E
+  0318    20 FA                 	JR	NZ,WAIT
+  031A    C9            NTRY:	HL POINTS TO PARAMETER BLOCK	      ;
+                                ;	PARAMETER BLOCK: LENGTH, DATA, DATA, .;
+                                ;==============================================
+  02E7    E5                    OUT:	PUSH	HL
+  02E8            	RET
+                                ;
+  031B    21 FFB2               INTWAI:	LD	HL,DSKFLG	;DONE?
+  031E    CB 46                 INTW1:	BIT	0,(HL)
+  0320    28 FC                 	JR	Z,INTW1
+  0322    C9                    	RET
+                                ;
+                                ;==============================================
+                                ;GET RESULT BYTES. ON ENTRY B=NUMBER OF BYTES ;
+                                ;======================================     	JR	NZ,XC2
+  0357    21 FFC0               	LD	HL,CLOCK
+  035A    4E                    	LD	C,(HL)	;STORE TIME
+  035B    DB 18                 XC4:	IN	A,(SASICO)
+  035D    E6 1F                 	AND	1FH
+  035F    FE 1B                 	CP	1BH		;S========
+  0323    3E 30                 INP:	LD	A,MOTON+NOTRES
+  0325    D3 1F                 	OUT	(FDCWRO),A ;DISABLE 4TH DRIVE
+  0327    21 FFC4               INP0:	LD	HL,RESULT
+  032A    CD 0311               INP1:	CALL	WAITINP	;UNTIL FDC READY
+ TATUS?
+  0361    28 26                 	JR	Z,XC5	;OK
+  0363    7E                    	LD	A,(HL)
+  0364    91                    	SUB	C
+  0365    FE B4                 	CP	180	;3 SEC TIMOUT?
+  0367    38 F2                 	JR	C,XC4	;NO TIMOUT
+  0369  032D    DB 1B                 	IN	A,(FDDAT)
+  032F    77                    	LD	(HL),A
+  0330    23                    	INC	HL
+  0331    10 F7                 	DJNZ	INP1
+  0333    C9                    	RET
+                                ;
+           2A FFB4               XC44:	LD	HL,(HDERSU)	;=RETURN
+  036C    CD 0069               	CALL	JPHL	;FOR MAINTENANCE
+  036F    3E 08                 	LD	A,8
+  0371    D3 18                 	OUT	(SASICO),A	;RESET SASI
+  0373    F3                    	DI
+                        ;==============================================
+                                ;READ OR WRITE TO HARD DISK		      ;
+                                ;SELECT CONTROLLER AND OUTPUT COMMAND TO XEBEC;
+                                  0374    3A FFB2               	LD	A,(DSKFLG)
+  0377    E6 60                 	AND	MOTON+MOTSWO
+  0379    3E 10                 	LD	A,NOTRES
+  037B    28 02                 	JR	Z,$+4
+  037D    F6 20                 	OR	MOTON
+  037F    D3 1F          ;RETURNS WIT NONZERO IF ERROR		      ;
+                                ;==============================================
+  0334    3E 01                 XCOMD:	LD	A,1		;SELECT CODE
+  0336    D3 16                 	OUT	(SASIDA),A
+  0338    3E 04                 	OUT	(FDCWRO),A
+  0381    F6 80                 	OR	SASINT
+  0383    D3 1F                 	OUT	(FDCWRO),A	;CLEAR A FLOP
+  0385    FB                    	EI
+  0386    F6 FF                 	OR	0FFH
+  0388    C9                    	RET
+               	LD	A,4		;SELECT
+  033A    D3 18                 	OUT	(SASICO),A
+  033C    06 00                 	LD	B,0		;WAIT FOR BUSY
+  033E    DB 18                 XC1:	IN	A,(SASICO)
+  0340    CB 5F                 	BIT	BUSY,A
+  0342    20 04                                     ;
+  0389    DB 16                 XC5:	IN	A,(SASIDA)	;GET RESULT BYTE
+  038B    5F                    	LD	E,A
+  038C    DB 18                 XC6:	IN	A,(SASICO)
+  038E    1F                    	RRA
+  038F    30 08                  	JR	NZ,XC15
+  0344    10 F8                 	DJNZ	XC1
+  0346    18 21                 	JR	XC44	;ERROR
+  0348    01 0616               XC15:	LD	BC,600H+SASIDA
+  034B    21 FFC4               	LD	HL,XEBEC	;COMMAND FIELD
+  034E    DB 18                 	JR	NC,XC7
+  0391    DB 16                 	IN	A,(SASIDA)
+  0393    7B                    	LD	A,E
+  0394    E6 02                 	AND	2
+  0396    C8                    	RET	Z
+  0397    18 D0                 	JR	XC44	;RESET AND ERR RET
+  0399    7   XC2:	IN	A,(SASICO)
+  0350    1F                    	RRA
+  0351    30 FB                 	JR	NC,XC2
+IPL1.1  83-10-24	MACRO-80 3.44	09-Dec-81	PAGE	1-9
+ROM RESIDENT HARDWARE DRIVERS
+
+  0353    ED A3                 	OUTI
+  0355    20 F7            E                    XC7:	LD	A,(HL)
+  039A    91                    	SUB	C
+  039B    FE BC                 	CP	188	;TIMOUT?
+  039D    38 ED                 	JR	C,XC6
+  039F    18 C8                 	JR	XC44	;TIMEOUT, ABORT
+                                ;
+                                ;ACTUAL	READ-WRITE PROCEDURE
+  03A1    CD 03B7               XRWPRO:	CALL	XRDY
+  03A4    C0                    	RET	NZ	;NOT READY
+  03A5    CD 0237               	CALL	DDMSET	;SET DISK DMA
+  03A8    CD 0334         	CALL	CONST
+  03D7    F3                    	DI
+  03D8    3E 20                 	LD	A,20H	;ENABLE NEXT INTERR
+  03DA    D3 2B                 	OUT	(SIOBC),A
+  03DC    28 F5                 	JR	Z,CONIN	;WAIT UNTIL READY
+  03DE    97                          	CALL	XCOMD
+  03AB    F5                    	PUSH	AF
+  03AC    CD 025A               	CALL	DDMRES
+  03AF    28 04                 	JR	Z,XRX
+  03B1    F1                    	POP	AF
+  03B2    F6 FF                 	OR	0FFH
+  03B4    C9           	SUB	A
+  03DF    32 FFBE               	LD	(KSTAT),A
+  03E2    DB 2B                 	IN	A,(SIOBC)
+  03E4    CB 47                 	BIT	0,A	;FURTHER CHAR?
+  03E6    20 08                 	JR	NZ,CONP1 ;YES, RTS REMAINS
+  03E8    3E 05                           	RET
+  03B5    F1                    XRX:	POP	AF	;ERR CODE
+  03B6    C9                    	RET
+                                ;
+                                ;==============================================
+                               	LD	A,5
+  03EA    D3 2B                 	OUT	(SIOBC),A
+  03EC    3E EA                 	LD	A,0EAH
+  03EE    D3 2B                 	OUT	(SIOBC),A	;ENABLE RTS
+  03F0    3A FFBF               CONP1:	LD	A,(KBYTE)
+  03F3    FB                    	EI
+  03  ;CHECK READY BIT OF SASI CONTOLLER,	      ;
+                                ;EXIT: ZERO IF RDY			      ;	
+                                ;==============================================
+  03B7    3A FFB2               XRDY:	LD	A,(DSKFLG)
+IPL1.1  83-F4    C9                    	RET
+                                ;
+                                ;==============================================
+                                ;SEND ONE CHARACTER TO COMMUNICATION FROM 'C'
+                           10-24	MACRO-80 3.44	09-Dec-81	PAGE	1-10
+ROM RESIDENT HARDWARE DRIVERS
+
+  03BA    F6 80                 	OR	SASINT
+  03BC    32 FFB2               	LD	(DSKFLG),A
+  03BF    E6 60                 	AND	MOTON+MOTSWO
+  03C1    3E 90                 	LD	A,N     ;==============================================
+  03F5    DB 29                 COMOUT: IN	A,(SIOAC)
+  03F7    CB 57                 	BIT	2,A
+  03F9    28 FA                 	JR	Z,COMOUT
+  03FB    79                    	LD	A,C
+  03FC    D3 28    OTRES+SASINT
+  03C3    28 02                 	JR	Z,$+4
+  03C5    F6 20                 	OR	MOTON
+  03C7    D3 1F                 	OUT	(FDCWRO),A
+  03C9    DB 18                 	IN	A,(SASICO)
+  03CB    CB 5F                 	BIT	BUSY,A
+  03CD    C8               	OUT	(SIOAD),A
+  03FE    C9                    	RET
+                                ;
+                                ;==============================================
+                                ;GET ONE CHARACTER FROM COMMUNICATION TO                   	RET	Z
+  03CE    3E 08                 	LD	A,8
+  03D0    D3 18                 	OUT	(SASICO),A	;RESET
+  03D2    C9                    	RET
+                                ;
+                                ;==========================='A'
+                                ;==============================================
+  03FF    DB 29                 COMIN:	IN	A,(SIOAC)
+  0401    CB 47                 	BIT	0,A
+  0403    28 FA                 	JR	Z,COMIN
+  0405    DB 28               ===================
+                                ;GET ONE CHARACTER FROM KEYBOARD              ;
+                                ;==============================================
+  03D3    FB                    CONIN:	EI
+  03D4    CD FD40               	IN	A,(SIOAD)
+  0407    C9                    	RET
+                                ;
+                                ;==============================================
+                                ;PRINT ONE CHARACTER FROM PRINT TABLE
+                                ;ON ENTRY: IN PRTAB IS THE PRINT TABLE ADDRESS
+                                ;	   IF IT IS ZERO, SIMPLE PRINT
+                                ;FOR PRINT TABLE STRUCTURE SEE SYS REF MANUAL!!
+                                ;==========      ;
+                                ;NOTHING FOUND IN TABLE, PRINT ORIG CHAR
+  043F    E5                    PRTC:	PUSH	HL
+  0440    C5                    	PUSH	BC
+  0441    CD 047A               	CALL	PR1	;PRINT 1 CHARACTER
+  0444    C1          ====================================
+  0408    2A FFAC               LSTTAB:	LD	HL,(PRTAB)
+  040B    7C                    	LD	A,H
+  040C    B5                    	OR	L
+IPL1.1  83-10-24	MACRO-80 3.44	09-Dec-81	PAGE	1-11
+ROM RESIDENT HARDWARE DRIVERS          	POP	BC
+  0445    E1                    	POP	HL
+  0446    C9                    	RET
+                                ;
+  0447    CD FE3A               PRT4:	CALL	LDAHL	;LENGTH OF LEVEL
+  044A    57                    	LD	D,A
+  044B    23   
+
+  040D    28 6B                 	JR	Z,PR1
+  040F    3E 01                 	LD	A,1
+  0411    32 FFC5               	LD	(RESULT+1),A ;# OF REPL CHARS
+  0414    CD FE3A               PRT1:	CALL	LDAHL	;# OF LEVELS
+  0417    5F                    	LD	E,A                 	INC	HL
+  044C    7A                    PRT5:	LD	A,D
+  044D    A7                    	AND	A	;ZERO?
+  044E    28 D8                 	JR	Z,PRT2	;GET NEXT ONE
+  0450    CD FE3A               	CALL	LDAHL
+  0453    15                    	D
+  0418    23                    	INC	HL
+  0419    1C                    	INC	E
+  041A    3A FFC5               	LD	A,(RESULT+1)
+  041D    3D                    	DEC	A
+  041E    47                    	LD	B,A	;INIT # OF RPL CHARS-1
+  041F    28 07    EC	D
+  0454    23                    	INC	HL
+  0455    B9                    	CP	C
+  0456    20 1A                 	JR	NZ,PRT8
+  0458    CD FE3A               PRT6:	CALL	LDAHL
+  045B    4F                    	LD	C,A
+  045C    23                    	I             	JR	Z,PRT2	;IGNORE AT TRANSP TABLE
+  0421    CD FE3A               	CALL	LDAHL	;BACKSPACE CHAR
+  0424    23                    	INC	HL
+  0425    32 FFC4               	LD	(RESULT),A
+  0428    04                    PRT2:	INC	B
+  0429    78NC	HL
+  045D    CD 043F               	CALL	PRTC	;PRINT 1ST ELEMENT
+  0460    10 02                 	DJNZ	PRT7	;SEE IF MORE ELEMENTS
+  0462    A7                    	AND	A	;SET RET CODE
+  0463    C9                    	RET
+                                                	LD	A,B
+  042A    BB                    	CP	E
+  042B    38 1A                 	JR	C,PRT4	;NEXT LEVEL
+  042D    3A FFC5               	LD	A,(RESULT+1)
+  0430    3C                    	INC	A
+  0431    32 FFC5               	LD	(RESUL    ;
+  0464    3A FFC5               PRT7:	LD	A,(RESULT+1) ;CORRECTING TABLE?
+  0467    FE 02                 	CP	2
+  0469    3A FFC4               	LD	A,(RESULT) ;BACKSPACE
+  046C    4F                    	LD	C,A
+  046D    CC 043F               	CALT+1),A ;=3 IF END OF
+  0434    FE 03                 	CP	3	     ;CORR TABLE
+  0436    20 DC                 	JR	NZ,PRT1	;SEE CORRECTING TABLE
+                                ;
+                                ;IF CHARACTER IS OVER 0A0H AN NOT IN THE TABL	Z,PRTC	;PRINT IF CORR. TABLE
+  0470    18 E6                 	JR	PRT6	;SEE IF ANY NEXT ELEMENT
+IPL1.1  83-10-24	MACRO-80 3.44	09-Dec-81	PAGE	1-12
+ROM RESIDENT HARDWARE DRIVERS
+
+                                ;
+  0472    78                    PRT8LE
+                                ;REPLACE IT WITH SPACE
+  0438    79                    	LD	A,C
+  0439    FE A0                 	CP	0A0H
+  043B    38 02                 	JR	C,PRTC
+  043D    0E 20                 	LD	C,20H
+                          :	LD	A,B
+  0473    23                    PRT9:	INC	HL
+  0474    15                    	DEC	D
+  0475    3D                    	DEC	A
+  0476    20 FB                 	JR	NZ,PRT9	;IGNORE STRANGE ELEMENT
+  0478    18 D2                 	JR	PRT5
+                                ;
+                                ;
+                                ;==============================================
+                                ;PRINT ONE CHARACTER FROM REGISTER 'C'	      ;
+                                ;I;CHECK AGAIN
+                                ;
+  04AF    32 FFAF               PRI2:	LD	(PRSTAT),A ;IGNORE PRINTER
+  04B2    C9                    	RET
+                                ;
+                                ;================================F CTS=1, PRINT CHARACTER, SET PRSTAT TO FF  ;
+                                ;	   AND EXIT			      ;	
+                                ;ELSE IF PRSTAT=0 EXIT (PRINTER ERROR)	      ;
+                                ;	   ELSE WAIT UP TO 15 SECONDS FOR CTS==============
+                                ;PRINT ONE CHARACTER FROM 'C'
+                                ;ON EXIT: A=0 AND ZERO FLAG SET IF NOT RDY
+                                ;	  A=FF AND ZERO FLAG RESET ID PRINTED
+                             ;
+                                ;ON EXIT ZERO FLAG SET IF NOT PRINTED !!!!!   ;
+                                ;==============================================
+  047A    CD 04B3               PR1:	CALL	LI4
+  047D    C0                    	RET	NZ		;O    ;==============================================
+  04B3    CD FE29               LI4:	CALL	LISTAT
+  04B6    C8                    	RET	Z
+  04B7    79                    LI5:	LD	A,C
+  04B8    D3 14                 	OUT	(USART3),A
+  04BA    F6 FF    K
+  047E    3A FFAF               	LD	A,(PRSTAT)
+  0481    A7                    	AND	A
+  0482    C8                    	RET	Z	;PREVIOUSLY,ALSO BAD
+  0483    3A FFAE               	LD	A,(PRWAIT)
+  0486    47                    	LD	B,A	;DEFAULT: 4*4=16             EXFF:	OR	0FFH
+  04BC    32 FFAF               	LD	(PRSTAT),A
+  04BF    C9                    	RET
+                                ;
+                                ;=============================================
+IPL1.1  83-10-24	MACRO-80  SEC
+  0487    21 FFC1               	LD	HL,CLOCK+1
+  048A    86                    	ADD	A,(HL)
+  048B    47                    	LD	B,A
+  048C    CD 04B3               PRI1:	CALL	LI4	;READY?
+  048F    C0                    	RET	NZ	;OK,PRINTED
+  0490 3.44	09-Dec-81	PAGE	1-13
+ROM RESIDENT HARDWARE DRIVERS
+
+                                ;LIST ONE OR MORE SCREEN LINES
+                                ;ON ENTRY: BC = SCREEN ADDRESS
+                                ;	   A  = NUMBER OF LINES
+             78                    	LD	A,B
+  0491    96                    	SUB	(HL)
+  0492    20 F8                 	JR	NZ,PRI1
+  0494    3A FFB0               	LD	A,(PRCONT)
+  0497    A7                    	AND	A
+  0498    28 15                 	JR	Z,PRI2	;NO                      ;ON EXIT:  A  = ZERO IF BAD
+                                ;=============================================
+  04C0    A7                    PRISCR:	AND	A
+  04C1    C8                    	RET	Z
+  04C2    F5                    	PUSH	 MESSAGE
+                                ;
+  049A    C5                    PRI15:	PUSH	BC
+  049B    21 05A4               	LD	HL,PRIGN ;IGNORE PRINTER?
+  049E    CD 059B               	CALL	TXOUT
+  04A1    CD 03D3               	CALL	CONIN
+  04A4    AF	;NUMBER OF LINES
+  04C3    E1                    	POP	HL
+  04C4    3A FFB0               	LD	A,(PRCONT)
+  04C7    F5                    	PUSH	AF
+  04C8    97                    	SUB	A
+  04C9    32 FFB0               	LD	(PRCONT),A ;NO MESSAGE
+  04C1                    	POP	BC
+  04A5    D6 1B                 	SUB	ESC	;ESCAPE?
+  04A7    28 06                 	JR	Z,PRI2
+  04A9    CD 04B3               	CALL	LI4
+  04AC    C0                    	RET	NZ	;OK
+  04AD    18 EB                 	JR	PRI15	CC    E5                    	PUSH	HL
+  04CD    C5                    	PUSH	BC	;START ADDR
+                                ;
+                                ;REMOVE ALL CHARACTERS FROM THE QUEUE
+  04CE    21 FFC0               PRS1:	LD	HL,CLOCK
+  04D1    7E                    	LD	A,(HL)
+  04D2    C6 02                 	ADD	A,2
+  04D4    BE                    	CP	(HL)
+  04D5    20 FD                 	JR	NZ,$-1	;WAIT UNTIL NO KEY
+  04D7    CD FD40               	CALL	CONST
+  04DA    28 05              ;CALCULATE LENGTH
+  0516    21 0000               	LD	HL,0
+  0519    11 0050               	LD	DE,50H
+IPL1.1  83-10-24	MACRO-80 3.44	09-Dec-81	PAGE	1-14
+ROM RESIDENT HARDWARE DRIVERS
+
+  051C    19                    PRS4:	ADD	HL,DE
+  051D    10 F     	JR	Z,PRS15	;NO KEY
+  04DC    CD 03D3               	CALL	CONIN
+  04DF    18 ED                 	JR	PRS1
+                                ;
+                                ;LOCK THE KEYBOARD AND GET TERMINAL STATUS
+  04E1    0E 19                 D                 	DJNZ	PRS4
+  051F    4D                    	LD	C,L
+  0520    CD FDE5               	CALL	CONOUT
+  0523    4C                    	LD	C,H
+  0524    CD FDE5               	CALL	CONOUT
+  0527    E1                    	POP	HL	;OLD SCREEN PRS15:	LD	C,19H
+  04E3    CD FDE5               	CALL	CONOUT
+  04E6    0E 3F                 	LD	C,'?'
+  04E8    CD 0584               	CALL	ESCAPE
+  04EB    CD 03D3               	CALL	CONIN	;COLUMN
+  04EE    6F                    	LD	L,A
+  04EF    POS
+  0528    01 2020               	LD	BC,2020H
+  052B    09                    	ADD	HL,BC
+  052C    CD 058E               	CALL	SCRPOS
+  052F    0E 0D                 	LD	C,CR
+  0531    CD 0408               	CALL	LSTTAB	;SW TO ONLINE IF POSSIB
+   CD 03D3               	CALL	CONIN
+  04F2    67                    	LD	H,A	;ROW
+  04F3    06 0A                 	LD	B,10
+  04F5    CD 03D3               PRS2:	CALL	CONIN	;REMOVE 10 BYTES
+  04F8    10 FB                 	DJNZ	PRS2
+                                                   ;
+                                ;PRINT EACH LINE WITH CRLF
+  0534    C1                    	POP	BC
+  0535    C5                    PRS5:	PUSH	BC
+  0536    0E 0D                 	LD	C,CR
+  0538    CD 057C               	C          ;
+                                ;POSITION CURSOR TO THE FIRST CHARACTER
+  04FA    E3                    	EX	(SP),HL	;GET START ADDR
+  04FB    3E 1F                 	LD	A,1FH
+  04FD    01 FFB0               	LD	BC,-50H
+  0500    3C         ALL	LSTRDY
+  053B    0E 0A                 	LD	C,LF
+  053D    CD 057C               	CALL	LSTRDY
+  0540    1E 50                 	LD	E,50H
+  0542    D5                    PRS6:	PUSH	DE
+  0543    CD 03D3               	CALL	CONIN
+  0546    4F                    PRS3:	INC	A
+  0501    09                    	ADD	HL,BC
+  0502    38 FC                 	JR	C,PRS3
+  0504    4F                    	LD	C,A	;ROW
+  0505    7D                    	LD	A,L
+  0506    C6 70                 	ADD	A,70H
+  0508    67            	LD	C,A
+                                ;
+                                ;REPL WITH SPACE IF CONTROL
+  0547    CB BF                 	RES	7,A
+  0549    FE 20                 	CP	20H
+  054B    38 04                 	JR	C,PRS8
+  054D    FE                    	LD	H,A
+  0509    69                    	LD	L,C	;COLUMN
+  050A    CD 058E               	CALL	SCRPOS
+                                ;
+  050D    0E 24                 	LD	C,'$'
+  050F    CD 0584               	CALL	ESCAPE	;CHAR INPU7F                 	CP	DEL
+  054F    20 02                 	JR	NZ,PRS9
+  0551    0E 20                 PRS8:	LD	C,20H
+  0553                          PRS9:
+  0553    CD 057C               	CALL	LSTRDY
+  0556    D1                    	POP	DE
+  0557   T MODE
+  0512    E1                    	POP	HL
+  0513    C1                    	POP	BC
+  0514    C5                    	PUSH	BC	;B=NUMB OF LINES
+  0515    E5                    	PUSH	HL
+                                ;
+                               1D                    	DEC	E
+  0558    20 E8                 	JR	NZ,PRS6
+  055A    C1                    	POP	BC
+  055B    10 D8                 	DJNZ	PRS5
+                                ;
+  055D    0E 02                 	LD	C,2
+  055F    CD FDE5               	CALL	CONOUT	;UNLOCK KEYBOARD
+  0562    F1                    	POP	AF
+  0563    32 FFB0               	LD	(PRCONT),A
+  0566    0E 0D                 	LD	C,CR
+  0568    CD 057C               	CALL	LSTRDY
+  056B    0E 0A                 	LD46                    TXOUT:	LD	B,(HL)
+  059C    23                    TXO1:	INC	HL
+  059D    4E                    	LD	C,(HL)
+  059E    CD FDE5               	CALL	CONOUT
+  05A1    10 F9                 	DJNZ	TXO1
+  05A3    C9                    	RET	C,LF
+  056D    CD 057C               	CALL	LSTRDY
+  0570    3A FFAF               	LD	A,(PRSTAT)
+  0573    A7                    	AND	A
+  0574    F5                    	PUSH	AF
+  0575    0E 07                 	LD	C,BELL
+  0577    CC FDE5            
+                                ;
+  05A4    1A                    PRIGN:	DEFB	DERMSG-PRIGN-1
+  05A5    0D 0A 07 49           	DEFB	0DH,0AH,07H,'IGNORE PRINTER WITH ESC'
+  05A9    47 4E 4F 52           
+  05AD    45 20 50 52           
+  05B1    49 4   	CALL	Z,CONOUT
+  057A    F1                    	POP	AF
+  057B    C9                    	RET
+                                ;
+                                ;PRINT ONLY IF OK
+  057C    3A FFAF               LSTRDY:	LD	A,(PRSTAT)
+  057F    A7     E 54 45           
+  05B5    52 20 57 49           
+  05B9    54 48 20 45           
+  05BD    53 43                 
+  05BF    0E                    DERMSG:	DEFB	BADROM-DERMSG-1
+  05C0    0D 0A 53 59           	DEFB	0DH,0AH,'SYSTEM DISK?'
+  05C4                   	AND	A
+  0580    C4 0408               	CALL	NZ,LSTTAB
+  0583    C9                    	RET
+                                ;
+  0584    C5                    ESCAPE:	PUSH	BC
+  0585    0E 1B                 	LD	C,ESC
+IPL1.1  83-10-24	M53 54 45 4D           
+  05C8    20 44 49 53           
+  05CC    4B 3F                 
+  05CE    09                    BADROM:	DEFB	HELLO-BADROM-1
+  05CF    0D 0A 42 41           	DEFB	0DH,0AH,'BAD ROM'
+  05D3    44 20 52 4F           
+  05D7    4DACRO-80 3.44	09-Dec-81	PAGE	1-15
+ROM RESIDENT HARDWARE DRIVERS
+
+  0587    CD FDE5               	CALL	CONOUT
+  058A    C1                    	POP	BC
+  058B    C3 FDE5               	JP	CONOUT
+                                ;
+                                           
+  05D8    0B 0D 0A 49           HELLO:	DEFB	MSGEND-HELLO-1,0DH,0AH,'IPL-1.1',0DH,0AH
+  05DC    50 4C 2D 31           
+  05E0    2E 31 0D 0A           
+  05E4                          MSGEND:
+                                	SUBTTL         ;POSITION THE SCREEN H=ROW L=COLUMN
+  058E    0E 59                 SCRPOS:	LD	C,'Y'
+  0590    CD 0584               	CALL	ESCAPE
+  0593    4C                    	LD	C,H	;ROW
+  0594    CD FDE5               	CALL	CONOUT
+  0597    4D           PORT INITIALIZATION TABLES
+                                	PAGE
+IPL1.1  83-10-24	MACRO-80 3.44	09-Dec-81	PAGE	1-16
+PORT INITIALIZATION TABLES
+
+                                
+                                ;
+                                ;===          	LD	C,L	;COLUMN
+  0598    C3 FDE5               	JP	CONOUT
+                                ;
+                                ;==============================================
+                                ;DISPLAY A LINE TO TERMINAL, ADD CRLF===========================================
+                                ;PARAMETER BLOCK FOR SPECIFY COMMAND	      ;
+                                ;==============================================
+  05E4    03                    SPECBL:	DEFB 3		;LEN	      ;
+                                ;ON ENTRY HL POINTS TO THE TEXT		      ;
+                                ;ON EXIT ALL REGISTERS ARE SAVED EXCEPT HL    ;
+                                ;==============================================
+  059B    GTH
+  05E5    03                    	DEFB 3		;COMMAND CODE
+  05E6    D0                    	DEFB 0D0H	;SRT=6MS HUT=480MS
+  05E7    0A                    	DEFB 0AH	;HLT=5MS
+                                ;
+                                ;==============================================
+                                ;INITIALIZING TABLE FOR CTC, USART AND FDC    ;
+                                ;STRUCTURE:	LENGTH,PORT_ADDRESS,OUTPUT_DATA
+                                ;=============================6    21                    	DEFB CTC1+1
+  0607    45                    	DEFB 45H
+  0608    02                    	DEFB 2		;9600 BD FOR COMMUNIC
+                                ;
+  0609    02                    	DEFB 2		;SEND 2 BYTES
+  060A    22     =================
+  05E8                          IOTAB:
+  05E8    01                    	DEFB 1		;1 BYTE
+  05E9    18                    	DEFB SASICO	;TO SASI CONTROLLER
+  05EA    08                    	DEFB 8		;RESET
+                                               	DEFB CTC1+2
+  060B    45                    	DEFB 45H
+  060C    10                    	DEFB 10H	;1200 BD FOR PRINTER
+                                ;			DEVIDE IN USART
+                                ;
+  060D    02                    ;
+  05EB    01                    	DEFB 1
+  05EC    08                    	DEFB DMA+8	;RESET DMA
+  05ED    00                    	DEFB 0
+                                ;
+  05EE    01                    	DEFB 1
+  05EF    2B                    	DEFB S	DEFB 2		;SEND 2 BYTES
+  060E    23                    	DEFB CTC1+3
+  060F    D5                    	DEFB 0D5H	;DMA INT POSITIVE EDGE
+IPL1.1  83-10-24	MACRO-80 3.44	09-Dec-81	PAGE	1-17
+PORT INITIALIZATION TABLES
+
+  0610    01                    	DEFIOBC	;RESET TERMINAL CHANNEL
+  05F0    D8                    	DEFB 0D8H
+                                ;
+  05F1    03                    	DEFB 3		;SEND 3 BYTES
+  05F2    20                    	DEFB CTC1	;PORT ADDRESS
+  05F3    D0                    	B 1		;INT ON FIRST COUNT
+                                ;
+  0611    03                    	DEFB 3		;SEND 3 BYTES
+  0612    24                    	DEFB CTC2
+  0613    D8                    	DEFB (INTVEC+8) AND 0FFH
+  0614    D5                    	DEFDEFB INTVEC AND 0FFH ;INTERRUPT VECTOR
+  05F4    45                    	DEFB 45H	;COUNTER,LOAD TIMECONST
+  05F5    01                    	DEFB 1H		;19200 BD FOR CONSOLE
+                                ;
+  05F6    0D                    	DEFB 13
+  05F7 B 0D5H
+  0615    28                    	DEFB 28H	;60HZ FOR TIMER
+                                ;
+  0616    02                    	DEFB 2		;SEND 2 BYTES
+  0617    25                    	DEFB CTC2+1
+  0618    45                    	DEFB 45H
+  0619      2B                    	DEFB SIOBC	;SIO CHANNEL-B CONTROL
+  05F8    D8                    	DEFB 0D8H	;RESET TERM CHAN AGAIN
+  05F9    00                    	DEFB 0
+  05FA    02                    	DEFB 2
+  05FB    E0                    	DEFB (INTVEC+ 00                    	DEFB 0		;OUT: 2400 HZ
+                                ;
+  061A    02                    	DEFB 2		;SEND 2 BYTES
+  061B    27                    	DEFB CTC2+3
+  061C    C5                    	DEFB 0C5H	;FDC INT NEGATIVE EDGE
+  06116) AND 0FFH
+  05FC    04                    	DEFB 4
+  05FD    48                    	DEFB 48H
+  05FE    03                    	DEFB 3
+  05FF    E1                    	DEFB 0E1H
+  0600    05                    	DEFB 5
+  0601    EA                    D    01                    	DEFB 1		;INT ON FIRST COUNT
+                                ;
+  061E    02                    	DEFB 2		;SEND 2 BYTES
+  061F    1F                    	DEFB FDCWRO
+  0620    00                    	DEFB 0
+  0621    10         	DEFB 0EAH
+  0602    01                     	DEFB 1
+  0603    CC                    	DEFB 0CCH
+  0604    20                    	DEFB 20H	;ENABLE REC INTERR
+                                ;
+  0605    02                    	DEFB 2		;SEND 2 BYTES
+  060           	DEFB 0+NOTRES
+                                ;
+  0622    09                    	DEFB 9		;PROGRAM SIO
+  0623    29                    	DEFB SIOAC	;SIO CHANNEL A CONTROL
+  0624    D8                    	DEFB 0D8H	;RESET COMMUN CHANNEL
+  0625    01                    	DEFB 1		;ADDR WR REG-1
+  0626    00                    	DEFB 0		;COMM IN POLLED MODE
+  0627    03                    	DEFB 3		;
+  0628    E1                    	DEFB 0E1H	;8 BIT/CHAR
+  0629    04                    	DEFB 4
+ THEN
+                                ;		IF EXTENSION RAM PRESENT THEN
+                                ;		FILL THE FIRST PAGE WITH E5
+                                ;		END
+                                ;		CLEAR SYSTEM CLOCK
+                          062A    88                    	DEFB 88H	;DIV BY 32, 1,5-STOPBIT
+  062B    05                    	DEFB 5
+  062C    68                    	DEFB 068H	;DISABLE TRANSMITTER
+                                ;
+  062D    06                    	DEFB 6		;SEND 6        ;	END
+                                ;JUMP TO THE LOADED PROGRAM
+                                ;==============================================
+  F618    21 FFC0               MEMDIN:	LD	HL,CLOCK
+  F61B    7E                    	LD	A,(HL)
+   BYTES
+  062E    15                    	DEFB USART3+1
+  062F    0000                  	DEFW 0
+  0631    4000                  	DEFW 4000H
+  0633    CE                    	DEFB 0CEH	;PRINTER 1200BD, ASYNCHR
+  0634    27                    	DEFB 27H	;ENF61C    C6 02                 	ADD	A,2	;WAIT CHAR DELAY
+  F61E    BE                    MEMDI3:	CP	(HL)
+  F61F    20 FD                 	JR	NZ,MEMDI3
+  F621    3A FFBF               	LD	A,(KBYTE)
+  F624    FE 20                 	CP	20H	;SPACE?
+  F626 ABLE IN, OUT, DTR
+                                ;
+                                	.DEPHASE
+  0635'                         BIOS1S:
+                                	SUBTTL INTERFACING JUMP TABLE AND INITIALIZATION IN RAM
+                               28 26                 	JR	Z,MEMD1 ;DO NOT CLEAR RAM DISK
+  F628    3E F8                 	LD	A,0F8H
+  F62A    D3 FF                 	OUT	(MEXTP),A ;SWITCH TO EXT RAM
+  F62C    21 0000               	LD	HL,0
+  F62F    5E                    	LD	E,(HL)    	PAGE
+IPL1.1  83-10-24	MACRO-80 3.44	09-Dec-81	PAGE	1-18
+INTERFACING JUMP TABLE AND INITIALIZATION IN RAM
+
+                                
+                                	.PHASE	0F606H
+  F606                          CBIOS1:
+                 	;IF EXT APPL, IT IS RAM
+  F630    7B                    	LD	A,E
+  F631    2F                    	CPL
+  F632    77                    	LD	(HL),A	;INVERT IT
+  F633    7E                    	LD	A,(HL)
+  F634    AB                    	XOR	E
+  F635    73               ;INTERFACE FOR CONFIGURATION PROGRAM !!!!
+                                ;IF 63K CP/M IS USED, THESE ADDRESSES ARE VALID
+                                ;
+  F606    C3 FD40               	JP	CONST	;CONSOLE STATUS
+  F609    C3 FDE0                          	LD	(HL),E	;RESTORE
+  F636    3C                    	INC 	A	;=0 IF OK
+  F637    20 0C                 	JR	NZ,MEMD0 ;NO EXTENSION
+  F639    26 40                 	LD	H,40H	
+  F63B    11 4001               	LD	DE,4001H
+  F63E    01 3         	JP	CONIJP	;CONSOLE CHARACTER IN
+  F60C    C3 FDE5               	JP	CONOUT	;CONSOLE CHARACTER OUT
+  F60F    C3 FDCC               	JP	LIST1	;PRINT CHAR FROM TABLE
+  F612    C3 FDD6               	JP	COMOJP	;COMM OUTPUT
+  F615    C3 FDDB      FFF               	LD	BC,3FFFH
+  F641    36 E5                 	LD	(HL),0E5H
+  F643    ED B0                 	LDIR		;CLEAR IT
+                                ;
+                                ;CLEAR SYSTEM CLOCK
+  F645    21 0000               MEMD0:	         	JP	COMIJP	;COMM INPUT
+                                ;
+                                ;==============================================
+                                ;SWITCH TO RAM
+                                ;	IF NO SPACE KEY DEPRESSEDLD	HL,0
+  F648    22 FFC0               	LD	(CLOCK),HL
+  F64B    22 FFC2               	LD	(CLOCK+2),HL
+                                ;
+  F64E    3E 02                 MEMD1:	LD	A,2
+  F650    F3                    	DI
+  F651    D3 1E                 	OUT	(MEMMGR),A ;SW IN RAM
+  F653    32 FFBA               	LD	(MSWBYT),A
+  F656    FB                    	EI
+  F657    97                    	SUB	A
+  F658    D3 FF                 	OUT	(MEXTP),A ;SW OUT EXT
+  F65A    C3 D600               	JP	FRSTL                    C      ;IF PORT FF IS WRITTEN WITH 08,18,...F8
+                         C      ;==============================================
+  FD53    2A FF98        C      	LD	HL,(TRACK)
+  FD56    11 0040        C      	LD	DE,40H
+  FD59    ED 52D
+                                ;
+IPL1.1  83-10-24	MACRO-80 3.44	09-Dec-81	PAGE	1-19
+INTERFACING JUMP TABLE AND INITIALIZATION IN RAM
+
+                                	.DEPHASE
+  068C'                         BIOS2S:
+                                       C      	SBC	HL,DE
+  FD5B    38 03          C      	JR	C,MEMD2 ;OK
+  FD5D    F6 FF          C      RETFF:	OR	0FFH
+  FD5F    C9             C      	RET		;TRACK TOO HIGH
+  FD60    7D             C      MEMD2:	LD	A,L
+                         C     	.PHASE 0FD40H
+  FD40                          CBIOS2:
+                                	SUBTTL BIOS
+                                	PAGE
+IPL1.1  83-10-24	MACRO-80 3.44	09-Dec-81	PAGE	1-20
+BIOS
+
+                                
+                    ;
+                         C      ;START WITH F8 PAGE TO PRESERVE THE FIRST 240K
+                         C      ;EVEN AFTER DEBUGGER
+  FD61    2F             C      	CPL
+  FD62    E6 3C          C      	AND	03CH
+  FD64    07             C      	R         C      	INCLUDE	BIOS.MAC
+                         C      ;CONSOLE STATUS RETURNS 0FFH IF CHAR READY
+                         C      ;AND 00 IF NOT
+  FD40    3A FFBE        C      CONST:	LD	A,(KSTAT)
+  FD43    A7             C      	AND	A
+  FDLCA
+  FD65    07             C      	RLCA
+  FD66    F3             C      	DI	;INTERRUPT LEADS TO BREAKDOWN
+  FD67    63             C      	LD	H,E	;HL = 4000H
+  FD68    56             C      	LD	D,(HL)	;SAVE RAM VALUE
+  FD69    F6 08          C      44    C9             C      	RET
+                         C      ;
+                         C      ;==============================================
+                         C      ;READ (OR WRITE) DATA FROM FLOPPY OR HARD DISK;
+                         	OR	8
+  FD6B    D3 FF          C      	OUT	(MEXTP),A ;SELECT BLOCK
+  FD6D    47             C      	LD	B,A	;SAVE I/O ADDR
+  FD6E    5E             C      	LD	E,(HL)	;GET VALUE FROM EXT
+  FD6F    7A             C      	LD	A,D
+  FD70    2F             CC      ;IF DRIVE=10H, MEMORY DISK IS ADDRESSED	      ;
+                         C      ;==============================================
+  FD45    01 0846        C      READSEC: LD	BC,0846H	;FLOPPY CODE
+  FD48    21             C      	DEFB	21H	;SKIP NEXT      	CPL
+  FD71    77             C      	LD	(HL),A	;WRITE TO EXT RAM
+  FD72    97             C      	SUB	A
+  FD73    D3 FF          C      	OUT	(MEXTP),A ;BACK TO NORMAL RAM
+  FD75    7E             C      	LD	A,(HL)	;EXTENSION PRESENT
+  FD76    B INSTRUCTION
+                         C      ;
+  FD49    01 0A45        C      WRITSEC: LD	BC,0A45H ;FLOPPY CODE
+  FD4C    3A FF97        C      RWSEC:	LD	A,(DRIVE)
+  FD4F    FE 10          C      	CP	10H
+  FD51    20 54          C      	JR	NZ,RWDISKA             C      	CP	D	;IF NO CHANGE
+  FD77    72             C      	LD	(HL),D	;RESTORE NORMAL RAM
+  FD78    20 29          C      	JR	NZ,MEMD4 ;NO EXTENSION RAM !
+  FD7A    78             C      	LD	A,B
+  FD7B    D3 FF          C      	OUT	(MEXTP
+                         C      ;
+                         C      ;==============================================
+                         C      ;READ-WRITE TO MEMORY DISK
+                         C      ;THE 16K BLOCKS ARE PRESENT AT 4000-7FFF
+     ),A ;RESTORE CACHE
+  FD7D    73             C      	LD	(HL),E	;OLD EXT VALUE
+                         C      ;
+  FD7E    3A FF9A        C      	LD	A,(SECTOR)
+  FD81    3D             C      	DEC	A
+  FD82    C6 40          C      	ADD	A,40H
+  FD84    67             C      	LD	H,A
+IPL1.1  83-10-24	MACRO-80 3.44	09-Dec-81	PAGE	1-21
+BIOS
+
+  FD85    7D             C      	LD	A,L
+  FD86    E6 03          C      	AND	3
+  FD88    0F             C      	RRCA
+  FD89    0F             C      	RRCA
+  FD8     	PUSH	AF
+                         C      ;IN DEBUGGER THE NEXT COMMAND IS
+                         C      ;MODIFIED TO 'LD A 0'
+  FDBF    3E 02          C      CORRIG:	LD	A,2
+  FDC1    F3             C      	DI
+  FDC2    D3 1E          C      	OUA    0F             C      	RRCA
+  FD8B    0F             C      	RRCA
+  FD8C    B4             C      	OR	H
+  FD8D    57             C      	LD	D,A
+  FD8E    79             C      	LD	A,C	;GET FUNCTION CODE
+  FD8F    ED 4B FF9E     C      	LD	BC,(RWLT	(MEMMGR),A
+  FDC4    32 FFBA        C      	LD	(MSWBYT),A	;SWITCH BACK
+  FDC7    FB             C      	EI
+  FDC8    F1             C      	POP	AF
+  FDC9    E1             C      	POP	HL
+  FDCA    F9             C      	LD	SP,HL
+  FDCB    C9       GT) ;TRANSF LENGTH-1
+  FD93    03             C      	INC	BC
+  FD94    1E 00          C      	LD	E,0	;DE=CACHE MEM ADDR
+  FD96    2A FF9C        C      	LD	HL,(RWBUFF) ;TRANSFER ADDR
+  FD99    FE 45          C      	CP	45H	;WRITE?
+  FD9B    28 01           C      RETURN:	RET
+                         C      ;
+                         C      ;==============================================
+                         C      ;PRINT ONE CHARACTER FROM PRINT TABLE
+                         C      ;ON ENTRY:	     C      	JR	Z,MEMD3
+  FD9D    EB             C      	EX	DE,HL
+  FD9E    ED B0          C      MEMD3:	LDIR
+  FDA0    97             C      	SUB	A	;SET ZERO FLAG
+  FDA1    D3 FF          C      	OUT	(MEXTP),A ;SWITCH EXTENSION OUT
+  FDA3    FB      DE=PRINT TABLE ADDRESS
+                         C      ;==============================================
+  FDCC    21 0408        C      LIST1:	LD	HL,LSTTAB
+  FDCF    18 D9          C      	JR	ROMCALL
+                         C      ;
+                         C      MEMD4:	EI
+  FDA4    20 B7          C      	JR	NZ,RETFF
+  FDA6    C9             C      	RET		;NO ERROR
+                         C      ;
+                         C      ;=============================================
+                            C      ;==============================================
+                         C      ;MAKE REBOOT FROM DRIVE IN 'BOOTDR'
+                         C      ;==============================================
+  FDD1    21 00E0        C      BOOTER:	LD	    C      ;READ-WRITE TO FLOPPY OR HARD DISK
+                         C      ;DIRVER ROUTINES IN ROM
+                         C      ;=============================================
+  FDA7    21 0137        C      RWDISK:	LD	HL,RW0	;ADDR OF READ-WR SUBRHL,BOOTR
+  FDD4    18 D4          C      	JR	ROMCALL
+                         C      ;
+IPL1.1  83-10-24	MACRO-80 3.44	09-Dec-81	PAGE	1-22
+BIOS
+
+                         C      ;==============================================
+                        
+  FDAA    ED 73 FF28     C      ROMCALL: LD	(DSKSP+14H),SP
+  FDAE    31 FF28        C      	LD	SP,DSKSP+14H
+  FDB1    F5             C      	PUSH	AF
+  FDB2    97             C      	SUB	A
+  FDB3    F3             C      	DI
+  FDB4    D3 1E          C C      ;SEND A COMMUNICATION CHARACTER FROM 'C'
+                         C      ;==============================================
+  FDD6    21 03F5        C      COMOJP:	LD	HL,COMOUT
+  FDD9    18 CF          C      	JR	ROMCALL
+                         C      	OUT	(MEMMGR),A	;SWITCH TO PROM
+  FDB6    32 FFBA        C      	LD	(MSWBYT),A	;MARK FOR INTERRUPT
+  FDB9    FB             C      	EI
+  FDBA    F1             C      	POP	AF
+  FDBB    CD 0069        C      	CALL	JPHL
+  FDBE    F5             C       ;
+                         C      ;==============================================
+                         C      ;GET ONE CHARACTER FROM COMMUNICATION TO 'A'
+                         C      ;==============================================
+  FDDB    21 03FF        C      COMIJP:	LD	HL,COMIN
+  FDDE    18 CA          C      	JR	ROMCALL
+                         C      ;
+                         C      
+                         C      ;==============================================
+                     	POP	HL
+  FE0C    C9             C      	RET
+                         C      ;
+                         C      ;==============================================
+                         C      ;START DMA CHANNEL-3 FOR TTY OUTPUT
+                            C      ;GET ONE CHARACTER FROM KEYBOARD
+                         C      ;==============================================
+  FDE0    21 03D3        C      CONIJP:	LD	HL,CONIN
+  FDE3    18 C5          C      	JR	ROMCALL
+                         C       C      ;ON INPUT A=LENGTH OF BLOCK
+                         C      ;==============================================
+  FE0D    3D             C      TTODMA:	DEC	A
+  FE0E    F3             C      	DI
+  FE0F    D3 07          C      	OUT	(DMA+7),A	;      ;
+                         C      ;==============================================
+                         C      ;OUTPUT ONE CHARACTER TO CONSOLE
+                         C      ;THROUGH DMA CHANNEL-3
+                         C      ;CHARACTER ILO LENGTH
+  FE11    3E 80          C      	LD	A,80H
+  FE13    D3 07          C      	OUT	(DMA+7),A	;HI LENGTH
+  FE15    3E 3E          C      	LD	A,TTOBUF AND 0FFH
+  FE17    D3 06          C      	OUT	(DMA+6),A	;LO BUFFER ADDR
+  FE19    3E FF         N REG "C" ON INPUT
+                         C      ;==============================================
+  FDE5    E5             C      CONOUT:	PUSH	HL
+  FDE6    FB             C      TTO1:	EI
+  FDE7    00             C      	NOP		;WAIT FOR INTERRUPT
+  FDE C      	LD	A,TTOBUF SHR 8
+  FE1B    D3 06          C      	OUT	(DMA+6),A	;HI BUFFER ADDR
+  FE1D    21 FFB3        C      	LD	HL,DMSTAT
+  FE20    CB DE          C      	SET	3,(HL)	;TTY OUTPUT FLAG
+IPL1.1  83-10-24	MACRO-80 3.44	09-Dec-81	PAGE	1-23
+BI8    F3             C      	DI
+  FDE9    3A FF92        C      	LD	A,(TBUCOU)	;BUFFER COUNTER
+  FDEC    FE 40          C      	CP	TBULGT	;BUFFER FULL?
+  FDEE    28 F6          C      	JR	Z,TTO1	;YES, WAIT
+  FDF0    3C             C      	INC	A
+  FDF1 OS
+
+  FE22    97             C      	SUB	A
+  FE23    D3 08          C      	OUT	(DMA+8),A	;DISABLE ALL CHANNELS
+  FE25    7E             C      	LD	A,(HL)
+  FE26    D3 08          C      	OUT	(DMA+8),A	;ENABLE THEM
+  FE28    C9             C      	RE   32 FF92        C      	LD	(TBUCOU),A	;INCREMENT COUNTER
+  FDF4    21 FF3D        C      	LD	HL,TTOBUF-1
+  FDF7    85             C      	ADD	A,L
+  FDF8    6F             C      	LD	L,A
+  FDF9    30 01          C      	JR	NC,TTO2
+  FDFB    24       T
+                         C      ;
+                         C      ;=============================================
+                         C      ;LISTAT CHECKS THE LIST STATUS
+                         C      ;ON EXIT A=FF AND ZERO BIT RESET IF READY      C      	INC	H	;HL = NEXT FREE BUFFER ADDR
+  FDFC    71             C      TTO2:	LD	(HL),C	;CHARACTER TO OUTPUT
+  FDFD    3A FF92        C      	LD	A,(TBUCOU)
+  FE00    FE 01          C      	CP	1	;FIRST CHARACTER?
+  FE02    20 06          C      
+                         C      ;	 A=0  AND ZERO BIT SET IF NOT READY
+                         C      ;=============================================
+  FE29    DB 15          C      LISTAT:	IN	A,(USART3+1)
+  FE2B    E6 85          C      	AND	85H
+  FE2	JR	NZ,TTO3	;NO
+                         C      ;DMA COUNTER = LGTH OF DMA BLOCK
+  FE04    32 FF91        C      	LD	(TDMLGT),A
+  FE07    CD FE0D        C      	CALL	TTODMA	;START DMA
+  FE0A    FB             C      TTO3:	EI
+  FE0B    E1             CD    D6 85          C      	SUB	85H		;READY?
+  FE2F    CA FD5D        C      	JP	Z,RETFF
+  FE32    97             C      	SUB	A
+  FE33    C9             C      	RET		;NO
+                         C      ;
+                         C      ;==============================================
+                         C      ;PRINT ONE OR MORE SCREEN LINES
+                         C      ;ON ENTRY: BC = SCREEN ADDRESS (STARTS WITH 0)
+                         C      ;	   A  = NUMBER OF LINES
+                  =================
+                         C      ;INTERRUPT SUBROUTINE FOR DMA
+                         C      ;==============================================
+  FE55    ED 73 FF3C     C      INTDMA:	LD	(SPSAVE),SP
+  FE59    31 FF3C        C      	LD	S       C      ;==============================================
+  FE34    21 04C0        C      PRSCR:	LD	HL,PRISCR
+  FE37    C3 FDAA        C      	JP	ROMCALL
+                         C      ;
+                         C      ;===========================P,SPSAVE
+  FE5C    F5             C      	PUSH	AF
+  FE5D    E5             C      	PUSH	HL
+  FE5E    D5             C      	PUSH	DE
+  FE5F    C5             C      	PUSH	BC
+IPL1.1  83-10-24	MACRO-80 3.44	09-Dec-81	PAGE	1-24
+BIOS
+
+  FE60    21 FFB3===================
+                         C      ;GET A CHARACTER FROM ANY RAM ADDRESS INTO 'A'
+                         C      ;THIS ROUTINE CAN BE CALLED FROM ROM
+                         C      ;==============================================
+  FE        C      	LD	HL,DMSTAT
+  FE63    7E             C      	LD	A,(HL)	;WHICH HAS BEEN BUSY?
+  FE64    01 0008        C      	LD	BC,DMA+8
+  FE67    ED 41          C      	OUT	(C),B	;SHORT DISABLE
+  FE69    ED 40          C      	IN	B,(C)	;GET STATUS B3A    3E 02          C      LDAHL:	LD	A,2
+  FE3C    F3             C      	DI
+  FE3D    D3 1E          C      	OUT	(MEMMGR),A
+  FE3F    7E             C      	LD	A,(HL)
+  FE40    F5             C      	PUSH	AF
+  FE41    97             C      	SUB	A
+ YTE
+  FE6B    A8             C      	XOR	B
+  FE6C    CD FF04        C      	CALL	IRET	;ENABLE CTC LOGIC
+  FE6F    ED 79          C      	OUT	(C),A	;ENABLE CHANNELS NOT RDY
+  FE71    77             C      	LD	(HL),A	;SAVE NEW OCCUPATION BYTE
+  FE72     FE42    D3 1E          C      	OUT	(MEMMGR),A
+  FE44    FB             C      	EI
+  FE45    F1             C      	POP	AF
+  FE46    C9             C      	RET
+                         C      ;
+                         C      ;############# INTERRUPT CB 58          C      	BIT	3,B
+  FE74    28 1B          C      	JR	Z,DMARET ;NO TERMINAL TRANSFER
+                         C      ;
+                         C      ;==============================================
+                         C      ;VARIABLROUTINES #############
+                         C      ;
+                         C      ;==============================================
+                         C      ;FDC INTERRUPT ROUTINE
+                         C      ;===========================ES:   TDMLGT = PREVIOUS DMA LENGTH
+                         C      ;	      TBUCOU = BUFFER INPUT POS COUNTER
+                         C      ;UPDATE TDMLGT AND TBUCOU
+                         C      ;IF NO NEW CHARACTER IN BUFFER THEN EXIT
+            ===================
+  FE47    E5             C      FDCINT:	PUSH	HL
+  FE48    21 FFB2        C      	LD	HL,DSKFLG
+  FE4B    CB C6          C      	SET	0,(HL)	;COMPLETED
+  FE4D    CB 8E          C      	RES	1,(HL)	;READ/WRITE IS OVER
+  FE4F    CB 96                C      ;ELSE MOVE NEW DATA TO BUFFER BEGIN & START DMA
+                         C      ;==============================================
+  FE76    ED 4B FF91     C      	LD	BC,(TDMLGT)	;B=TBUCOU
+  FE7A    78             C      	LD	A,B	
+  FE7       C      	RES	2,(HL)	;RESET IS OVER
+  FE51    E1             C      	POP	HL
+  FE52    FB             C      	EI
+  FE53    ED 4D          C      	RETI
+                         C      ;
+                         C      ;=============================B    91             C      	SUB	C	;HOW MANY NEW CHAR IN BUFF?
+  FE7C    67             C      	LD	H,A
+  FE7D    6F             C      	LD	L,A
+  FE7E    22 FF91        C      	LD	(TDMLGT),HL	;BUFFER STARTS WHERE DMA ENDS
+  FE81    28 0E          C      	JR	Z,DMARET	;NO NEW CHARACTER
+                         C      ;
+  FE83    11 FF3E        C      	LD	DE,TTOBUF	;START OF BUFFER AREA
+  FE86    06 00          C      	LD	B,0
+  FE88    60             C      	LD	H,B
+  FE89    69             C      	LD	L,        C      	JR	NZ,TIM0
+IPL1.1  83-10-24	MACRO-80 3.44	09-Dec-81	PAGE	1-25
+BIOS
+
+  FEAC    2A FF7E        C      TIM1:	LD	HL,(TBYTE)
+  FEAF    2B             C      	DEC	HL
+  FEB0    22 FF7E        C      	LD	(TBYTE),HL
+  FEB3    7C             C
+  FE8A    19             C      	ADD	HL,DE
+  FE8B    4F             C      	LD	C,A
+  FE8C    ED B0          C      	LDIR		;MOVE DOWN NEW DATA
+  FE8E    CD FE0D        C      	CALL	TTODMA	;START DMA
+  FE91    C1             C      DMARET:	POP	BC
+  FC      	LD	A,H
+  FEB4    B5             C      	OR	L
+  FEB5    20 25          C      	JR	NZ,TIM9
+                         C      ;
+  FEB7    21 FFB2        C      	LD	HL,DSKFLG
+  FEBA    CB 4E          C      	BIT	1,(HL)	;READ-WRITE OPR?
+  FEBC    28E92    D1             C      	POP	DE
+  FE93    E1             C      	POP	HL
+  FE94    F1             C      	POP	AF
+  FE95    ED 7B FF3C     C      	LD	SP,(SPSAVE)
+  FE99    FB             C      	EI
+  FE9A    C9             C      	RET
+             06          C      	JR	Z,TIM3	;NO
+                         C      ;
+  FEBE    7E             C      	LD	A,(HL)
+  FEBF    F6 15          C      	OR	NOTRDY+COMPL+RESET ;DISK,NOT READY!
+  FEC1    77             C      	LD	(HL),A
+  FEC2    18 18                      C      ;
+                         C      ;==============================================
+                         C      ;TIMER INTERRUPT APPEARS EVERY 16.6MS. ACTIONS:
+                         C      ;1. DECREMENT TIME COUNT AND EXIT IF NO C      	JR	TIM9
+                         C      ;
+  FEC4    CB 76          C      TIM3:	BIT	6,(HL)	;TRANSIENT FOR MOTOR ON?
+  FEC6    CB B6          C      	RES	6,(HL)
+  FEC8    28 09          C      	JR	Z,TIM7
+  FECA    CB EE          C      	SET	5,NZERO
+                         C      ;2. IF RDWR FLAG OF DSKFLG BYTE IS SET, THEN
+                         C      ;   SET THE COMPL & NOTREADY FLAGS (DISK NOT
+                         C      ;   READY) AND EXIT
+                         C      ;3. IF M(HL)	;MOTOR RUNS OK
+  FECC    3E 04          C      	LD	A,4
+  FECE    32 FF7F        C      	LD	(TBYTE+1),A ;STOP IF NOTHING COMES
+  FED1    18 09          C      	JR	TIM9
+  FED3    CB AE          C      TIM7:	RES	5,(HL)	;MOTON FLAG
+  FED5    7E      OTSWO FLAG IS SET (MOTOR RUN-UP READY)
+                         C      ;   THIS FLAG IS RESET AND MOTON FLAG IS SET.
+                         C      ;4. IF MOTON FLAG IS SET, RESET IT AND SWITCH
+                         C      ;   THE MOTOR OFF
+              C      	LD	A,(HL)
+  FED6    E6 80          C      	AND	SASINT
+  FED8    F6 10          C      	OR	NOTRES
+  FEDA    D3 1F          C      	OUT	(FDCWRO),A
+                         C      ;
+                         C      ;EXTERNAL INTERRUPT ROUTI                  C      ;==============================================
+  FE9B    FB             C      TIMER:	EI	;LET HIGHER PRIORITY INTR
+  FE9C    F5             C      	PUSH	AF
+  FE9D    22 FF2A        C      	LD	(HLSAVE),HL
+  FEA0    21 FFC0     NE IS IN RAM !!!
+                         C      ;CONSIDER IF PREVIOUSLY IN ROM OR RAM?
+  FEDC    3E 02          C      TIM9:	LD	A,2	;SWITCH TO RAM
+  FEDE    D3 1E          C      	OUT	(MEMMGR),A
+  FEE0    F1             C      	POP	AF	;CPM STACK IS PO   C      	LD	HL,CLOCK
+  FEA3    3E 04          C      	LD	A,4
+  FEA5    34             C      TIM0:	INC	(HL)
+  FEA6    20 04          C      	JR	NZ,TIM1
+  FEA8    23             C      	INC	HL
+  FEA9    3D             C      	DEC	A
+  FEAA    20 F9  OR
+  FEE1    CD FFBB        C      	CALL	TINEX-1	;EXTERNAL INTERRUPT
+  FEE4    F5             C      	PUSH	AF
+  FEE5    3A FFBA        C      	LD	A,(MSWBYT)
+  FEE8    D3 1E          C      	OUT	(MEMMGR),A
+  FEEA    2A FF2A        C      	LD	HL,(HLSAVE)
+  FEED    18 13          C      	JR	KIEX
+                         C      ;
+                         C      ;==============================================
+                         C      ;CONSOLE INTERRUPT ROUTINE IS ENTERED AFTER THE
+                           ;VARIABLE INIT VALUES TO BE TRANSFERRED TO RAM
+                                ;==============================================
+                                ;
+                                	.PHASE 0FF80H
+  FF80                                    C      ;SIOB HAS RECEIVED A CHARACTER
+                         C      ;RTS BIT IS TURNED OFF UNTIL THE PORT IS READ
+                         C      ;==============================================
+  FEEF    F5             C      CONINT:	PUSH	A RAMBUF:
+  FF14                          DSKSP	EQU	RAMBUF-6CH
+  FF2A                          HLSAVE	EQU	DSKSP+16H
+  FF2C                          DMSTAK	EQU	HLSAVE+2
+  FF3C                          SPSAVE	EQU	DMSTAK+10H
+  FF3E                        F
+  FEF0    DB 2A          C      	IN	A,(SIOBD)
+  FEF2    32 FFBF        C      	LD	(KBYTE),A	;SAVE CHAR
+  FEF5    3E 05          C      	LD	A,5
+  FEF7    D3 2B          C      	OUT	(SIOBC),A
+  FEF9    3E 6A          C      	LD	A,06AH
+  FEFB    D3 2B  TTOBUF	EQU	SPSAVE+2
+  0040                          TBULGT	EQU	40H	;LENGTH OF TTYOUT BUFF
+  FF7E                          TBYTE	EQU	TTOBUF+TBULGT
+                                ;
+                                ;MISCELLENOUS VARIABLES TO INITIALIZE          C      	OUT	(SIOBC),A	;DISABLE RTS
+  FEFD    3E FF          C      	LD	A,0FFH
+  FEFF    32 FFBE        C      	LD	(KSTAT),A	;SET STATUS
+  FF02    F1             C      KIEX:	POP	AF
+  FF03    FB             C      RETIN:	EI
+  FF04    ED 4D   
+  FF80    FFFF                  TRACK0:	DEFW	-1	;TRACKPOINTERS = -1
+  FF82    FFFF                  	DEFW	-1	;= 0FF IF UNDEFINED
+                                ;
+  FF84    09                    RWCOMD:	DEFB	09H	;FLOPPY READ-WRITE OP
+  FF85    0046          C      IRET:	RETI
+                         C      ;
+                         C      ;==============================================
+                         C      ;CONSOLE ERROR INTERRUPT MAKES SIO ERRORR RESET
+                         C      ;               	DEFW	0046H	;DRIVE-0 ,READ SECT
+  FF87    0001                  	DEFW	0001H	;HEAD, (TRACK #)
+  FF89    0101                  	DEFW	0101H	;# OF BYTES CODED, SECT
+  FF8B    0E10                  	DEFW	0E10H	;GAP LGT, # OF SECTORS
+  FF8D   ==============================================
+  FF06    F5             C      CERINT:	PUSH	AF	;CONS INP OVERRUN
+  FF07    3E 30          C      	LD	A,30H
+IPL1.1  83-10-24	MACRO-80 3.44	09-Dec-81	PAGE	1-26
+BIOS
+
+  FF09    D3 2B          C      	OUT	 00                    	DEFB	0	;DATA LGTH CODED
+                                ;
+  FF8E    02                    RECOMD:	DEFB	2	;LGTH OF RECALIBR COMMD
+  FF8F    0007                  	DEFW	0007H	;DRIVE-0, RECALIBRATE
+                                ;(SIOBC),A ;ERROR RESET
+  FF0B    18 F5          C      	JR	KIEX
+                                	.DEPHASE
+                                	SUBTTL INTERNAL VARIABLES AND DRIVER PARAMETER BLOCK
+                                	PAGE
+IPL1.1  83-10-24	MAC
+  FF91    00                    TDMLGT:	DEFB	0	;TTOUT DMA LGTH
+  FF92    00                    TBUCOU:	DEFB	0	;TTOUT BUFFER COUNTER
+                                ;
+  FF93    0000*                 NONMI:	DEFW	DINIT
+                                ;RO-80 3.44	09-Dec-81	PAGE	1-27
+INTERNAL VARIABLES AND DRIVER PARAMETER BLOCK
+
+                                
+  0859'                         BUFTAB:
+                                ;==============================================
+                   
+  FF95    03                    SKCOMD:	DEFB	3	;LGTH OF SEEK COMMAND
+  FF96    0F                    	DEFB	0FH	;SEEK
+                                ;
+                                ;==============================================
+                                ;THIS IS THE PARAMETER BLOCK POINTED TO AT FFD0	   
+                                ;==============================================
+  FF97    00                    DRIVE:	DEFB	0	 ;00  ACTUAL DRIVE NUMBER
+  FF98    0000                  TRACK MOTSWO	EQU BIT6 ;MOTOR IN TRANSIENT
+  0080                          SASINT	EQU BIT7 ;SASI INTERFACE
+                                ;
+  FFB3    40                    DMSTAT:	DEFB	40H	 ;1C  INTERNAL DMA SHADOW BYTE
+  FFB4    FDCB                  HDERS:	DEFW	0	 ;01  ACTUAL TRACK NUMBER
+  FF9A    01                    SECTOR:	DEFB	1	 ;03  ACTUAL SECTOR NUMBER
+  FF9B    00                    HEAD:	DEFB	0	 ;04  ACTUAL HEAD NUMBER
+  FF9C    D600                  RWBUFF:	DEFW	0D600H	 ;05  READ-WRITE BUFFEU:	DEFW	RETURN	 ;1D  XEBEC ERROR ROUTINE
+  FFB6    C900                  DSKTR:	DEFW	0C900H	 ;1F  TRACK NUMBER UNCHANGED
+  FFB8    FE34                  PRS:	DEFW	PRSCR	 ;21  ADDR OF PRINT SCREEN
+  FFBA    00                    MSWBYT:	DEFB	0	 ;23  0 IFR ADDR
+  FF9E    0FFF                  RWLGT:	DEFW	0FFFH	 ;07  READ-WRITE LENGTH-1
+  FFA0    FD45                  RDS:	DEFW	READSEC	 ;09  READ SECT SUBR
+  FFA2    FD49                  WRS:	DEFW	WRITSEC	 ;0B  WRITE SECT SUBR
+  FFA4    027C             ROM, 2 IF RAM PROGR RUNS
+  FFBB    C3                    	DEFB	0C3H	 ;24  JUMP TO EXT TIMER INT
+  FFBC    FDCB                  TINEX:	DEFW	RETURN	 ;26  ADDRESS OF EXTERNAL TIMER INT
+  FFBE    00                    KSTAT:	DEFB	0	 ;27  KEY STATUS: NO KE      STEP:	DEFW	SEEK-0	 ;0D  SEEK ROUTINE ADDR IN PROM !!!!!!
+  FFA6    0299                  RECAL:	DEFW	RECALI-0 ;0F ECALIBR SUBR ADDR IN PROM !!!
+  FFA8    FDD1                  	DEFW	BOOTER	 ;11  BOOTSTAP SUBR
+  FFAA    FE29                  	DEFW	Y DEPRESSED
+                                ;
+                                ;THE FOLLOWING BYTES ARE NOT INITIALIZED
+  FFBF                          KBYTE	EQU	KSTAT+1	 ;28  LAST DEPRESSED KEY
+  FFC0                          CLOCK	EQU	KBYTE+1	 ;29  4 LISTAT	 ;13  LIST STATUS
+  FFAC    0000                  PRTAB:	DEFW	0	 ;15  PRINT TABLE ADDR
+  FFAE    04                    PRWAIT:	DEFB	4	 ;17  PRINT LOOP FOR 16 SECONDS
+  FFAF    FF                    PRSTAT:	DEFB	0FFH	 ;18  PRINTER ASSUMED RDY
+  FBYTES LONG 60 HZ CLOCK
+  FFC4                          RESULT	EQU	CLOCK+4	 ;2D  FLOPPY RESULT BYTES
+  FFC4                          XEBEC	EQU	RESULT	 ; OR HARD DISK PAR BLOCK
+                                ;5 NONINITALIZED BYTES ARE RESERVED
+         FB0    00                    PRCONT:	DEFB	0	 ;19  NO MESSAGE IF NOT RDY
+  FFB1    55                    BOOTDR:	DEFB	INIFLG	 ;1A  BOOTING DRIVE (FF,0 OR 1)
+  FFB2    08                    DSKFLG:	DEFB	NOFLOP	 ;1B  INTERNAL DISK FLAG
+  0001                                     	.DEPHASE
+  0898'                         INTTAB:
+                                	.PHASE INTVEC
+                                ;CTC1 INTERRUPTS
+                                ;==============================================
+              COMPL	EQU BIT0 ;OPR COMPLETED
+  0002                          RDWR	EQU BIT1 ;READ OR WR OP
+  0004                          RESET	EQU BIT2 ;CONTROLLER RESETTED
+  0008                          NOFLOP	EQU BIT3 ;=1 IF NO FLOPPY CONTR
+IPL1.1  8                              ;THE 1ST WORD GIVES THE INTERFACE TO THE USER ;
+                                ;OF THE BIOS, BECAUSE THIS CTC IS USED FOR    ;
+                                ;CLOCK GENERATOR AND MAKES NO INTERRUPT	      ;
+               3-10-24	MACRO-80 3.44	09-Dec-81	PAGE	1-28
+INTERNAL VARIABLES AND DRIVER PARAMETER BLOCK
+
+  0010                          NOTRDY	EQU BIT4 ;DISK NOT RDY
+                                ;MOTON	EQU BIT5 ;MOTOR ON (PREV DEF)
+  0040                                          ;=============================================
+  FFD0    FF97                  	DEFW DRIVE	;PAR BLOCK ADDR FOR CP/M
+  FFD2    FF03                  	DEFW RETIN
+  FFD4    FF03                  	DEFW RETIN
+  FFD6    FE55                  	DEFW INTDMA
+                                ;CTC2 INTERRUPTS
+  FFD8    FE9B                  	DEFW TIMER
+  FFDA    FF03                  	DEFW RETIN
+  FFDC    FF03                  	DEFW RETIN
+  FFDE    FE47                  	DEFW FDCINT
+                    0020 	CTC1            
+0024 	CTC2            0272 	DDMEX           0268 	DDMR1           
+0270 	DDMR2           025A 	DDMRES          0237 	DDMSET          
+007F 	DEL             05BF 	DERMSG          086C*	DINIT           
+0000 	DMA                               ;
+                                ;SIO INTERRUPTS
+  FFE0    FF03                  	DEFW RETIN
+  FFE2    FF03                  	DEFW RETIN
+  FFE4    FEEF                  	DEFW CONINT
+  FFE6    FF06                  	DEFW CERINT
+    FE91 	DMARET          FF2C 	DMSTAK          
+FFB3 	DMSTAT          FF97I 	DRIVE           0040 	DS4EN           
+FFB2 	DSKFLG          FF14 	DSKSP           FFB6 	DSKTR           
+001B 	ESC             0584 	ESCAPE          04BA 	EXFF            
+F  FFE8    FF03                  	DEFW RETIN
+  FFEA    FF03                  	DEFW RETIN
+  FFEC    FF03                  	DEFW RETIN
+  FFEE    FF03                  	DEFW RETIN
+                                	.SALL
+                          +     	REPE47 	FDCINT          001F 	FDCWRO          001B 	FDDAT           
+001A 	FDSTAT          01E1 	FFRET           D600 	FRSTLD          
+FFB4 	HDERSU          FF9BI 	HEAD            05D8 	HELLO           
+FF2A 	HLSAVE          0055 	INIFLG          0323 	INT	-$
+                          +     	DEFB	0FFH
+                          +     	ENDM
+                                	.DEPHASE
+                                	ORG	0A00H	;DEBUGGER STARTS AT 0A00H!
+                                	END
+IPL1.1  83-10-P             
+0327 	INP0            032A 	INP1            FE55 	INTDMA          
+0898'	INTTAB          FFD0 	INTVEC          031E 	INTW1           
+031B 	INTWAI          05E8 	IOTAB           FF04 	IRET            
+0069 	JPHL            FFBF 	KBYTE   24	MACRO-80 3.44	09-Dec-81	PAGE	S
+INTERNAL VARIABLES AND DRIVER PARAMETER BLOCK
+
+Macros:
+
+Symbols:
+006F 	BADCHS          05CE 	BADROM          0007 	BELL            
+0635'	BIOS1S          068C'	BIOS2S          0001 	BIT0            
+0002 	BIT1             FF02 	KIEX            
+FFBE 	KSTAT           FE3A 	LDAHL           000A 	LF              
+04B3 	LI4             04B7 	LI5             FDCC 	LIST1           
+FE29 	LISTAT          057C 	LSTRDY          0408 	LSTTAB          
+F645 	MEMD0                0004 	BIT2            0008 	BIT3            
+0010 	BIT4            0020 	BIT5            0040 	BIT6            
+0080 	BIT7            FFB1 	BOOTDR          FDD1 	BOOTER          
+00E0 	BOOTR           010A 	BOOTR1          0114 	BOOTR2            F64E 	MEMD1           FD60 	MEMD2           
+FD9E 	MEMD3           FDA3 	MEMD4           F61E 	MEMDI3          
+F618 	MEMDIN          001E 	MEMMGR          00FF 	MEXTP           
+02DB 	MOT1            02E5 	MOT2            0020 	MOTON           
+02C4
+0120 	BOOTR3          0859'	BUFTAB          0003 	BUSY            
+F606 	CBIOS1          FD40 	CBIOS2          FF06 	CERINT          
+0053 	CHS             0074 	CHSOK           FFC0 	CLOCK           
+FDDB 	COMIJP          03FF 	COMIN           FDD6 	C 	MOTON?          0040 	MOTSWO          05E4 	MSGEND          
+FFBA 	MSWBYT          0008 	NOFLOP          0093 	NOFLPY          
+FF93 	NONMI           0010 	NOTRDY          0010 	NOTRES          
+02E7 	OUT             02ED 	OUT0            030D 	OUT1  OMOJP          
+03F5 	COMOUT          0001 	COMPL           FDE0 	CONIJP          
+03D3 	CONIN           FEEF 	CONINT          FDE5 	CONOUT          
+03F0 	CONP1           FD40 	CONST           006A 	CONTIN          
+FDBFI 	CORRIG          000D 	CR              
+02EF 	OUT2            FFD0I 	PAR             000D 	PORIN1          
+0009 	PORINI          047AI 	PR1             FFB0I 	PRCONT          
+048C 	PRI1            049A 	PRI15           04AF 	PRI2            
+05A4 	PRIGN           04C0 	PRISCR          FFB8 	PRS             
+04CE 	PRS1            04E1 	PRS15           04F5 	PRS2            
+0500 	PRS3            051C 	PRS4            0535 	PRS5            
+0542 	PRS6            0551 	PRS8            0553 	PRS9            
+FE34 	PRSCR          INEX           FF98I 	TRACK           FF80 	TRACK0          
+FDE6 	TTO1            FDFC 	TTO2            FE0A 	TTO3            
+FF3E 	TTOBUF          FE0D 	TTODMA          059C 	TXO1            
+059B 	TXOUT           0014 	USART3          0314 	WAIT     FFAF 	PRSTAT          0414 	PRT1            
+0428 	PRT2            0447 	PRT4            044C 	PRT5            
+0458 	PRT6            0464 	PRT7            0472 	PRT8            
+0473 	PRT9            FFAC 	PRTAB           043F 	PRTC            
+FFAE         
+0311 	WAITINP         FD49I 	WRITSEC         FFA2 	WRS             
+033E 	XC1             0348 	XC15            034E 	XC2             
+035B 	XC4             0369 	XC44            0389 	XC5             
+038C 	XC6             0399 	XC7          	PRWAIT          FF80 	RAMBUF          FFA0 	RDS             
+0002 	RDWR            FD45I 	READSEC         FFA6 	RECAL           
+02AE 	RECAL1          0299 	RECALI          FF8E 	RECOMD          
+0000 	REQ             0004 	RESET           FFC4I 	RESUL   0334 	XCOMD           
+FFC4 	XEBEC           03B7 	XRDY            0174 	XRW             
+03A1 	XRWPRO          03B5 	XRX             
+
+
+
+No Fatal error(s)                                                                                         T          
+FD5D 	RETFF           FF03 	RETIN           FDCB 	RETURN          
+009D 	ROMB1           00B1 	ROMB15          00B5 	ROMB2           
+FDAA 	ROMCALL         0137 	RW0             FF9CI 	RWBUFF          
+FF84 	RWCOMD          FDA7 	RWDISK    ееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее      017D 	RWFLO           
+FF9EI 	RWLGT           01E4 	RWP0            0215 	RWP2            
+IPL1.1  83-10-24	MACRO-80 3.44	09-Dec-81	PAGE	S-1
+INTERNAL VARIABLES AND DRIVER PARAMETER BLOCK
+
+0220 	RWP3            01E4 	RWPROC          01A5 	RWS1  ееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее          
+01A7 	RWS2            01BD 	RWS3            FD4C 	RWSEC           
+0018 	SASICO          0016 	SASIDA          0080 	SASINT          
+058E 	SCRPOS          FF9AI 	SECTOR          027C 	SEEK            
+0283 	SEEK0           0287 	SEEK1      

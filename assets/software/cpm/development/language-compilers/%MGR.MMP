@@ -1,0 +1,11 @@
+%MGR ;John Lewkowicz - NYS College of Veterinary Medicine
+ ;Restore globals saved with ^%MGS
+ K  S Q="""" W !!!!!,?30,"Global Restore",!!
+ W !,"YOU must KILL the globals unless you want a merge!",!
+GR0 R !,"Restore File on Drive (A-H) ? : ",SD Q:SD=""ееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее
+ I "??"[SD W "  Drive ID like 'A' or 'B' etc." G GR1
+ I SD'?1U!("ABCDEFGH"'[SD) W " ??" G GR0
+GR1 R !,"Name of Save File: ",F Q:F=""
+ I "??"[F W "   Name (without extension) of save file." G GR1
+GR2 R !,"Restore globals to Drive (A-H) ? : ",RD
+ I "??ееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее

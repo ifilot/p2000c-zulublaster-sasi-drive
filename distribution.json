@@ -1,0 +1,37 @@
+{
+  "drives": {
+    "A": [
+      "core/*",
+      "cpm/communications/kermit/KERMIT.COM"
+    ],
+    "D": {
+      "0": [
+        "core/P2EDIT.COM",
+        "core/P2FILE.COM"
+      ],
+      "1": [
+        "cpm/development/basic-80/MBASIC.COM"
+      ],
+      "2": [
+        "cpm/development/language-compilers/COBOL*",
+        "cpm/development/language-compilers/COPLIB.REL",
+        "cpm/development/language-compilers/L80.COM"
+      ],
+      "3": [
+        "cpm/applications/supercalc-2/SC2.COM",
+        "cpm/applications/supercalc-2/SC2.OVL",
+        "cpm/applications/supercalc-2/SC2.HLP"
+      ]
+    },
+    "E": [],
+    "F": [
+      "cpm/games/zork1/*",
+      "cpm/games/zork2/*",
+      "cpm/games/zork3/*",
+      "cpm/games/chess/*",
+      "cpm/games/ladder/LADDER.COM",
+      "cpm/games/ladder/LADDER.DAT",
+      "cpm/games/pacman/*"
+    ]
+  }
+}

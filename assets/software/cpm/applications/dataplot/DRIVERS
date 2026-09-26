@@ -1,0 +1,430 @@
+.cw 10
+.UJ 0
+.HE P2000C                    DATAPLOT+                Plotter Interfacing
+.fo                                page #                        17.May.84 
+
+
+
+1.   
+
+1.1  DATAPLOT+ Plotter access
+
+     DATAPLOT« ió configureä tï senä a diagraí 130-0³ oæ thå Systeí Referencå anä Servicå Manuaì 
+     foò morå details).
+
+     NOTE: Thå boardó fitteä tï earlù P2000C'ó arå noô aó showî iî thå 
+           circuiô diagram® Thå differencå ió iî thå uså oæ piî 4® Thå 
+           earlù  machlì plotteò (hardcopy© outpuô  tï 
+     thå CP/Í printeò (LST:)®  Thereforå thå plotteò musô bå connecteä 
+     tï thå printeò socket.
+
+
+1.2  P2000C Printer port configuration
+
+     Severaì  characteristicó  oæ thå printeò porô arå alterablå  witè 
+ineó holä thió piî high®  Thå diagraí showó  thå 
+           piî lefô floating® Thió ió thå ne÷ version.
+
+     Thå  (serial©  printeò porô ió wireä aó á  simplå  DCE®  ie®  thå 
+     connectoò  (female©  ió  wireä tï emulatå á  modem¬  anä  maù  bå 
+      thå CONFIÇ program® Thió prograí ió explaineä iî thå Philipó CP/Í 
+     useò guide¬  Chap® 3¬ anä CP/Í referencå guide® Yoõ musô consideò 
+     thå following:
+
+        1.  PRINTEÒ  SPEED Thå BAUÄ ratå oæ thå plotteò  anä  computeò 
+                connecteä   directlù  tï  mosô  seriaì  plotteró   (DTEs)®   Datá 
+     transmissioî froí thå computeò ió suspendeä wheî piî 2° (DTR©  ió Š     lo÷ (negative)®  Thå defaulô statå oæ thió linå ió alsï low¬ thuó 
+     á  higè  signaì  musô bå presenô musô bå thå same® Ideallù selecô thå highesô ratå whicè ió 
+            alsï compatiblå witè anù existinç printer.
+
+        2.  PRINTEÒ  TABLE  Thå  Printeò tablå ió á  conversioî  tablå 
+            whicè allowó correcô selectioî oæ nationaì charactfoò thå datá tï bå senô  bù  thå 
+     computer® Thå plotteò buffeò statuó musô bå connecteä tï thió piî 
+     foò  handshakinç tï occur®  Therå ió nï XON/XOFÆ  (STALL¬  13/11© 
+     handshaking.
+
+
+     Pinouts     (Default state, current release)
+eró  etã 
+            oî differenô printers®  Sincå iô maù thereforå corrupô thå 
+            instructionó  senô tï thå plotteò iô shoulä bå selecteä aó 
+            'empty'®  Iî  somå  caseó thå tablå wilì  noô  affecô  thå 
+            plotter® Thió 
+          1<<>> Earthed at connector
+          2-<-- Input¬  'Transmitteä  data§ (sincå iô woulä havå 
+                        been transmitted from the 'terminal' to 
+                        the 'modem')
+          3-->- Output, 'Received' data
+     ió dependenô oî thå codeó useä tï direcô thå 
+            plotter¬ anä thå tablå iî use.
+
+        3.  PRINTEÒ  TIMEOUT  Thå delaù timå (seconds©  seô herå  wilì 
+            neeä tï bå greateò thaî thå timå whicè elapseó betweeî thå 
+            plo     4-    Not connected (Was high on early versions)
+          5-->- Output, CTS. Not recommended for use
+          6-->- Output, DSR. Provides a high status line
+          7-<>- Signal ground (as pin 1)
+         20-<-- Input, DTR Must be pulled high tteò  buffeò  statuó  goinç froí 'ready§ tï 'full§  anä 
+            theî bacë tï 'ready'® Iî generaì 3° secondó ió ample.
+
+
+1.3  P2000C Printer Port Connections and data format
+
+     Thå  pinoutó  oæ  thió  (anä thå  other©  seriaì  connectoró  arå for output
+
+     All others not connected.
+
+   CONNECTOR: Sub-minature 'D' type 25 way female
+
+
+Thå datá formaô ió ± starô bit¬ ¸ datá bits¬ nï parity¬ ²   stoğ bits.
+
+
+1.4   Cable and Plotter Configurations
+     
+     NOTE:  Cableó   sho÷  min
+     alterablå bù internaì jumperó (cuô anä solder)®  Thió descriptioî 
+     assumeó thå defaulô state»  ie®  J1º  1--2¬ 3--4¬ J2º 1--2¬ 3--4¬ 
+     J3º 1--2,3--4.
+
+     (Seå  pageó  1° tï 1³ oæ sectioî 1³ oæ parô ² oæ  chapteò  ³  anä 
+     circuiôimuí  wirinç  requireä   (foò   standarä                  
+            jumpers).
+
+            Wherå  applicablå  switcheó arå seô tï givå  datá  length¬ 
+            stoğ bitó  anä paritù compatiblå witè thå P2000C®  Iî somå 
+            caseó   rigorouó  observancå  oæ  theså  settingó  ió  noô 
+            required® Otheò settingó arå normallù important.
+
+            Switcè settinç foò BAUÄ ratå selectioî wilì depenä oî  thå 
+            BAUÄ  ratå  iî  use®  Settingó arå showî foò  thå  highesô ------------------------
+1.4.2                       Calcomp M84                         
+----------------------------------------------------------------
+|                 Cable          |           Switches          |
+|-------------------------------
+            possiblå rate® Pleaså refeò tï thå devicå manuaì foò otheò 
+            settings.
+
+            Differenô  symboló arå useä tï indicatå ho÷ tï selecô  thå 
+            switcè settings¬  dependenô oî thå plotter®  Notå thaô 'x§ 
+          -|-----------------------------|
+|          P2000C        Plotter |        *=UP .=down (On)     |
+|                                |                             |
+|          Male            Male  |  1  * }                     |
+|             1----<<>>-  meanó don'ô care.
+
+.paŠ
+
+
+----------------------------------------------------------------
+1.4.1                       Calcomp M81                         
+----------------------------------------------------------------
+|                 Cable ---1     |  2  * } BAUD = 9600         |
+|             3------>-----3     |  3  * }                     |
+|             7-----<>-----·     |  4  .   No parity           |
+|            20-----<------20    |  5  x                       |
+|                        |           Switches          |
+|--------------------------------|-----------------------------|
+|          P2000C        Plotter |  F=Forward, B=Backward (ON) |
+|                                |  SW4       SW3              |
+|          Male                  |  6  .   8 data              |
+|                                |  7  .   2 stop              |
+|                                |  8  .   Not addressable     |
+|                                |  9  *   DTR controlled      |
+|                  Male  |  6  F      6  B             |
+|             1----<<>>----1     |  5  B      5  B  No Parity  |
+|             3------>-----2     |  4  B      4  B  2 stop     |
+|             7-----<>-----·     |  3  B      3  B  8 data     |
+|                                | 10  *   RS232 mode          |
+|                                |                             |
+---------------------------------------------------------------|
+| NOTES: 'US' selects US paper sizes (Not supported by DP+)    |
+     20-----<------5     |  2  B CTS  2  x             |
+|                                |  1  B      1  F             |
+|                                |                             |
+|                                |  Switch 2 fully left, 2400  |
+|        'TEST' should be off                                  |
+|______________________________________________________________|
+.paŠ
+
+
+----------------------------------------------------------------
+1.4.3                       Colorwriter CS10   |                                |  Switch 1 left, No timeshare|
+|                                |                             |
+|                                |                             |
+|---------------------------------------------------------                 
+----------------------------------------------------------------
+|                 Cable          |           Switches          |
+|--------------------------------|-----------------------------|
+|          P2000C        Plotter |     -----|
+| NOTES: Use the socket marked 'TERMINAL' on the Calcomp.      |
+|                                                              |
+|______________________________________________________________|
+
+
+
+
+
+----------------------------------------       1=               |
+|                                |                             |
+|          Male          female  |  1                          |
+|             1----<<>>----1     |  2                          |
+|             3------>-----3     |  3                          |
+|             7-----<>-----·     |  4                          |
+|            20-----<------20    |  5                          |
+|                      |->-5     |  6                          |
+|         5 and 6      ---------------------------------------|
+| NOTES: A serial to parallel converter is required.           |
+|                                                              |
+|______________________________________________________________|
+.paŠ
+
+
+-----|->-6     |  7                          |
+|         must be high |-<-24    |  8                          |
+|         Use P2000C pin 6       |  9                          |
+|         or plotter pin 24      | 10                          |
+|              -----------------------------------------------------------
+1.4.5                         HP7475A                           
+----------------------------------------------------------------
+|                 Cable          |           Switches                            |                             |
+|--------------------------------------------------------------|
+| NOTES:                                                       |
+|                                                              |
+|______|
+|--------------------------------|-----------------------------|
+|          P2000C        Plotter |            1=               |
+|                                |                             |
+|          Male                  |  1  0 } No          ________________________________________________________|
+
+
+
+
+----------------------------------------------------------------
+1.4.4                Comscriber 1 Sweat-P                        
+--------------------------------------------------------        |
+|             1----<<>>----1     |  2  x } Parity              |
+|             3------>-----2     |  3  Y   Not addressable     |
+|             7-----<>-----·     |  4      Metric              |
+|            20-----<------20    |  5      A3  --------
+|                 Cable          |           Switches          |
+|--------------------------------|-----------------------------|
+|          P2000C        Plotter |            1=               |
+|                                |                              |
+|                                |  6  1 }                     |
+|                                |  7  0 } 9600, 1 stop        |
+|                                |  8  1 }                     |
+|                                |  9                 |
+|          Male ******************************************     |
+|             1*                                         *     |
+|             *                                         *      |
+|            *              Centronics o0 }                     |
+|                                |                             |
+|--------------------------------------------------------------|
+| NOTES: The plotter is not adjustable to 8 data bits, the     |
+|        ERROR light will flashnly            *       |
+|           *                                         *        |
+|          *                                         *         |
+|         *                                         *          |
+|        ***********************.                               |
+|______________________________________________________________|
+.paŠ.lh 7
+----------------------------------------------------------------
+1.4.6                       Nicolet Zeta 8                      
+-----------********************           |
+|                                |  9                          |
+|                                | 10                          |
+|                                |                             |
+|----------------------------------------------------------------------------
+|                 Cable          |                             |
+|--------------------------------|-----------------------------|
+|          P2000C        Plotter |                             |
+|                                |     A3 plots only with      |
+|          Male            Male  |     DATAPLOT+               |
+|             1----<<>>----1     |                             |
+|             3------>-----3     |                               R C4   off       limit select    (On=halt on limit)   |
+|        * C3   off  }                                         |
+|        * C2   off  }    Mode 1                               |
+|        * C1   on   }                                           |
+|             7-----<>-----·     |                             |
+|            20-----<------20    |                             |
+|--------------------------------------------------------------|
+| NOTES:      Configuration                          |
+|                                                              |
+|      Thumbwheels (select number in window)                   |
+|        + SW4A 8         Select speed  0=110,8=9600,9=19200   |
+|        R SW4B 2         Pen pressure                           |
+|                                                              |
+|      DIP Switches                                            |
+|          SW01 on=down at the back                            |
+|        R C4   on        Disables echo-print        |
+|                                                              |
+|        * = must be set as shown                              |
+|        R = reccommended setting                              |
+|        x = don't care                              On=print)   |
+|        x C3    x   reserved                                  |
+|        x C2    x   reserved                                  |
+|        R C1   off       Fast Plot speed          (On=slow)   |
+|                                                    |
+|                                                              |
+|      Enablinç  thå auto-senså featurå allowó foò  automatiã  |
+|      detectioî oæ rolleò balì anä nyloî tippeä pens.         |
+|                                                                |
+|          SW02 on=down                                        |
+|        x C8   x    reserved                                  |
+|        * C7   off       Hardwired               (On=modem)   |
+|          C6   x         On=                        |
+|      Thå  papeò  sizå  musô bå seô foò  thå  framå  advancå  |
+|      commands to work accuratly.                             |
+|______________________________________________________________|
+.paŠ
+
+
+--------------------even parity    (Off=odd parity)   |
+|          C5   off       On=parity enabled  (Off=no parity)   |
+|        * C4   on        startup ON-LINE     (off=off-line)   |
+|        x C3   x    reserved                                  |
+|        x C2   x    --------------------------------------------
+1.4.7                          PIXY3                            
+----------------------------------------------------------------
+|                 Cable          |           Switches          |
+|-----------reserved                                  |
+|        x C1   x    reserved                                  |
+|                                                              |
+|          SW03 on=down                                        |
+|        R C8---------------------------------------------------|
+|          P2000C        Plotter |            1=OPEN           |
+|                                |                             |
+|          Male            Male  |  1  1 }  2                  |
+|      off       Auto-sense pen pressure (On=nylon)   |
+|        * C7   on        Metric A3 & A4           (Off=ASA)   |
+|        * C6   off       Multiple pen           (On=single)   |
+|        R Cµ   on        Virtual limit    (Off= hard limit)   |
+|              1----<<>>----1     |  2  1 }  Stop bits          |
+|             3------>-----3     |  3  0  } No                 |
+|             7-----<>-----·     |  4  0  } Parity             |
+|            20-----<------20    |  5  1    8 data bits        |
+|                                |  6  0 }                     |
+|                                |  7  1 } 2400                |
+|                                |  8  1 }                     |
+|                                |                    ---------------------------------
+1.4.9                      Watanabe 4636                        
+----------------------------------------------------------------
+|                 Cable          |           Switches          |
+|----------------------         |
+|--------------------------------------------------------------|
+| NOTES:  BLACK pen in stall 1                                 |
+|______________________________________________________________|
+
+
+
+
+------------------------------------------------|-----------------------------|
+|          P2000C        Plotter |            1= OPEN          |
+|                                | SW1                         |
+|          Male            Male  |  1  0    Not TEST           |
+|             1--------------------------
+1.4.8                       ROLAND DXY800                       
+----------------------------------------------------------------
+|                 Cable          |           Switches          |
+|---------------------------------<<>>----1     |  2  0 }                     |
+|             3------>-----3     |  3  0 }                     |
+|             7-----<>-----·     |  4  0 }  Reserved           |
+|            20-----<------20    |  5  0 }                     |
+|      ---|-----------------------------|
+|          P2000C        Plotter |            1=ON             |
+|                                |                             |
+|          Male            Male  |  1  0 }                     |
+|              1---<<>                          |  6  0    Always accept      |
+|--------------------------------|  7  0    Buffer space       |
+|                                |  8  1 }  Reserved           |
+|                                |                             |>---1      |  2  0 }                     |
+|              3----->----2      |  3  0 }                     |
+|              6----->----4      |  4  0 }                     |
+|              7----<>----7      |  5  0 }                     |
+|             
+|  SW2                           | SW3                         |
+|   1  0    1/16  (BAUD pre div) |  1  1 }                     |
+|   2  x                         |  2  1 }                     |
+|   3  0 }  No                   |  3  1 }               20----<-----5      |  6  1 }  Baud =9600         |
+|                                |  7  x    Even/odd           |
+|                                |  8  0    8 data             |
+|                                |  9  2    2 stop             |
+|           |
+|   4  0 }  Parity               |  4  1 }   BAUD RATE         |
+|   5  1 }  2                    |  5  1 }   9600              |
+|   6  1 }  Stop bits            |  6  0 }                     |
+|   7  x                         |  7  1 }                                  | 10  0    No parity          |
+|                                |                             |
+|--------------------------------------------------------------|
+| NOTES: 'Speed' select refers to pen speed, 7/8 is for Cent-  |              |
+|   8  0    8 data               |  8  1 }                     |
+|                                |                             |
+|--------------------------------------------------------------|
+| NOTES: DATA format: ASCII              
+|        ronics interface only.                                |
+|        Pen must be homed (bottom left) before switching on.  |
+|______________________________________________________________|
+.paŠ
+
+
+
+
+
+
+
+
+
+-------------------------------                      |
+|                                                              |
+|______________________________________________________________|
+.paŠ
+Thå  followinç noteó outlinå thå importanô pointó tï watcè wheî  usinç 
+thå 621± aó á slavå witè thå P2000C.
+
+     P2000Ã configuration:
+
+     Printeò Tablå emptù (tï inhibiô translatioî oæ characters.
+     Printeò timeouô 2° secondó oò greateò iæ thå plotteò wilì alsï bå 
+     useä aó thå slave.
+     Printeò speeä 1200Baud.
+
+     P2000ó selecteä froí thoså provided®  madå  tï  thå 
+uppeò RS-23² sockeô (female© markeä MODEM® 
+
+Monochrome Plots
+
+     Peî  changeó maù bå disableä bù puttinç contacô ¶ oî switcè  SW0³ 
+     on® Thuó á singlå denså peî (reä ió good© foò photocopyinç maùÃ tï Ramteë connection:
+
+     Male-Femalå RS-232¬ lineó 2,3,7,2° arå required® Nï crosó wiring.
+
+     Ramteë configuration:
+
+     Pleaså  seå  thå  DATAPLOÔ IIÉ  appendicies®  Theù  describå  thå 
+     configuratioî  oæ  thå terminaì aó thå consolå  bå 
+     used.
+åååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååådevicå iî  detail® 
+     Thå  procedurå requireó thå Ramteë tï bå connecteä aó thå  (CP/M© 
+     consolå  anä iî communicatioî witè thå computer®  Thió wilì  alsï 
+     resulô iî thå corecô configuratioî foò uså aó á slave®  Iæ iô  ió 
+     noô  possibåååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååålå  tï  connecô thå Ramteë aó thå consolå  proceeä  aó 
+     follows.
+
+     1º Achievå locaì modå (iæ iî VÔ modå needó SETUP)
+       (seå footnote)
+     2º Enteò thå follownç CGÌ commands
+
+          .[VTOFF]
+          .[TCOÍ 120° Î · 1]
+      åååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååå    .[XOÎ 11]
+          .[XOFF 13]
+
+     3º Puô thå terminaì intï remotå modå witè CTRL-BREAK
+
+     4º Verifù thaô thå terminaì wilì displaù infor-matioî wheî actinç 
+     aó á printeò (^p)® Iæ sï senä thå command
+
+         [CONFIG]
+
+     fåååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååå

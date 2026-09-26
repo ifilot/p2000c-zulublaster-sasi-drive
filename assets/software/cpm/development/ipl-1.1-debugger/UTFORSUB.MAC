@@ -1,0 +1,44 @@
+;**********************************************
+;FORMAT A TRACK
+;ON ENTRY: DRIVE TRACK AND HEAD MUST BE SET
+;	   IF REQUIRED CHANGE SECNUM TO 11H
+;**********************************************
+FORMAT:	LD	HL,(PAR)
+	LD	BC,-13H	;SAVE
+	ADD	HL,BC	;COMMAееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееND FIELD
+	LD	(COMFLD),HL
+	PUSH	HL
+	LD	DE,AUXBUF
+	LD	BC,9
+	LDIR
+	LD	HL,(PAR)
+	PUSH	HL	;HEAD,RWADR,RWLGT
+	LD	C,9
+	LDIR
+	POP	DE
+	PUSH	DE
+	POP	HL
+	LD	BC,20H	;GET DSKTR
+	ADD	HL,BC
+	LD	(HL),0E9H
+	DEC	HL
+	LD	(HL),0FDH ;'JP (IY)'
+	PUSH	HL
+	LD	HLееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее,(SECNUM)
+	LD	H,0
+	ADD	HL,HL
+	ADD	HL,HL
+	DEC	HL	;DMA LENGTH
+	LD	(RWLGT),HL
+	LD	HL,DRIVE
+	LD	DE,(PAR)
+	LD	BC,9
+	LDIR
+	LD 	HL,DISBUF
+	LD	BC,(SECNUM-1) ;B=SECNUM
+FT1:	LD	A,(TRACK)
+	DEFB	0	;INC A FOR OLD FORMAT
+	LD	(HL),A
+	INC	HL
+	LD	A,(HEAD)
+ееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее

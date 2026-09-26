@@ -1,0 +1,5 @@
+%RSET F I=1:1 R !,"ROUTINE ? ",RTN Q:RTN=""  S ^UTILITY($J,RTN)=""
+ R2
+ ;*************************
+READ U DEV R %TP
+ S:'$L(

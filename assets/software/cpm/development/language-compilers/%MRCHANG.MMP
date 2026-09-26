@@ -1,0 +1,12 @@
+%MRCHANG ;John Lewkowicz - NYS College of Veterinary Medicine
+ ;Change all occurences of a given string in selected routines.
+ K  W #,!,?30,"Routine Change",! D ^%MRSET
+LOOP S I=0
+READ1 R !,"Change: ",C G END:C="" I "??"[C W "  String to be replaced." ееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееG READ1
+READ2 R ?39," To: ",T I T="?"!(T="??") W "  Replacement String.",! G READ2
+ S I=I+1,FROM(I)=C,TO(I)=T G READ1
+END S END=I Q:'I
+ S X1=$P($T(X1),";",2,99),X2=$P($T(X2),";",2,99),X3=$P($T(X3),";",2,99) X X1
+ W !!,"All DONE.",!
+ Q
+X1 ;S S="" F Iееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее

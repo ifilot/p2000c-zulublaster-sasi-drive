@@ -1,0 +1,11 @@
+\c\f1Fancy Font Sample File\f0
+
+\jLook at this file with an editor, and also print the contents of the file using Pfont.
+This will provide an example of use for many \f2Fancy Font\f0 commands. This paragraph
+is \f1justified\f0 using the \\j command. Noווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווtice the \\b command at the end of the last
+line of this paragraph. This is a justification break command so that only the last line
+of the paragraph will not be justified.\b
+
+\kThis paragraph is \f2not\f0 justified; the \\k at its beginning turns off ווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווjustification
+Notice the difference in appearance from the previous paragraphs.  The several \\f
+commands serve to switch font

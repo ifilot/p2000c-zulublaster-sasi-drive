@@ -1,0 +1,22 @@
+;
+;remote programma voor P2000C
+;door L. Klaassen
+;
+BDOS  	equ	5		;BIOS entry
+RSTAT  	equ	29H		;remote status port
+RDATA	equ	28H		;remote data port
+;
+remin:	
+	in	a,(RSTAT)	;status remote in a
+	and 	01		;char available ?
+	jr	nz,remout	;no, then tееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееo remout
+	in	a,(RDATA)	;else read char
+pchar:	
+	ld	c,02H		;BDOS write char
+	ld	e,a		;char in reg E
+	call	BDOS		;print char
+remout:
+	ld	c,0dH		;BDOS get console status
+	call 	BDOS		;get status
+	cp	00H		;char available ?
+	jr	z,remin		;no, then to rееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее

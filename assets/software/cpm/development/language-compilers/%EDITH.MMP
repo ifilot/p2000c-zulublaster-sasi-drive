@@ -1,0 +1,16 @@
+%EDITH ; SYSTEM EDITOR HELP - COPYRIGHT (C) 1980 J.J. ALTHOUSE & ASSC.
+ F I=1:1 S X=$T(HELP+I) Q:'$L(X)  S ^%(999+I)=$E(X,4,255)
+ W !,"EDITOR HELP TEXT LOADED",! Q
+ ;
+ ; THE TEXT THAT FOLLOWS IS LOADED INTO THE GLOBAL ^%
+ ; STARTING AT NODE 1000
+ ; TееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееHIS TEXT IS DISPLAYED WHEN A USER ENTERS '?' TO THE EDITOR
+ ;
+HELP ; HELP TEXT STARTS HERE
+ ; ENTER ONE OF THE FOLLOWING AT THE '>>' PROMPT:
+ ; ?          - TO GET THIS DISPLAY
+ ; LABEL      - FOLLOWED BY SPACE TO EDIT A LINE
+ ; ^GLOBALREF - TO EDIT ееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееA GLOBAL NODE
+ ; MUMPS CODE - FOR DIRECT MODE EXECUTION
+ ; SINGLE LETTER CODES TO EDIT THE CURRENT ROUTINE:
+ ; (A)GAIN    - R

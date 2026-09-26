@@ -1,0 +1,132 @@
+
+
+CONST
+	USNRMO  =	7;		(* usernummer bestand modellen *)
+	USNRDS	=	10;		(* usernummer bestand dessins  *)
+	USNROR	=	13;		(* usernummer bestand orders   *)
+	USNRCA	=	14;		(* usernummer bestand calculatie*)
+	STATX	=	0;
+	STATY	=	24;
+	LINELEN	=	79;
+	;
+	TOELM		:ARRAY[1..3,1..8] OF STRING[4];
+	TOEL		:ARRAY[1..3] OF STRING[10];
+	RHB		:STRING[2];
+	RMBL		:STRING[2];
+	RMBR		:STRING[2];
+	RTB		:STRING[2];
+	VKP		:STRING[5];
+	KP		:STRING[5];
+	OPMKL		:ARRAY[1..3,1..6] OF STRING[20];
+	OPMMDL		:ARRAY[1..N	=	6;		      (* Arraydiepte van dessins *)
+	MAXLINE	=	23;
+	ALPHA	=	1;
+	INTG	=	2;
+	FPT	=	3;
+	ALCHRS	=	4;
+	DLIMITER=	'\';
+	UPCASE	: SET OF CHAR = ['A'..'Z'];
+	DIG	: SET OF CHAR = ['0'..'9'];
+	ALNUM	: SET OF CHAR = ['A'..'Z','a'..'z','0'..'9',' ','-3] OF STRING[60];
+END;
+
+(* variabelen voor een record uit het bestand orders zijn gedeclareerd   *)
+
+	STR5	= STRING[5];
+	STR10	= STRING[10];
+	STR20	= STRING[20];
+	STR30	= STRING[30];
+	STR65	= STRING[65];
+	STR255	= STRING[255] ;
+	STR80	= STRING[8','*',
+			'%','&','+','!','(',')','=','.','"'];
+	FLOAT	: SET OF CHAR = ['0'..'9','+','-','.'];
+	PRMCOL	= 5;
+	MAXTAB	=16;
+	MPRS	: STRING[55]=
+		'* Keus maken met FUNCTIETOETS of SPATIE en RETURN *';
+	ESC	: CHAR =@$1B;
+	VERT	: CHAR =@$7C;
+	CR	: CHAR0] ;
+  	STR64	= STRING[64];
+	STR40	= STRING[40];
+	STR16	= STRING[16];
+	STR8	= STRING[8];
+	STR4	= STRING[4];
+	STR3	= STRING[3];
+
+VAR
+PRMCHAR,DUMMY		: CHAR ;
+XXX,YYY,CHRCNT 		: INTEGER ;
+DISCURS,ENBLCURS 	: STRING[3] ; { ONLY 2 CHARS FOR TELEVIDEO =@$0D;
+	LF	: CHAR =@$0A;
+	
+  
+TYPE
+
+(* Declaratie variabelen voor een record uit het bestand modellen *)
+
+MODELREC = RECORD
+
+	DUMMY		:STRING[3];		(* Voor laden geg niet gebr*)
+	MODELNR		:STRING[9];
+	PATR		:STRING[9];
+	DES		:ARRAY[1..7] OF STR }
+
+TABCNT,COLCNT,TABSTOP,
+NEXTMENU		:INTEGER;
+TABS			:ARRAY[0..MAXTAB] OF INTEGER;
+
+
+(* VARDECLARATIE *)
+
+  F			:FILE;
+  MDL			:MODELREC;
+  ORDER			:ORDERREC;
+  SFREC			:^CHAR;
+  STATUS,ERR,QUIT,BPRT	:BOOLEAN;
+  HEADIN		:STRING[40];
+  PROMTING[10];
+	KLEUR		:ARRAY[1..7] OF STRING[6];
+	KWAL		:ARRAY[1..7] OF STRING[5];
+	BENOD		:ARRAY[1..7] OF STRING[4];
+	FOURN		:ARRAY[1..3] OF STRING[22];
+	PL		:STRING[6];
+	PB		:STRING[4];
+	MB		:STRING[4];
+	ML		:STRING[4];
+	KOORD		:STRING[4];
+	CEINT		:			:STR255;
+  KEUZE,ORNR		:INTEGER;
+  KLGBRT,MXOR		:INTEGER;
+  KLT			:ARRAY[1..50] OF STRING[11];
+  KWT			:ARRAY[1..50] OF STRING[4];
+  NOTL			:ARRAY[1..50] OF REAL;
+  ORNAME		:ARRAY[1..10] OF STR20;
+  STRING[14];
+	MANCH		:STRING[6];
+	TB		:STRING[11];
+	HB		:STRING[15];
+	FINBR		:STRING[3];
+
+END;
+
+(* Variabelen voor een record uit het bestand modellen zijn gedeclareerd *)
+   DESSINRECORD = RECORD
+   
+	DUMMY		:STRING[6];
+	DESSINNR	:STRING[10];
+ееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее	KWAL		:ARRAY[1..6] OF STRING[5];
+	PR		:ARRAY[1..6] OF REAL;
+
+END;
+
+(* Declaratie variabelen voor ORDER					 *)
+
+   ORDERREC = RECORD
+
+	ORDERNR		:STRING[20];
+	MODELNR		:STRING[5];
+	ORDERDATUM	:STRING[6];
+	ETIKETTERING	:STRING[30];
+	HANGER		:ST

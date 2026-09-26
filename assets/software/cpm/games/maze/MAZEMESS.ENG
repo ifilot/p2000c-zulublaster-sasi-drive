@@ -1,0 +1,83 @@
+;-------
+; MESSAGES USED IN STARTER ROUTINE
+;-------
+"Your name, please (max 8 chars.) : "
+"Do you want the rules (Y/N) ?  "
+"Is it an old saved game (Y/N) ?  "
+"WELCOME"
+"WELCOME BACK"
+"GAME OVER"
+"AU REVOIR"
+"SCORE      "
+"EXPERIENCE "
+"GOLD ith"
+"shots)"
+"off   on    "
+" (light:"
+"turns)"
+"* UNKNOWN COMMAND *"
+"* YOU DON'T HAVE ENOUGH GOLD *"
+"Gold      :"
+"PLEASE WAIT"
+"--- MEMO ---"
+"Main Floor      : Keys"
+"North-West Tower: Witch Cat, Gems"
+"North-East Tower: Excalibur,Gems"
+      "
+"CONGRATULATIONS, "
+"YOU ARE A HERO"
+@
+;-------
+; OBJECT LIST WITH IN FRONT OBJECT CODE
+; CODE ZERO ENDS LIST
+;-------
+21,Sword,22,Dagger,23,Gun,24,Rifle,25,Hand grenade,26,EXCALIBUR
+27,Gun magazine,28,Rifle Magazine,29,Excalibur sharpener"South-West Tower: Gems,Gold"
+"South-East Tower: Weaponry,Gems,Gold"
+"Dungeons, 1st   : Amulets"
+"Dungeons, 2nd   : Geiger Gauge"
+"Secret Chambers : OMNIUM 330"
+"*** READING IS HEALTHY, DRINKING MAYBE ***"
+"CYANIDE"
+"EMPTY"
+"ENERGIZER"
+"DO NOT"
+"
+30,Shield,31,Torch,32,First-aid kit,33,Batteries,34,Bottle,38,Little Box,41,Book,42,Map
+43,Compass,44,Bundle of keys,45,Hammer,46,Amulet,47,Precious stone,49,Helmet,50,Boots
+60,Special Amulet,61,Witch Cat,62,Little Stone,63,Precious stone,64,Gold Bag,7Available commands:"
+"light/hang/open/forward/lock/close/strike/right/look/hold"
+"back/inventory/leave/read/map/take/pick/reload/put/save"
+"unlock/left/stop/unlight/pull/drink/help/jump"
+@
+;-------
+; END
+;-------
+3,Geiger gauge,74,OMINUM 330,82,Stones,83,Stones
+92,Gold Ingot,95,Bottle,96,Bottle
+0
+;-------
+; COMMAND LIST - EACH COMMAND CONTAINS THE FIRST LETTERS OF THE WORD
+; AS MANY LETTERS AS REQUIRED TO MAKE IT UNIQUE
+;-------
+#0501,#1902,#0403,#2404,#1727ееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее
+lig16,han11,ope05,for01,loc07,clo06,str27,jum18,dri20
+rig03,loo14,hol35,bac04,inv24,lea10,rea22,map25,tak09,pic09
+rel29,put36,sav33,unlo08,lef02,sto34,unli17,pul15,hel30
+@
+;-------
+; MESSAGES USED IN MAIN GAME
+;-------
+"*** PRESS <RETURN> ***"
+"Tееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееime:      , Bearing:  "
+"Your command  :"
+"SouthEast NorthWest "
+" held"
+"SCORE"
+"YOU ARE ATTACKED"
+"HIC JACET "
+"* YOUR HANDS ARE NOT FREE *"
+"* YOU'RE HOLDING NOTHING *"
+"* YOU'RE HOLDING NO WEAPONS *"
+"* YOU HAVE NO MAGAZINES *"
+"* YOU HAVE N

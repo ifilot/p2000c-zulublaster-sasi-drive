@@ -1,0 +1,7 @@
+LEXICON ;PROGRAM TO CREATE SORTED DICTIONARY
+ WRITE *26,$PIECE($TEXT(+1),";",2),!
+ READ !,"ENTER NEXT TERM (NULL TO QUIT): ",TERM
+ GOTO:TERM="" LIST
+ READ !,"ENTER ONE LINE DEFINITION: ",DEF
+ SET ^WORD(TERM)=DEF GOTO LEXICON
+LIST READ !,"WOULD YOU LIееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее

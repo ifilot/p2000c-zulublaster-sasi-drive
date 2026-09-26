@@ -1,0 +1,27 @@
+MPRT ;OUTPUT ROUTINES. JEB 12/80
+ ;REQUIRES COLS AND NL
+ ;ENTER AT PRINT AND LIST
+PRINT SET BOOL=1 GOTO OUT ;SELECT ALL AND DO OUTPUT
+LIST SET BOOL=1 READ !,"SELECT CONDITION <1> ",X IF X'="" DO MAKB GOTO LIST:BOOL="" ;BOOL="" MEANS ERROR
+UFLG READ !,)),BOOL'?.E1")" SET BOOL=BOOL_"(F"_NOT_"["""_C_""")",NOT="" QUIT
+ SET ERR=1 QUIT
+ BOOL=BOOL_C QUIT
+ IF $DATA(^FLAG($ASCII(C)ееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее"UPDATE FLAGS > ",UF
+ IF UF'?.UN WRITE "UPPER CASE ALPHA OR NUMERIC ONLY" GOTO UFLG
+ FOR I=1:1:$LENGTH(UF) IF '$DATA(^FLAG($ASCII(UF,I))) WRITE "  '",$EXTRACT(UF,1),"' IS UNKNOWN FLAG" GOTO UFLG
+OUT READ !,"OUTPUT TO PRINTER? > ",ANS SET IO=$SELECT(ANS[ееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее"N":PDV,1:HDV)
+ WRITE ! SET HASH=-1,(S,N)=0 USE IO WRITE # DO NEXT
+LOOP IF S<0 WRITE:IO'=PDV # USE PDV GOTO KILL
+ FOR L=1:1:NL FOR C=1:1:COLS SET BUF(C,L)="" ;CLEAR BUFFER
+ FOR C=1:1:COLS DO BUFFER,NEXT QUIT:S<0
+ FOR L=1:1:NL WRITE ! FOR C=1:1:COLS WRееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееITE ?C-1*40,BUF(C,L)
+ WRITE !! GOTO LOOP
+ ;
+KILL KILL BOOL,UF,J,S,N,L,C,F,HASH,NAM,BUF,IO,ANS QUIT
+ ;GET NEXT FILE ENTRY, S POINTS TO IT (<0 IF NONE)
+ ;
+NEXT SET S=S+ESIZ GOTO NEW:S>N SET F=^(S+8) ;GET FLAG WORD
+ IF @BOOL QUIT  ;NOTE MUST BE ARGUMENееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееT INDIRECTION
+ GOTO NEXT ;TRY FOR ANOTHER
+NEW SET S=-8,HASH=$NEXT(^MAIL(HASH)) QUIT:HASH<0  ;NO MORE ENTRIES
+ SET N=^(HASH,0)

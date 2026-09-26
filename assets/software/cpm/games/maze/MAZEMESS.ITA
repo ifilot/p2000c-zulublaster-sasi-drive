@@ -1,0 +1,102 @@
+;-------
+; MESSAGES USED IN STARTER ROUTINE
+;-------
+"Il vostro nome, prego (max 8 lettere) : "
+"Volete le istruzioni (Y/N) ?  "
+"E' un vecchio gioco salvato (Y/N) ?  "
+"WELCOME"
+"BENTORNATO"
+"GAME OVER"
+"ARRIVEDERCI"
+"PUNTEGGIO  "
+"ESPERIENZA "l muro (1) o per terra (2) ? "
+"BEN FATTO"
+"* SIETE TROPPO CARICHI *"
+"* AVETE GIA' TROPPE COSE *"
+"Quale?"
+" (con"
+"colpi)"
+"spentaaccesa"
+" (carica:"
+"turni)"
+"* COMANDO SCONOSCIUTO *"
+"* NON AVETE ABBASTANZA ORO *"
+"Oro       :"
+"ATTENDERE"
+"ORO        "
+"CONGRATULAZIONI, "
+"SIETE UN EROE"
+@
+;-------
+; OBJECT LIST WITH IN FRONT OBJECT CODE
+; CODE ZERO ENDS LIST
+;-------
+19,Mina,21,Spada,22,Pugnale,23,Pistola,24,Fucile,25,Bomba a mano,26,EXCALIBUR
+27,Caricatore pistola,28,Caricatore
+"--- PRO-MEMORIA ---"
+"Piano Principale: Chiavi"
+"Torre Nord-Ovest: Stregatto,Gemme"
+"Torre Nord-Est  : Excalibur,Gemme"
+"Torre Sud-Ovest : Gemme, Oro"
+"Torre Sud-Est   : Armeria,Gemme,Oro"
+"Sotterranei 1^  : Amuleti"
+"Sotterranei 2^  : Contatore  fucile,29,Ricarica Excalibur
+30,Scudo,31,Torcia,32,Pronto soccorso,33,Batterie,34,Borraccia,38,Scatoletta,41,Libro,42,Mappa
+43,Bussola,44,Mazzo di chiavi,45,Martello,46,Amuleto,47,Pietra preziosa,49,Elmetto,50,Stivali
+60,Amuleto Speciale,61,Stregatto,6Geiger"
+"Camere Segrete  : OMNIUM 330"
+"*** LEGGERE FA BENE, BERE FORSE ***"
+"CIANURO"
+"VUOTA"
+"ENERGETICO"
+"NON FATELO"
+"Comandi disponibili, in ordine alfabetico"
+"accendi/aiuto/appendi/apri/avanti/aziona/bevi/chiavi/chiudi"
+"colpisci/destra/gua2,Sassolino,63,Pietra preziosa,64,Sacco d'oro,73,Contarore Geiger,74,OMINUM 330,82,Sassi,83,Sassi
+92,Lingotto d'oro,95,Borraccia,96,Borraccia
+0
+;-------
+; COMMAND LIST - EACH COMMAND CONTAINS THE FIRST LETTERS OF THE WORD
+; AS MANY LETTERS AS REQUIREDrda/impugna/indietro/inventario/lascia"
+"leggi/mappa/prendi/raccogli/ricarica/riponi/salta/salva"
+"schiudi/sinistra/spegni/stop/tira"
+@
+;-------
+; END
+;-------
+ TO MAKE IT UNIQUE
+;-------
+#0501,#1902,#0403,#2404,#1727
+ab13,ac16,ai30,app11,apr05,av01,az15,be20,chia07,chiu06,col27,cor19
+d03,gi31,gu14,im35,ind04,inv24,lan21,las10,le22,m25,pa23,pr09,ra09
+ric29,rie28,rin36,rip36,salt18,salv33,sc08,sf35,si02,sp17,'	;  6E		LOWER CASE N
+	DB X'6F'	;  6F		LOWER CASE O
+	DB X'70'	;  70		LOWER CASE P
+	DB X'71'	;  71		LOWER CASE Q
+	DB X'72'	;  72		LOWER CASE R
+	DB X'73'	;  73		LOWER CASE S
+	DB X'74'	;  74		LOWER CASE T
+	DB X'75'	;  75		LOWER CASE U
+	DB X'76'	;  76	st34,su31,ti15
+@
+;-------
+; MESSAGES USED IN MAIN GAME
+;-------
+"*** PREMERE <RETURN> ***"
+"Tempo:     , Direzione:"
+"Vostro comando:"
+"Sud  Est  Nord Ovest"
+" in pugno"
+"PUNTEGGIO"
+"SIETE ATTACCATI"
+"HIC JACET "
+"* AVETE LE MANI GIA' OCCUPATE	LOWER CASE V
+	DB X'77'	;  77		LOWER CASE W
+	DB X'78'	;  78		LOWER CASE X
+	DB X'79'	;  79		LOWER CASE Y
+	DB X'7A'	;  7A		LOWER CASE Z
+	DB X'7B'	;  7B		{
+	DB X'7C'	;  7C		|
+	DB X'7D'	;  7D		}	ALT MODE
+	DB X'7E'	;  7E		~
+	DB X'7F'	;  7F			DEL	RUBOUT

@@ -1,0 +1,75 @@
+-------------------------------------------------------------------------------
+VIEWTEXT USER GUIDE   Section 3.1                            (C) T SYSTEMS 1984
+Version 1.0                                                  (C) TANDATA   1984
+-------------                               (C) TANDATA   1984
+-------------------------------------------------------------------------------
+FORM, SPEED DIRECTORIES - called from the MAIN MENU (functions 3 and 4). These 
+directories will show files with extensions------------------------------------------------------------------
+                USING THE DISC, FORM AND SPEED PAGE DIRECTORIES                
+                                                                               
+The VIEWTEXT system allows .FRM and .SPD respectively. They   
+also show the current number of files held on the FILE CAROUSEL, and although  
+the full instructions for using the CAROUSEL are not displayed the FORM and    
+SPEED directories are otherwise identical to the PAGE di files with different extensions for each type of    
+file. The default extension is .PGE for page files. In order to simplify the   
+identification of files two further extensions can be used - .FRM for forms,   
+and .SPD for speed pages. The three dirrectory in operation.  
+                                                                               
+ALL DIRECTORIES - the drive code (A-H) is entered, and any file names present  
+on the selected disc which match the directory extension are shown inectories will only show those files     
+which have a matching extension. (See sections 7.5 and 8.8 on the preparation  
+and use of FORM and SPEED pages).                                              
+                                                     groups   
+of up to 10 names, together with the date recorded and the string. If no files 
+are found the user is prompted for another drive code or to press ESCAPE twice 
+to exit back to the MAIN MENU.                                                 
+                            
+PAGE DIRECTORY - called from the MAIN MENU (function 2). This directory also   
+displays the instructions for loading and clearing the FILE CAROUSEL, which is 
+fully described in section 6 of the User Guide. This directory wi                                                                              
+When each group of file names has been displayed the user can selectively load 
+individual file names to the CAROUSEL (see section 6 of the User Guide). All   
+files with matll show all   
+files with the extension .PGE on the selected disc.                            
+Up to 10 files are displayed on a screen together with the date recorded and   
+the (optional) string entered by the user when the page was stored on disc.   ching extensions on the selected disc can also be loaded to the  
+CAROUSEL when the drive code is entered (select PAGE directory for details).   
+-------------------------------------------------------------------------------
+Press any key to continue o 
+                                                                               
+-------------------------------------------------------------------------------
+Press any key to continue or press ESCAPE twice to return to MAIN MENU
+
+-----------------r press ESCAPE twice to return to MAIN MENU
+
+------------------------------------------------------------------------------$
+-------------------------------------------------------------------------------
+VIEWTEXT USER GUIDE   Section 3.3              -------------------------------------------------------------$
+-------------------------------------------------------------------------------
+VIEWTEXT USER GUIDE   Section 3.2                            (C) T SYSTEMS 1984
+Version 1.0                                 (C) T SYSTEMS 1984
+Version 1.0                                                  (C) TANDATA   1984
+-------------------------------------------------------------------------------
+SAVING FILES - when the user is prompted for a file name the minimum entry is  
+a name with up to 8 characters in upper or lower case ( all names are changed  
+by VIEWTEXT to upper case). The file will then be saved on the VIEWTEXT disc   
+which is always the default drive (see section 1 of the User Guide), and                      is sent to the modem when the RETURN key is      
+                              pressed. The state of this flag will be saved    
+                              in the CONFIG file.                              
+                      the   
+extension will default to .PGE (page file). To save a file on any other drive, 
+enter the drive code followed by ":" and then the name. If a the file is not   
+a page file, enter the required extension (up to 3 characters).                
+                                                              
+                                                                               
+SELECT HASH CHARACTER         The PRESTEL HASH character (ASCII code 95) is    
+                              an un                                                                          
+An identification string of up to 40 characters can (optionally) be saved with 
+the file, and it is this string which is displayed by the directory, and is    
+also printed (see derline in the ASCII character set, and is  
+                              often difficult to see on a page. This function  
+                              allows a new character to be chosen. The CONFIG  
+                              file is delivered section 7 of the User Guide).                                
+                                                                               
+NOTE that VIEWTEXT does not allow any files to be deleted. This must be done   
+using the normal file delete me

@@ -1,0 +1,116 @@
+to rules
+if keyp [clearbuff]
+cs ct ht
+setcursor [5 7]
+pr [musical memory game]
+setcursor [9 2]
+pr [this is a game in which the computer]
+pr [plays a note, or a sequence of notes,]
+pr [and you repeat them. the sequence]
+pr [becomes longer each timer turn]
+catch "oops [repeat :times [keyplay check]]
+if :ok = "true [setcursor se first cursor 18 pr [good!] recycle make "times :times + 1]
+catch "more? [playthegame]
+onemoretime
+end
+to onemoretime
+if keyp [clearbuff]
+wait 20
+pr [press any key to  you respond]
+pr [correctly. the screen is laid out like]
+pr [the numeric keypad on the right]
+pr [of the keyboard.]
+pr "
+pr [press the num lock key to use the]
+pr [numeric keypad for playing notes.]
+pr [press any key to begin, or esc]
+pr [to returcontinue, esc to exit]
+make "dummy rc
+if :dummy = char 27 [cs ct ht demo]
+pr [ok, let's try another]
+wait 20
+gen.playlist playthegame
+end
+to gen.playlist
+make "errors 0
+make "times 1
+repeat 30 [make "playlist fput 1 + random 9 :playlist]
+end
+ton to the main menu.]
+waitkeyp
+end
+to init
+make "1 493.88
+make "2 523.23
+make "3 587.33
+make "4 659.26
+make "5 698.46
+make "6 783.99
+make "7 880
+make "8 987.77
+make "9 1046.5
+make "0 1174.7
+make "11 [-40 -40]
+make "12 [0 -40]
+make "13 [40 -4 waitkeyp
+if keyp [stop]
+waitkeyp
+end
+to clearbuff
+make "dummy rc
+if keyp [clearbuff]
+end
+to start
+reparse
+rules
+make "dummy rc
+if :dummy = char 27 [cs ct ht demo]
+init
+drawkeys
+playthegame
+end
+0]
+make "14 [-40 0]
+make "15 [0 0]
+make "16 [40 0]
+make "17 [-40 40]
+make "18 [0 40]
+make "19 [40 40]
+make "playlist []
+gen.playlist
+recycle
+end
+to drawkeys
+ct cs ms
+setpc 2
+settext 2
+title -100 95 [musical memory game]
+pu st
+setshape 219ееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее
+make "inc 11
+repeat 9 [setpos thing :inc block make "inc :inc + 1]
+setpc 3
+ht
+if keyp [clearbuff]
+pr [press 3 notes to hear the whole tune]
+repeat 3 [keyplay]
+pr " pr "
+make "inc 1
+wait 20
+repeat 30 [listplay]
+pr [ok, let's begin...]
+wait 50
+ееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееend
+to sorry
+tone 200 10
+make "errors :errors + 1
+pr se :errors [wrong]
+if :errors > 2 [throw "more?]
+recycle
+end
+to check
+if not item :inc :playlist = :key [make "ok "false sorry throw "oops]
+make "inc :inc + 1
+end
+to listplay
+make "key item 

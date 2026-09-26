@@ -1,0 +1,145 @@
+pprop "princ "bury "true
+pprop "x "bury "true
+pprop ".system "bury "true
+to expl 
+ct ts
+setcursor [3 15]
+pr [hangman]
+setcursor [6 0]
+pr [the object of the hangman game]
+pr [is to guess the letters of a word.]
+pr []
+pr [the number of letters in  -30 :let make "ans bf :ans]]
+end
+
+to check :let :word :n
+if emptyp :word [op []]
+if :let = first :word [op se :n check :let bf :word :n + 1]
+op check :let bf :word :n + 1
+end
+
+to hang 
+run se first :part
+make "part bf :part
+end
+
+to replace :the word]
+pr [is shown by underlines ( _ _ _ _ ) .]
+pr []
+pr [each time you guess the right letter,]
+pr [it appears in its place in the word]
+pr [on the screen. if you are wrong,]
+pr [the computer draws another part of]
+pr [the hanging man's body.]place :let :word
+if :place = 1 [op se :let bf :word]
+op se first :word replace :place - 1 :let bf :word
+end
+
+to neck 
+pu seth 180 setpos [30 86] pd
+fd 11
+end
+
+to body 
+pu setpos [30 75] seth 180 pd
+fd 30
+end
+
+to circle :size
+repeat 18 [fd :
+setcursor [20 0]
+pr [press any key to begin, or esc to]
+pr [return to the main menu.]
+end
+
+to hangman 
+begin
+settext 5
+cs ht hanger
+play
+if emptyp :part [pr se [you lose, the word is] :word]
+if not memberp "- :newword [pr :newword pr (se [* * *size rt 20]
+end
+
+to head 
+pu setpos [30 105] pd
+seth 90
+bk 2
+circle 3
+pu setpos [30 92] pd
+fill
+end
+
+to ltleg 
+pu setpos [30 45] pd
+seth 215 fd 30
+end
+
+to rtleg 
+pu
+setpos [30 45]
+seth 145
+pd
+fd 30
+end
+
+to rtarm 
+pu setpos [30 75] you win in] count :given [tries * * *])]
+pr [press any key to continue, esc to exit]
+waitkey
+make "dummy rc
+if :dummy = char 27 [cs ct ht demo stop]
+hangman
+end
+
+to begin 
+cleartext
+make "given []
+make "newword []
+make "word words
+make "lengt
+pd seth 135
+fd 20
+end
+
+to ltarm 
+pu setpos [30 75]
+pd seth 225
+fd 20
+end
+
+to start 
+expl
+waitkey
+make "dummy rc
+if :dummy = char 27 [cs ct ht demo stop]
+hangman
+end
+
+h count :word
+make "part [head neck rtarm ltarm body rtleg ltleg]
+repeat :length [make "newword lput "- :newword]
+make "dep -22 - (11 * (:length - 3))
+make "dep1 :dep - 22
+end
+
+to hanger 
+setpc 1 pd
+lt 90
+fd 40
+bk 20
+rt 90
+fd 115
+rt 90
+fd 50ееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее
+rt 90
+fd 10
+setpc 3
+title :dep -40 :newword
+end
+
+to play 
+if or not memberp "\- :newword emptyp :part [stop]
+type [guess a letter :]
+make "let rc
+if memberp :let :given [pr [\ you already guessed] pr [\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ that lettееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее

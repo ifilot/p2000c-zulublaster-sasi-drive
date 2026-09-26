@@ -1,0 +1,83 @@
+
+
+                    COMPAS DISTRIBUTION DISK OVERVIEW
+
+                       COMPAS V3.0, CP/M-80 version
+
+                          Copyright (C) 1983 by
+                        Poly-Data microcenter ApS
+
+
+
+Thank you for purchasing the COMPAten entirely in
+INSTCRT.PAS     COMPAS Pascal.
+
+CALC.PAS        Demonstration program source text. This program acts as a cal-
+                culator. It allows you to enter numeric expressions and have
+                them evaluated.
+
+HEXDUMP.PAS S Pascal package. We are confident that you
+will find COMPAS to be a high quality product. Before moving on, please read
+the License Agreement enclosed to the package, and then fill in and return the
+accompanying registration form.
+
+You will find the     Demonstration program source text. HEXDUMP will output a hex
+                listing of any file to any other file or the printer.
+
+PRIMES.PAS      Demonstration program source text. A short program which com-
+                putes all prime numberfollowing files on your distribution disk:
+
+README.DOC      The file you are currently reading.
+
+COMPAS.COM      This file is the actual COMPAS Pascal system. It contains the
+                editor, the compiler and the run-time package.
+
+COMPAS.HLPs between 1 and 30000.
+
+QSORT.PAS       Demonstration program source text. QSORT generates a list of
+                random numbers and then sorts them using the quicksort algo-
+                rithm.
+
+CROSSREF.PAS    Demonstration program source tex      The help message file. This file contains the help messages
+                displayed by the HELP command.
+
+COMPAS.ERM      The error message file. This file contains the error messages
+                displayed by the compiler when it locates ant. CROSSREF outputs a listing
+                and a cross-reference map of any COMPAS source text.
+
+Before using COMPAS, we strongly advice that you make a back-up copy of this
+disk. To generate a COMPAS work disk, copy COMPAS.COM, COMPAS.HLP and
+COMP error.
+
+INSTALL.COM     The INSTALL program. If you have bought an "unconfigured" copy
+                of COMPAS, i.e. a copy which is not set up for any specific
+                terminal or computer system, then before you can use it, you
+          AS.ERM onto a blank disk along with any other system programs you may
+require (e.g. PIP.COM and STAT.COM). If you are stressed for disk space, you
+may omit COMPAS.HLP and COMPAS.ERM, but then the HELP command will not work
+and the compiler will only out      must install it using this program. If you try to run an un-
+                configured copy, you will simply get an error message. The
+                INSTALL program is fully self-explaining, but to answer the
+                questions asked by put error numbers.
+
+Finally, if you have any comments to the COMPAS package and/or its documenta-
+tion, e.g. improvements you would like to see, or bugs you may have spotted,
+please don't hesitate to contact us. Our address is:
+
+        Poly-Data micit you will probably have to consult your
+                system documentation. If you wish, you may also use INSTALL
+                to customize an already installed copy to suit your individual
+                needs.
+
+INSTALL.TRM     Datafiles usedrocenter ApS
+        Aaboulevarden 13
+        DK-1960 Copenhagen V
+        DENMARK
+
+        Telephone: +1 35 61 66
+        Telex: 16600 FOTEX DK, Att: microcenter
+ by INSTALL. These files contain configuration
+INSTALL.DAT     data for up to 50 different terminals and computers. Note that
+                INSTALL will not run if these files are missing.
+
+INSTALL.PAS     INSTALL program source text. INSTALL is writ

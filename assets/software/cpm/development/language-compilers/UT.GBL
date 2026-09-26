@@ -1,0 +1,1170 @@
+BACKUP GLOBALS (UTILITY)
+12/24/82 1648
+^%C("%IS","%IS","0")
+28
+^%C("%IS","%IS","1")
+TERMINAL CHARACTERISTICS - DEFINITION
+^%C("%IS","%IS","2")
+   John Lewkowicz - NYS College of Veterinary Medicine, Cornell University
+^%C("%IS","%IS","3")
+ 
+^%C(""0")
+3
+^%C("%IS","BS","1")
+Character sequence used as an indirect argument to a Write command that
+^%C("%IS","BS","2")
+   backspaces 1 character. Usually a "*8" or a "$C(8)" (both have the
+^%C("%IS","BS","3")
+   same effect).
+^%C("%IS","CD","0")
+3%IS","%IS","4")
+Terminal Definition - Routine used to define the characteristics of
+^%C("%IS","%IS","5")
+   the console terminal and of the printer (ports 0 and 1 respectively).
+^%C("%IS","%IS","6")
+ 
+^%C("%IS","%IS","7")
+Entry @ %IS lets the User p
+^%C("%IS","CD","1")
+If there were no PHYSICAL (can't check all the logical combinations),
+^%C("%IS","CD","2")
+   see if User wants to establish these characteristics as the default
+^%C("%IS","CD","3")
+   console characteristics.
+^%C("%IS","CURRENT"ick a terminal (0,CRT or 1,PRINTER) and get
+^%C("%IS","%IS","8")
+   back the terminal characteristics:
+^%C("%IS","%IS","9")
+Entry @ CURRENT^%IS returns a list of the characteristics of the current
+^%C("%IS","%IS","10")
+   console device. Returned are,"0")
+3
+^%C("%IS","CURRENT","1")
+Get the "current" (e.g. console) device characteristics. These can then
+^%C("%IS","CURRENT","2")
+   be used by MUMPS routines to condition terminal I/O to particular
+^%C("%IS","CURRENT","3")
+   terminals.
+^%C("%IS", the variables:
+^%C("%IS","%IS","11")
+     BS - character sequence to BACK SPACE ("*8" for a "W @BS").
+^%C("%IS","%IS","12")
+     FF - Char. seq. to clear screen (like "*26,#" for a "W @FF").
+^%C("%IS","%IS","13")
+     RM - Right margin.
+^%C("%IS",""DEFINE","0")
+3
+^%C("%IS","DEFINE","1")
+Define the characteristics for a given device (or change the characteristcs
+^%C("%IS","DEFINE","2")
+   of an existing device). Also have the option for defining to current
+^%C("%IS","DEFINE","3")
+   device typ%IS","14")
+     SL - Screen length.
+^%C("%IS","%IS","15")
+     XY - Cursor positioning sequence to be eXecuted ("X @XY") to
+^%C("%IS","%IS","16")
+          position cursor to location DX,DY.
+^%C("%IS","%IS","17")
+     RO - Rubout sequence (like "*8,e (e.g. what type of terminal is the console).
+^%C("%IS","DES","0")
+2
+^%C("%IS","DES","1")
+Free text description of a terminal like (in the example used above)
+^%C("%IS","DES","2")
+   for an ADM3A you might enter "Lear-Seigler ADM3A CRT".
+^%C("%IS",*32,*8").
+^%C("%IS","%IS","18")
+     LH - BRIGHT sequence like "*27,*40".
+^%C("%IS","%IS","19")
+     HL - DIM sequence like "*27,*41".
+^%C("%IS","%IS","20")
+ 
+^%C("%IS","%IS","21")
+Entry at DEFINE to define terminal characteristics and to establish"DRV","0")
+1
+^%C("%IS","DRV","1")
+Standard question Driver.
+^%C("%IS","ERROR","0")
+4
+^%C("%IS","ERROR","1")
+Error trap when checking the various indirect arguments and commands.
+^%C("%IS","ERROR","2")
+   If come here, display what the error was (w the
+^%C("%IS","%IS","22")
+   current (active) console characteristics.
+^%C("%IS","%IS","23")
+ 
+^%C("%IS","%IS","24")
+To use in application programs, issue a call to %IS (D CURRENT^%IS or
+^%C("%IS","%IS","25")
+   D ^%IS - at the present time they Bhich indirect caused it),
+^%C("%IS","ERROR","3")
+   and set the command to an in-offensive version so it dosen't bomb 
+^%C("%IS","ERROR","4")
+   out anything else. Also set the error flag E to TRUE.
+^%C("%IS","FF","0")
+4
+^%C("%IS","FF","1")
+CharactOTH refer to the current device
+^%C("%IS","%IS","26")
+   as estblished in ^%TC) and then issue commands like "W @FF" to clear
+^%C("%IS","%IS","27")
+   the screen or "S DX=22,DY=10 X XY" to position the cursor.
+^%C("%IS","%IS","28")
+ 
+^%C("%IS","BS",er sequence used as an indirect Write argument used to clear the
+^%C("%IS","FF","2")
+   screen.  If anything other than a "#" (which equates but is NOT the same
+^%C("%IS","FF","3")
+   as a "*12" since the "*12" does NOT reset $Y) is used, a second arg-
+^%C("%IS","FF","4")
+   ument ("#") should be included to reset $Y (e.g. "*26,#").
+^%C("%IS","HI","0")
+4
+^%C("%IS","HI","1")
+Get the characters necessary to start displaying at BRIGHT intensity.
+^%C("%IS","HI","2")
+ 
+^%C("%IS","HI","3")
+Like all et the terminal type. This is a code used when referencing the
+^%C("%IS","TT","2")
+   device (like "ADM3A" as a shorthand abbreviation for a Lear-Siegler
+^%C("%IS","TT","3")
+   ADM3A CRT terminal).
+^%C("%IS","XY","0")
+4
+^%C("%IS","XY","1")
+Get a coother arguments to Write , the User can enter double quotes
+^%C("%IS","HI","4")
+("") for NO response.
+^%C("%IS","LO","0")
+1
+^%C("%IS","LO","1")
+Character sequence fo LOW intensity.
+^%C("%IS","RESTART","0")
+4
+^%C("%IS","RESTART","1")
+If an error ommand that will be eXecuted (e.g. "X @XY") by application
+^%C("%IS","XY","2")
+   programs to move the cursor to location DX,DY. Note that this is NOT
+^%C("%IS","XY","3")
+   used as an argument to a Write statement and must be a valid MUMPS
+^%C("%IS","ccured when specifying control sequences for the terminal,
+^%C("%IS","RESTART","2")
+   the characteristics are saved (those in error are nulled out), and
+^%C("%IS","RESTART","3")
+   the specification is re-asked to allow the User to correct any
+^%C("%XY","4")
+   command string.
+^%C("%ISH","%ISH","0")
+8
+^%C("%ISH","%ISH","1")
+TERMINAL CHARACTERISTICS - HELP TEXT
+^%C("%ISH","%ISH","2")
+   John Lewkowicz - NYS College of Veterinary Medicine, Cornell University
+^%C("%ISH","%ISH","3")
+ 
+^%C("%ISH"IS","RESTART","4")
+   mistakes.
+^%C("%IS","RM","0")
+1
+^%C("%IS","RM","1")
+Right margin (number of characters/line-1).
+^%C("%IS","RO","0")
+4
+^%C("%IS","RO","1")
+Extension of the BS command string, this is the character sequence that,
+^%C("%IS","RO,"%ISH","4")
+Help text (extended explanations) for the data entry section of %IS.
+^%C("%ISH","%ISH","5")
+ 
+^%C("%ISH","%ISH","6")
+Enter with:
+^%C("%ISH","%ISH","7")
+           DR = Label of question for help.
+^%C("%ISH","%ISH","8")
+            A =","2")
+   when used as an argument in an indirect Write ("W @RO") should have
+^%C("%IS","RO","3")
+   the action of removing the character to the left of the cursor. In
+^%C("%IS","RO","4")
+   normal operations the sequence is "*8,*32,*8".
+^%C("%IS","S "?" or "??" (level of Help).
+^%C("%MG","%MG","0")
+10
+^%C("%MG","%MG","1")
+GLOBAL LIST
+^%C("%MG","%MG","2")
+   John Lewkowicz - NYS College of Veterinary Medicine, Cornell University
+^%C("%MG","%MG","3")
+ 
+^%C("%MG","%MG","4")
+Quick and dirty gloL","0")
+1
+^%C("%IS","SL","1")
+Screen length in lines (number lines/screen -1).
+^%C("%IS","SV","0")
+9
+^%C("%IS","SV","1")
+If User ready to save, first do the following:
+^%C("%IS","SV","2")
+ 
+^%C("%IS","SV","3")
+   1. Setup to trap out on errors
+bal lister for globals up to four levels deep.
+^%C("%MG","%MG","5")
+ 
+^%C("%MG","%MG","6")
+This should be replaced with a much better global dump that allows
+^%C("%MG","%MG","7")
+   starting points and uses recursion but this was a quick-shot to
+^%C^%C("%IS","SV","4")
+   2. Try each of the commands. If error, trap to "ERROR".
+^%C("%IS","SV","5")
+   3. When done, update the terminal characteristics.
+^%C("%IS","SV","6")
+   4. If error, don't ask if User wants these characteristics as
+^%C("%IS","S("%MG","%MG","8")
+   allow more than one-level dumps.
+^%C("%MG","%MG","9")
+If you need a quick-shot for more than 4 levels the way is obvious
+^%C("%MG","%MG","10")
+   and you too can take the easy way out by extending the program.
+^%C("%MGD","%MGD","V","7")
+      the current ones, but loop back (use a G RESTART since the error
+^%C("%IS","SV","8")
+      will have destroyed the stack anyhow) and let them correct the
+^%C("%IS","SV","9")
+      problems.
+^%C("%IS","TT","0")
+3
+^%C("%IS","TT","1")
+G0")
+6
+^%C("%MGD","%MGD","1")
+GLOBAL DIRECTORY
+^%C("%MGD","%MGD","2")
+   John Lewkowicz - NYS College of Veterinary Medicine, Cornell University
+^%C("%MGD","%MGD","3")
+ 
+^%C("%MGD","%MGD","4")
+Display the global directory held in ^UTIL("GBL",...). Directry is built
+^%C("%MGD","%MGD","5")
+   by part CDIR by writing list of global names out to a temporary CP/M
+^%C("%MGD","%MGD","6")
+   file "SCRATCH.DAT".
+^%C("%MGD","CDIR","0")
+4
+^%C("%MGD","CDIR","1")
+Collect the global directory by opening a
+^%C("%MGR","GR2","8")
+   reference (full syntax) and one line of data (can be null).
+^%C("%MGR","GR3","0")
+2
+^%C("%MGR","GR3","1")
+**** - Restore the "active" global drive. ASSUMES that this started out
+^%C("%MGR","GR3","2")
+   as Drive A.
+^%C("%M scratch file on drive "A" and
+^%C("%MGD","CDIR","2")
+   usie the View command to write out the global names. Then read thm
+^%C("%MGD","CDIR","3")
+   back in and create ^UTIL("GBL",...). Temporary file SCRATCH.DAT is
+^%C("%MGD","CDIR","4")
+   killed GS","%MGS","0")
+23
+^%C("%MGS","%MGS","1")
+GLOBAL SAVE
+^%C("%MGS","%MGS","2")
+   John Lewkowicz - NYS College of Veterinary Medicine, Cornell University
+^%C("%MGS","%MGS","3")
+ 
+^%C("%MGS","%MGS","4")
+Save MUMPS global files as CP/M files. User picwhen done.
+^%C("%MGR","%MGR","0")
+6
+^%C("%MGR","%MGR","1")
+GLOBAL RESTORE
+^%C("%MGR","%MGR","2")
+   John Lewkowicz - NYS College of Veterinary Medicine, Cornell University
+^%C("%MGR","%MGR","3")
+ 
+^%C("%MGR","%MGR","4")
+Restore globals saved withks name of CP/M file
+^%C("%MGS","%MGS","5")
+   but %GS gives it an extension of "GBL".
+^%C("%MGS","%MGS","6")
+ 
+^%C("%MGS","%MGS","7")
+Save file consists of the following lines of data:
+^%C("%MGS","%MGS","8")
+     1. Free-text description line.
+^% utility ^%MGS. User specifies drive on which
+^%C("%MGR","%MGR","5")
+   save file exists along with destination drive for gloabls as well as
+^%C("%MGR","%MGR","6")
+   the name of the save file (extension of "GBL" is forced).
+^%C("%MGR","GR0","0")
+1
+C("%MGS","%MGS","9")
+     2. Free-text Date & Time line.
+^%C("%MGS","%MGS","10")
+     3. Global Reference (like  ^XYZ("ONE","TWO")  )
+^%C("%MGS","%MGS","11")
+     4. Data node (can be null).
+^%C("%MGS","%MGS","12")
+     5. repeats of 3. & 4.
+^%C("%^%C("%MGR","GR0","1")
+Get the SOURCE drive defining where the save file exists.
+^%C("%MGR","GR1","0")
+3
+^%C("%MGR","GR1","1")
+Get the NAME of the save file. NOTE that the extension is NOT required
+^%C("%MGR","GR1","2")
+   (all SAVE file extensions aMGS","%MGS","13")
+  
+^%C("%MGS","%MGS","14")
+     6. "*EOF*" indicates End-of-File.
+^%C("%MGS","%MGS","15")
+ 
+^%C("%MGS","%MGS","16")
+NOTE - this utility allows the User to select the source drive on which
+^%C("%MGS","%MGS","17")
+     the globals re set to "GBL" by ^%GS) and any extension
+^%C("%MGR","GR1","3")
+   entered here is stripped off and replaced by "GBL".
+^%C("%MGR","GR2","0")
+8
+^%C("%MGR","GR2","1")
+Get the DESTINATION drive. Assume that GLOBALS.DAT is defined on the
+^%C("%MGR","GRreside and restores the "active" globals drive to "A"
+^%C("%MGS","%MGS","18")
+     when finished.
+^%C("%MGS","%MGS","19")
+ 
+^%C("%MGS","%MGS","20")
+Display title and then use ^%MGSET to collect the names of the globals
+^%C("%MGS","%MGS","21")
+   th2","2")
+   destination drive and that User has already killed the globals that
+^%C("%MGR","GR2","3")
+   are to be restored (unless they want a merge).
+^%C("%MGR","GR2","4")
+Switch global output to desired drive, strip off any file extension
+^%C("%MGRat the User wants to Save. The names are held in ^UTIL on the
+^%C("%MGS","%MGS","22")
+   selected source drive and have as data a "1" to indicate they are
+^%C("%MGS","%MGS","23")
+   selected (contrasted to data of "0" for non-selected globals).
+^%C("%","GR2","5")
+   entered by User & replace with ".GBL". Then open the restore file
+^%C("%MGR","GR2","6")
+   and type NAME and DATE saved for User verification.
+^%C("%MGR","GR2","7")
+Loop through save file and restore. File consists of 1 line of globalMGS","GS0","0")
+1
+^%C("%MGS","GS0","1")
+Get drive to save globals to.
+^%C("%MGS","GS1","0")
+2
+^%C("%MGS","GS1","1")
+Name of the save file. NOTE that utiltiy forces an extension of "GBL"
+^%C("%MGS","GS1","2")
+   regardless of User entry.
+^%C("%MGS","GS2","0")
+1
+^%C("%MGS","GS2","1")
+Free text description of the save file.
+^%C("%MGS","GS3","0")
+7
+^%C("%MGS","GS3","1")
+Free-text Date & Time entry. This could easily be entered in the description
+^%C("%MGS","GS3","2")
+   line but for compatabit writing the
+^%C("%MGSET","CDIR","2")
+   global list out to the CP/M scratch file "SCRATCH.DAT" and then reading
+^%C("%MGSET","CDIR","3")
+   into the global ^UTIL("GBL").
+^%C("%MGSET","CDIR","4")
+ 
+^%C("%MGSET","DIR","0")
+2
+^%C("%MGSET","DIR","1"lity with routines running on our PDP-11's
+^%C("%MGS","GS3","3")
+   it was included as an extra line of data.
+^%C("%MGS","GS3","4")
+ 
+^%C("%MGS","GS3","5")
+Output the Description and Date lines and then loop through ^UTIL looking
+^%C("%MGS","GS3","6)
+If ^UTIL("GBL") is not defined, automatically refresh the global directory
+^%C("%MGSET","DIR","2")
+   and skip the refresh question.
+^%C("%MGSET","DIR1","0")
+3
+^%C("%MGSET","DIR1","1")
+See if User wants to refresh directory in ^UTIL. Display the d")
+   for all flagged global names. Do part SAVE to save each of the indicated
+^%C("%MGS","GS3","7")
+   globals. When done, terminate output file with "*EOF*".
+^%C("%MGS","GS4","0")
+2
+^%C("%MGS","GS4","1")
+Get location of globals, switch "active" glirectory
+^%C("%MGSET","DIR1","2")
+   if User enters "?" or "??". If User wants refreshed directory, do
+^%C("%MGSET","DIR1","3")
+   so with CDIR and skip ahead.
+^%C("%MGSET","DIR2","0")
+5
+^%C("%MGSET","DIR2","1")
+If we didn't refresh the directory (obal drive to the indicated
+^%C("%MGS","GS4","2")
+   drive, then go get names of globals to be saved.
+^%C("%MGS","SAVE","0")
+4
+^%C("%MGS","SAVE","1")
+I'm more than a little embarassed by this part. Like the global lister
+^%C("%MGS","SAVE","2")
+   %which would have cleared the selection
+^%C("%MGSET","DIR2","2")
+   information), see if User wants to use old list of selected globals.
+^%C("%MGSET","DIR2","3")
+   They can see what the old list looked like with an entry of "?" or
+^%C("%MGSET","DIR2",G, this was a quick and dirty solution to meet my needs. It will
+^%C("%MGS","SAVE","3")
+   save globals up to 4 levels deep. It should be re-written to handle
+^%C("%MGS","SAVE","4")
+   globals of any depth.
+^%C("%MGSET","%MGSET","0")
+8
+^%C("%MGSET","4")
+   "??". If they want to use old list, Quit. If not, go through the
+^%C("%MGSET","DIR2","5")
+   directory in ^UTIL("GBL",...) and zero out all selections.
+^%C("%MGSET","DIR3","0")
+10
+^%C("%MGSET","DIR3","1")
+Loop through this question getting n"%MGSET","1")
+GLOBAL SELECT
+^%C("%MGSET","%MGSET","2")
+   John Lewkowicz - NYS College of Veterinary Medicine, Cornell University
+^%C("%MGSET","%MGSET","3")
+ 
+^%C("%MGSET","%MGSET","4")
+Utility designed to select one or more global names on the currames of globals to be selected.
+^%C("%MGSET","DIR3","2")
+Entry can be of the following formats:
+^%C("%MGSET","DIR3","3")
+ 
+^%C("%MGSET","DIR3","4")
+   "?"  -  Gets User a list of the currently selected globals.
+^%C("%MGSET","DIR3","5")
+   "??" -  Gently
+^%C("%MGSET","%MGSET","5")
+   "active" global drive. User has option to refresh global directory
+^%C("%MGSET","%MGSET","6")
+   held in ^UTIL. All globals are held in ^UTIL("GBL",...) indexed by
+^%C("%MGSET","%MGSET","7")
+   their name. If the dets User a list of all directory entries whether selected
+^%C("%MGSET","DIR3","6")
+           or not.
+^%C("%MGSET","DIR3","7")
+   NAME    Selects the global NAME
+^%C("%MGSET","DIR3","8")
+   AB*     Selects all globals starting with the characters "ABata contained at the global name is a "0" that
+^%C("%MGSET","%MGSET","8")
+   global is NOT selected; if it's a "1" the global IS selected.
+^%C("%MGSET","CDIR","0")
+4
+^%C("%MGSET","CDIR","1")
+Collects the CURRENT list of globals in GLOBALS.DAT by firs".
+^%C("%MGSET","DIR3","9")
+ 
+^%C("%MGSET","DIR3","10")
+Continues until User enters a null to the "Global: " question.
+^%C("%MGSET","LDIR","0")
+2
+^%C("%MGSET","LDIR","1")
+Lists all of the globals currently in the ^UTIL("GBL") directory whether
+^%C("%MGSET","LDIR","2")
+   or not they are selected.
+^%C("%MGSET","LSEL","0")
+2
+^%C("%MGSET","LSEL","1")
+Lists the globals in the ^UTL("GBL") directory that are currently
+^%C("%MGSET","LSEL","2")
+   selected (data node="1")
+^%C("%MRCHANG","%MRCHANG",P/M file on drive "A" named
+^%C("%MRD","CDIR","2")
+   "SCRATCH.DAT" and using the View command to write out the routine
+^%C("%MRD","CDIR","3")
+   names. Then read them back in and build ^UTIL("ROU",...). The
+^%C("%MRD","CDIR","4")
+   temporary file S"0")
+6
+^%C("%MRCHANG","%MRCHANG","1")
+ROUTINE CHANGE
+^%C("%MRCHANG","%MRCHANG","2")
+   John Lewkowicz - NYS College of Veterinary Medicne, Cornell University
+^%C("%MRCHANG","%MRCHANG","3")
+ 
+^%C("%MRCHANG","%MRCHANG","4")
+Routine used to change alCRATCH.DAT is killed when done.
+^%C("%MRDEL","%MRDEL","0")
+6
+^%C("%MRDEL","%MRDEL","1")
+ROUTINE DELETE
+^%C("%MRDEL","%MRDEL","2")
+   John Lewkowicz - NYS College of Veterinary Medicine, Cornell University
+^%C("%MRDEL","%MRDEL","3")
+ 
+^%C("%MRDEL",l occurences of one (or more) strings in selected
+^%C("%MRCHANG","%MRCHANG","5")
+   routines to one (or more) new strings. Routine %MRSET is used to
+^%C("%MRCHANG","%MRCHANG","6")
+   select the names of the routines to be changed.
+^%C("%MRCHANG","END""%MRDEL","4")
+DELETES the entered routine(s) and KILLS their associated comments from
+^%C("%MRDEL","%MRDEL","5")
+   ^%C. These comments are those collected by the routine editor (%MRE).
+^%C("%MRDEL","%MRDEL","6")
+   Also KILLS entry in routine directo,"0")
+2
+^%C("%MRCHANG","END","1")
+Quit if no changes indicated. Otherwise, loop through the picked routines
+^%C("%MRCHANG","END","2")
+   and make the changes.
+^%C("%MRCHANG","LOOP","0")
+2
+^%C("%MRCHANG","LOOP","1")
+Loop through and pick up all chary in ^UTIL.
+^%C("%MRE","%MRE","0")
+14
+^%C("%MRE","%MRE","1")
+ROUTINE EDITOR
+^%C("%MRE","%MRE","2")
+   John Lewkowicz - NYS College of Veterinary Medicine, Cornell University
+^%C("%MRE","%MRE","3")
+ 
+^%C("%MRE","%MRE","4")
+Utiltiy to support entenges and replacemnts. Terminate loop on
+^%C("%MRCHANG","LOOP","2")
+   a null entry to the change question.
+^%C("%MRCHANG","X1","0")
+2
+^%C("%MRCHANG","X1","1")
+X1-X3 are commands loaded into local variables X1,X2, and X3 and are
+^%C("%MRCHANG","X1","ring and editing MUMPS routines. Allows User to
+^%C("%MRE","%MRE","5")
+   create or edit routines. Also supports to collection and editing of
+^%C("%MRE","%MRE","6")
+   comments that are to be associated with various labels within te routine.
+^%C("%MRE2")
+eXecuted to do the actual changes.
+^%C("%MRD","%MRD","0")
+8
+^%C("%MRD","%MRD","1")
+ROUTINE DIRECTORY
+^%C("%MRD","%MRD","2")
+   John Lewkowicz - NYS College of Veterinary Medicine, Cornell University
+^%C("%MRD","%MRD","3")
+ 
+^%C("%MRD","%MRD",","%MRE","7")
+   these comments are stored in ^%C under the routine name and label
+^%C("%MRE","%MRE","8")
+   name. These comments will be printed in front of the indicated labels
+^%C("%MRE","%MRE","9")
+   when the routine lister (%MRL) utility is used"4")
+List the routine directory held in ^UTIL("ROU",...). This directory
+^%C("%MRD","%MRD","5")
+   is created by CDIR by writing te routine directory out to a temp.
+^%C("%MRD","%MRD","6")
+   CP/M file "SCRATCH.DAT" and then building ^UTIL("ROU",...).. Since they reside in
+^%C("%MRE","%MRE","10")
+   global space rather than taking up room in your partition, commenting
+^%C("%MRE","%MRE","11")
+   to improve clarity can be greatly expanded.
+^%C("%MRE","%MRE","12")
+ 
+^%C("%MRE","%MRE","13")
+This ut
+^%C("%MRD","%MRD","7")
+File is also updated automatically by the Routine Editor (%MRE) and
+^%C("%MRD","%MRD","8")
+   by the routine restore utility (%MRR).
+^%C("%MRD","CDIR","0")
+4
+^%C("%MRD","CDIR","1")
+Collect new directoy by creating a scratch Cility creates and uses ^%MRE as a scratch global to hold the
+^%C("%MRE","%MRE","14")
+   routine being edited.
+^%C("%MRFIND","%MRFIND","0")
+6
+^%C("%MRFIND","%MRFIND","1")
+ROUTINE FIND
+^%C("%MRFIND","%MRFIND","2")
+   John Lewkowicz - NYS College of Veterinary Medicine, Cornell University
+^%C("%MRFIND","%MRFIND","3")
+ 
+^%C("%MRFIND","%MRFIND","4")
+Routine used to find all occurences of a string (or more than one string
+^%C("%MRFIND","%MRFIND","5")
+   or a pattern match) in a selected set of routi%MRS. User gets to
+^%C("%MRR","%MRR","6")
+   specify drive on which save file resides (if restoring comments, they
+^%C("%MRR","%MRR","7")
+   are assumed to be on the same drive), and the destination drive, as
+^%C("%MRR","%MRR","8")
+   well as the namnes (selected by routine
+^%C("%MRFIND","%MRFIND","6")
+   %MRSET).
+^%C("%MRL","%MRL","0")
+12
+^%C("%MRL","%MRL","1")
+ROUTINE LISTER
+^%C("%MRL","%MRL","2")
+   John Lewkowicz - NYS College of Veterinary Medicine, Cornell University
+^%C("%MRL","%MRL","e of the save file. Routine save file has the extension
+^%C("%MRR","%MRR","9")
+   SAV while the comment file has the extension SAC.
+^%C("%MRR","R1","0")
+1
+^%C("%MRR","R1","1")
+Get the Drive on which the Sav file exists.
+^%C("%MRR","R2","0")
+3
+^%C(3")
+ 
+^%C("%MRL","%MRL","4")
+Lists routines and their associated comments to printer. Routine comments
+^%C("%MRL","%MRL","5")
+   are those collected by routne editor (%MRE) and held in ^%C.
+^%C("%MRL","%MRL","6")
+ 
+^%C("%MRL","%MRL","7")
+This rout"%MRR","R2","1")
+Get the name of the CP/M file which holds the routines to be restored.
+^%C("%MRR","R2","2")
+   The forced extension for the routine file is SAV and the comment
+^%C("%MRR","R2","3")
+   file is SAC.
+^%C("%MRR","R3","0")
+12
+^%C("%MRR"ine should be made more device independent and should eventually
+^%C("%MRL","%MRL","8")
+   call ^%IS to get the device to print to as well as the device characteristics.
+^%C("%MRL","%MRL","9")
+   at the present time it does let the User specify the rig,"R3","1")
+Get the destination drive. Routines AND comments will be restored to
+^%C("%MRR","R3","2")
+   this drive. If restoring comments,GLOBALS.DAT must be defined on this
+^%C("%MRR","R3","3")
+   drive.
+^%C("%MRR","R3","4")
+NOTE - Makes the assumpht margin
+^%C("%MRL","%MRL","10")
+   but assumes a 6 line/inch printer running with 11 inch paper. It
+^%C("%MRL","%MRL","11")
+   also assumes form feed capacity acting on the form feed character
+^%C("%MRL","%MRL","12")
+   (ASCII form feed - 12).
+^%Ction that the current "active" routine drive is
+^%C("%MRR","R3","5")
+   "A" since we restore to that drive when done restoring.
+^%C("%MRR","R3","6")
+ 
+^%C("%MRR","R3","7")
+Open the save file, display Description and Date nodes and give User
+^%C("%MR("%MRL","X1","0")
+3
+^%C("%MRL","X1","1")
+X1-X4
+^%C("%MRL","X1","2")
+   command lines loaded into variables X1,X2,X3, and X4 which are executed
+^%C("%MRL","X1","3")
+   to do the actual print.
+^%C("%MRL","Z1","0")
+1
+^%C("%MRL","Z1","1")
+Get free tR","R3","8")
+   one more chance to back out. If they continue, restore routines.
+^%C("%MRR","R3","9")
+This section should, at some time, be expanded to allow a selective
+^%C("%MRR","R3","10")
+   restore.
+^%C("%MRR","R3","11")
+When done with the routext date & time to be displayed at the top of each pge.
+^%C("%MRL","Z2","0")
+1
+^%C("%MRL","Z2","1")
+Current printer's (device #1) right margin.
+^%C("%MRR","%MRR","0")
+9
+^%C("%MRR","%MRR","1")
+ROUTINE RESTORE
+^%C("%MRR","%MRR","2")
+   John Lewkowiines, check to see if comments are also to be
+^%C("%MRR","R3","12")
+   restored. If so, restore them.
+^%C("%MRR","R4","0")
+2
+^%C("%MRR","R4","1")
+NOTE - Assumes Drive "A" was current "active" routine Drive when we
+^%C("%MRR","R4","2")
+       strtedcz - NYS College of Veterinary Medicine, Cornell University
+^%C("%MRR","%MRR","3")
+ 
+^%C("%MRR","%MRR","4")
+Restore routines (and, optionally, the comments associated with those
+^%C("%MRR","%MRR","5")
+   routines) from a save file created by utility  the restore operation.
+^%C("%MRR","RC","0")
+5
+^%C("%MRR","RC","1")
+See if User wants to restore comments along with the routnes. These are
+^%C("%MRR","RC","2")
+   the comments collected by the routine editor (%RE) and are saved in
+^%C("%MRR","RC","3")
+   ^%C. If there are NO comments saved, the User should enter "NO" since
+^%C("%MRR","RC","4")
+   the restore operation will KILL all currently filed comments in ^%C
+^%C("%MRR","RC","5")
+   for each of the routines restored before restoring comment Global Reference=Data
+^%C("%MRS","%MRS","27")
+    
+^%C("%MRS","%MRS","28")
+         like - ^%C("%MRS","%MRS","1")="ROUTINE SAVE"
+^%C("%MRS","RS0","0")
+1
+^%C("%MRS","RS0","1")
+Get the destination drive.
+^%C("%MRS","RS1","0")
+4
+^%C("%MRS","RS1","s.
+^%C("%MRR","X1","0")
+1
+^%C("%MRR","X1","1")
+Part eXecuted to load routines.
+^%C("%MRS","%MRS","0")
+28
+^%C("%MRS","%MRS","1")
+ROUTINE SAVE
+^%C("%MRS","%MRS","2")
+   John Lewkowicz - NYS College of Veterinary Medicine, Cornell University
+^%C("%1")
+Get the name of the save file. The extensions will be forced to SAV
+^%C("%MRS","RS1","2")
+   and SAC regardless of User entry.
+^%C("%MRS","RS1","3")
+ 
+^%C("%MRS","RS1","4")
+Then delete any file of that name with the SAV extension.
+^%C("%MRS","RMRS","%MRS","3")
+ 
+^%C("%MRS","%MRS","4")
+Saves routines and associated comments as CP/M files. The comments are
+^%C("%MRS","%MRS","5")
+   those that are collected by the routine editor (%MRE) and held in
+^%C("%MRS","%MRS","6")
+   ^%C.
+^%C("%MRS","S2","0")
+3
+^%C("%MRS","RS2","1")
+See if the User also wants to save the coments associated with the
+^%C("%MRS","RS2","2")
+   routine. These are th comments collected by th routine editor (%RE)
+^%C("%MRS","RS2","3")
+   and held in ^%C.
+^%C("%MRS","R%MRS","7")
+User selects source and destination drives and names the CP/M file.
+^%C("%MRS","%MRS","8")
+   File extensions are automatically assigned with SAV the extension of
+^%C("%MRS","%MRS","9")
+   the routine file and SAC the extension of the commeS3","0")
+1
+^%C("%MRS","RS3","1")
+Free-text description of the save file.
+^%C("%MRS","RS4","0")
+3
+^%C("%MRS","RS4","1")
+Free-text Date and Time associated with save. This could easily be entered
+^%C("%MRS","RS4","2")
+   in the description but is innt file.
+^%C("%MRS","%MRS","10")
+When the User selects the source drive (where the routines reside) it
+^%C("%MRS","%MRS","11")
+   is assumed that the current "active" routine drive is "A" and this
+^%C("%MRS","%MRS","12")
+   is restored as the active cluded as a separate line so that the
+^%C("%MRS","RS4","3")
+   output file is compatable with those generated on our PDP-11's.
+^%C("%MRS","RS5","0")
+2
+^%C("%MRS","RS5","1")
+NOTE - Assumes User was logged into drive "A" for routines on entry to
+^%C("routine drive when done.
+^%C("%MRS","%MRS","13")
+ 
+^%C("%MRS","%MRS","14")
+   Routine save file consists of lines in following format:
+^%C("%MRS","%MRS","15")
+ 
+^%C("%MRS","%MRS","16")
+       1. Free text description
+^%C("%MRS","%MRS","17")
+     %MRS","RS5","2")
+   the save routine.
+^%C("%MRS","SD","0")
+1
+^%C("%MRS","SD","1")
+Get source drive and then go select the routnes to be saved via RSET.
+^%C("%MRS","X1","0")
+2
+^%C("%MRS","X1","1")
+X1-X3 are parts loaded into local variables X1,X2,   2. Free text Date & Time
+^%C("%MRS","%MRS","18")
+       3. Routine
+^%C("%MRS","%MRS","19")
+          a. NAME
+^%C("%MRS","%MRS","20")
+          b. lines of routine
+^%C("%MRS","%MRS","21")
+          c. "" line (end of routine).
+^%C("%MRS","%MRS","and X3 and are the
+^%C("%MRS","X1","2")
+   varible eXecuted to do the actul save of routnes and comments.
+^%C("%MRSET","%MRSET","0")
+8
+^%C("%MRSET","%MRSET","1")
+ROUTINE SELECT
+^%C("%MRSET","%MRSET","2")
+   John Lewkowicz - NYS College of Veterinar22")
+       4. Next routine
+^%C("%MRS","%MRS","23")
+       5. "*EOF*" terminates list of routines.
+^%C("%MRS","%MRS","24")
+ 
+^%C("%MRS","%MRS","25")
+   Comment save file consists of lines in the following format:
+^%C("%MRS","%MRS","26")
+        1.y Medicine, Cornell University
+^%C("%MRSET","%MRSET","3")
+ 
+^%C("%MRSET","%MRSET","4")
+Utility designed to select one or more routines on the currently "active"
+^%C("%MRSET","%MRSET","5")
+   routine drive. User has the option to refresh the routine directory
+^%C("%MRSET","%MRSET","6")
+   under ^UTIL("ROU",...). All routine names are held in ^UTIL("ROU",...)
+^%C("%MRSET","%MRSET","7")
+   indexed by their name. If the data contained at the routine name is
+^%C("%MRSET","%MRSET","8")
+   "1", the rounes.
+^%C("%ZEDT","%ZEDT","0")
+8
+^%C("%ZEDT","%ZEDT","1")
+GLOBAL EDITOR
+^%C("%ZEDT","%ZEDT","2")
+   John Lewkowicz - NYS College of Veterinary Medicne, Cornell University
+^%C("%ZEDT","%ZEDT","3")
+ 
+^%C("%ZEDT","%ZEDT","4")
+Global editor used to edtine is selected. If "0" it is NOT selected.
+^%C("%MRSET","CDIR","0")
+3
+^%C("%MRSET","CDIR","1")
+Collects the current list of routines by creating a temporary CP/M
+^%C("%MRSET","CDIR","2")
+   file SCRATCH.DAT and writing out the routine names (via Viit lines of text at the current naked global 
+^%C("%ZEDT","%ZEDT","5")
+   reference. Global node ^(0) MUST be defined and MUST cntain a number
+^%C("%ZEDT","%ZEDT","6")
+   that represents the highest subscript vaule used to point to data
+^%C("%ZEDT","%ew command)
+^%C("%MRSET","CDIR","3")
+   and then reading back the names into ^UTIL("ROU",...).
+^%C("%MRSET","DIR","0")
+2
+^%C("%MRSET","DIR","1")
+If ^UTIL is NOT defined, automatically refresh directory and ignore
+^%C("%MRSET","DIR","2")
+   next twoZEDT","7")
+   (^(0)=0 indicates an empty file). Subscripts can be any positive num-
+^%C("%ZEDT","%ZEDT","8")
+   eric vaules.
+^%C("%ZEDT1","%ZEDT1","0")
+1
+^%C("%ZEDT1","%ZEDT1","1")
+Continuation of the editor %ZR and %ZEDT.
+^%C("%ZEDT2","%ZEDT2","0" questions.
+^%C("%MRSET","DIR1","0")
+2
+^%C("%MRSET","DIR1","1")
+Ask User if they want to refresh directory. If so, go do so (CDIR)
+^%C("%MRSET","DIR1","2")
+   and ignore next question (no OLD list to use).
+^%C("%MRSET","DIR2","0")
+2
+^%C("%MRSET",")
+1
+^%C("%ZEDT2","%ZEDT2","1")
+Extension of routine editor %ZR...
+^%C("%ZEDTE","%ZEDTE","0")
+1
+^%C("%ZEDTE","%ZEDTE","1")
+HELP text for routine editor %ZR.
+^%C("%ZIX","%ZIX","0")
+0
+^%C("%ZIX","DRV","0")
+58
+^%C("%ZIX","DRV","1")
+Standard QUESTIDIR2","1")
+See if User wants to use OLD list of selected routines. They can enter
+^%C("%MRSET","DIR2","2")
+   "?" display list of selected routines.
+^%C("%MRSET","DIR3","0")
+10
+^%C("%MRSET","DIR3","1")
+Loop through this question getting names of rouON Driver.
+^%C("%ZIX","DRV","2")
+ 
+^%C("%ZIX","DRV","3")
+Takes a string of question/variable labels (in "DL") and cycles through
+^%C("%ZIX","DRV","4")
+   them displaying the question text, previous answers (translating them
+^%C("%ZIX","DRV","5")
+  tines to be selected.
+^%C("%MRSET","DIR3","2")
+   Entry can be any of the following:
+^%C("%MRSET","DIR3","3")
+ 
+^%C("%MRSET","DIR3","4")
+   "?"  -  User gates list of currently selected routines
+^%C("%MRSET","DIR3","5")
+   "??" -  User get routine  if necessary), dispatches control to verify parts, handles processing
+^%C("%ZIX","DRV","6")
+   of error messages, the response to kyboard entries of "?" or "??",
+^%C("%ZIX","DRV","7")
+   handles backing up ("^"), the updating of variable names if no edirectory.
+^%C("%MRSET","DIR3","6")
+   NAME -  User selects routine NAME.
+^%C("%MRSET","DIR3","7")
+   AB*  -  Selects all routines starting with the chracters "AB".
+^%C("%MRSET","DIR3","8")
+ 
+^%C("%MRSET","DIR3","9")
+Continues till User enters nullrror
+^%C("%ZIX","DRV","8")
+   on return from the verify part, deleting an entry ("<") etc.
+^%C("%ZIX","DRV","9")
+ 
+^%C("%ZIX","DRV","10")
+                       VARIABLES USED
+^%C("%ZIX","DRV","11")
+                      ----------------
+^%C("%ZIX. Each selected routine has its node
+^%C("%MRSET","DIR3","10")
+   in ^UTIL set to a "1".
+^%C("%MRSET","LDIR","0")
+1
+^%C("%MRSET","LDIR","1")
+Lists the routine directory.
+^%C("%MRSET","LSEL","0")
+1
+^%C("%MRSET","LSEL","1")
+Lists the selected routi","DRV","12")
+ 
+^%C("%ZIX","DRV","13")
+A   Variable passed to each verify part by the Driver that contains the
+^%C("%ZIX","DRV","14")
+     answer to be checked. Before it is passed to the verify part, it has
+^%C("%ZIX","DRV","15")
+     been checked for "", "^", "<", "?", "??" and the verify part does
+^%C("%ZIX","DRV","16")
+     NOT have to worry about these. The Driver will automatically save
+^%C("%ZIX","DRV","17")
+     the contents @DR after the verify part hs been executed if the error
+^%C("%Z3A
+^%TC("DM1521")
+*8;#;79;24;W *30,*DX+32 S Y=DY,X=DX;*8,*32,*8;"";"";Datamedia 1521 CRT
+^%TC("GIGI")
+*8;*27,"[2J",#;79;24;W *27,"["_(DY+1)_$C(59)_(DX+1)_"H";*8,*32,*8;*27,"[31m";*27,"[37m";DEC GIGI
+^%TC("OSBORNE-1")
+*8;*26,#;52;24;W *27,"=",*(DY+32)IX","DRV","18")
+     flag E has NOT been set.
+^%C("%ZIX","DRV","19")
+E    Error flag set by the Driver to False (0) before passing control to
+^%C("%ZIX","DRV","20")
+     to the verify part. If the data is OK, the verify part should not
+^%C("%ZIX","DR,*(DX+32);*8,*32,*8;*27,*40;*27,*41;Osborne-1, 52 columns, 24 lines.
+^%TC("VC4404")
+*8;*24,#;79;24;W *27,"+",*DY+32,*DX+32;*8,*32,*8;*15;*14;Volker-Craig VC4404 CRT
+^%ZIH("'","0")
+0
+^%ZIH("IN","0")
+7
+^%ZIH("IN","1")
+Enter the major index HEADING liV","21")
+     change the value of E. If an error is detected, the verify part
+^%C("%ZIX","DRV","22")
+     can set E to true (E=1) and the Driver will automatically display
+^%C("%ZIX","DRV","23")
+     the default error message  (" ??"). Optionally, theke PHONE for your phone index,
+^%ZIH("IN","2")
+   RECIPE for your recipe file etc.
+^%ZIH("IN","3")
+To create a NEW heading, just type in the characters that will be
+^%ZIH("IN","4")
+   used for the new heading's title. The computer will tell you if
+^ verify part can
+^%C("%ZIX","DRV","24")
+     specify an error message to be used instead of the default one by
+^%C("%ZIX","DRV","25")
+     setting   E="1error msg." (NOTE that the first character of the message
+^%C("%ZIX","DRV","26")
+     a "1" here,%ZIH("IN","5")
+   this is indeeed a new title.
+^%ZIH("IN","6")
+To get a LIST of all the existing headings type in the 2-characters
+^%ZIH("IN","7")
+   "?L" (don't enter the quotes).
+^%ZIH("KEY","0")
+0
+^%ZIH("KEYS","0")
+12
+^%ZIH("KEYS","1")
+Enter  is NOT displayed but is necessary to make E TRUE).
+^%C("%ZIX","DRV","27")
+ 
+^%C("%ZIX","DRV","28")
+     If you want to change question flow you can set DP to its new value
+^%C("%ZIX","DRV","29")
+     and then set E="1 " so that DP will NOT be changethe KEY(s) to be associated with this index entry. Separate
+^%ZIH("KEYS","2")
+   logical groups of keys with commas. If you wish to include the 
+^%ZIH("KEYS","3")
+   TITLE as a logical KEY, you can enter it as an astersik ("*").
+^%ZIH("KEYS","4")
+ 
+d by the Driver
+^%C("%ZIX","DRV","30")
+     (but neither will the current varible be updated). Setting E="1 "
+^%C("%ZIX","DRV","31")
+     is also useful when you need the User to verify a question.
+^%C("%ZIX","DRV","31.1")
+DB   String of DP values se^%ZIH("KEYS","5")
+For example, if you are doing a Bibliography and you have already
+^%ZIH("KEYS","6")
+   entered a title of "Fundamental Algorithms", you might want to 
+^%ZIH("KEYS","7")
+   enter the following list for keys:
+^%ZIH("KEYS","8")
+  
+^%parated by ";" that is used to indicate to
+^%C("%ZIX","DRV","31.2")
+     the Driver where to go when backing up ("^"). If DB="0;1;2" and
+^%C("%ZIX","DRV","31.3")
+     we are currently working on the 3rd question (DP=3), then if the 
+^%TC
+OSBORNE-1
+^ZIH("KEYS","9")
+   "Knuth,*,Computer Programming"  and this index would be filed under
+^%ZIH("KEYS","10")
+                                   - Knuth
+^%ZIH("KEYS","11")
+                                   - Fundamental Algorithms (from *)
+^%ZIH("KEYS",%TC("0")
+"";!!!!!!!!!!!!!!!!!!!!!!!!;80;23;W "";"";"";"";Default CRT (NO special effects)
+^%TC("ACT5A")
+*8;#;79;23;W "";*8,*32,*8;*14;*14;Micro-Term ACT-5A
+^%TC("ADM3A")
+*8;*26,#;79;24;W *27,"=",*DY+32,*DX+32;*8,*32,*8;*27,*40;*27,*41;Lear-Siegler ADM"12")
+                                   - Computer Programming
+^%ZIH("RECN","0")
+15
+^%ZIH("RECN","1")
+Enter the INDEX NUMBER of the reference that you want to display.
+^%ZIH("RECN","2")
+ 
+^%ZIH("RECN","3")
+If you don't know the reference number, type in KEY WORDS (or parts
+^%ZIH("RECN","4")
+   of them) and the computer will search and display a list of possible
+^%ZIH("RECN","5")
+   matches along with their index numbers.
+^%ZIH("RECN","6")
+To get a list of all KEY WORDS starting with the char
+0
+^UTIL("ROU","%MRCHANG")
+0
+^UTIL("ROU","%MRD")
+0
+^UTIL("ROU","%MRDEL")
+0
+^UTIL("ROU","%MRE")
+0
+^UTIL("ROU","%MRFIND")
+0
+^UTIL("ROU","%MRL")
+0
+^UTIL("ROU","%MRR")
+0
+^UTIL("ROU","%MRS")
+0
+^UTIL("ROU","%MRSET")
+0
+^UTIL("ROU","%ZEDT")
+0
+acters "CAN...",
+^%ZIH("RECN","7")
+   type in a "CAN?" (don't enter the quotes), etc.
+^%ZIH("RECN","8")
+ 
+^%ZIH("RECN","9")
+To create a NEW index entry, enter the characters NEW and the computer
+^%ZIH("RECN","10")
+   will assign you a new index num^UTIL("ROU","%ZEDT1")
+0
+^UTIL("ROU","%ZEDT2")
+0
+^UTIL("ROU","%ZEDTE")
+0
+^UTIL("ROU","%ZEDTE1")
+0
+^UTIL("ROU","%ZIX")
+0
+*EOF*
+U","%ZEDT1")
+0
+^UTIL("ROU","%ZEDT2")
+0
+^UTIL("ROU","%ZEDTE")
+0
+^UTIL("ROU","%ZEDTE1")
+0
+^UTIL("ROU","%ZIX")
+0ber and ask for the reference. Be sure
+^%ZIH("RECN","11")
+   that you first do a search to insure that you need a new index entry
+^%ZIH("RECN","12")
+   for this data.
+^%ZIH("RECN","13")
+ 
+^%ZIH("RECN","14")
+To DELETE an entry, enter its number hereееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее and answer the question
+^%ZIH("RECN","15")
+   on TITLE with the characters *DELETE* .
+^%ZIH("SAVE","0")
+6
+^%ZIH("SAVE","1")
+Enter "Y" or "y" or anything starting with the character "Y" to signify
+^%ZIH("SAVE","2")
+   that the index is correct. If ееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееthis is a new entry or if a change has
+^%ZIH("SAVE","3")
+   been made, the computer will update the index at this time.
+^%ZIH("SAVE","4")
+If the entry is INCORRECT any other entry (than one starting with "Y")
+^%ZIH("SAVE","5")
+   will lead you back tееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее

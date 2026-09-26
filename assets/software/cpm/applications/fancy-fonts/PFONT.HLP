@@ -1,0 +1,20 @@
+                 Error Recovery Assistance
+
+The unexpected input indicated in the error message has been
+discarded.  Any remaining input can still be processed if you
+so desire.  You can insert, delete, continue with the
+remainder of input, or backup וווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווו(to stop entering the current
+parameter).
+
+The <E> added to the normal prompt indicates that you are
+recovering from an error and therefore have the following
+special options:
+
+Normal Typing:  Insert input and then return to normal
+           proceווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווssing (just type what you want inserted).
+
+Control-B: Leave the current Parameter and then continue
+           by selecting another error recovery option.
+
+Conrol-D:  Delete the next input word and then continue
+           by selecting another error 

@@ -1,0 +1,95 @@
+name: Build distributions
+
+on:
+  push:
+    branches: [master]
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+env:
+  Z88DK_IMAGE: z88dk/z88dk@sha256:93f3c7c04486b300fdeccc600b48618e291ff1763aff608639fbfae0ee1623a5
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Validate release metadata
+        if: github.ref_type == 'tag'
+        run: PYTHONPATH=src python -m p2000c_disk.changelog --check --tag "$GITHUB_REF_NAME"
+
+      - name: Install build tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes make cmake g++ z80asm
+          python -m pip install --upgrade pip pytest
+
+      - name: Prepare pinned Z88DK compiler
+        run: |
+          docker pull "$Z88DK_IMAGE"
+          docker tag "$Z88DK_IMAGE" z88dk/z88dk:latest
+          mkdir -p "$RUNNER_TEMP/bin"
+          printf '%s\n' \
+            '#!/bin/sh' \
+            'exec docker run --rm --user "$(id -u):$(id -g)" -v "$GITHUB_WORKSPACE:$GITHUB_WORKSPACE" -v "$PWD:$PWD" -w "$PWD" z88dk/z88dk zcc "$@"' \
+            > "$RUNNER_TEMP/bin/zcc"
+          chmod +x "$RUNNER_TEMP/bin/zcc"
+          echo "$RUNNER_TEMP/bin" >> "$GITHUB_PATH"
+
+      - name: Cache verified game builds
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/p2000c-disk-tool/games
+          key: locked-games-${{ hashFiles('games.lock.toml') }}
+
+      - name: Test
+        run: make test
+
+      - name: Build deployment archives
+        run: make release
+
+      - name: Upload deployment archives
+        uses: actions/upload-artifact@v4
+        with:
+          name: p2000c-zulublaster-dist
+          path: release/
+          retention-days: 90
+
+  release:
+    needs: build
+    if: github.ref_type == 'tag' && startsWith(github.ref_name, 'v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Download deployment archives
+        uses: actions/download-artifact@v4
+        with:
+          name: p2000c-zulublaster-dist
+          path: release
+
+      - name: Publish tagged release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" release/*.zip release/SHA256SUMS.txt \
+            --verify-tag \
+            --title "P2000C SASI Distribution $GITHUB_REF_NAME" \
+            --notes-file release/RELEASE_NOTES.md \
+            --latest

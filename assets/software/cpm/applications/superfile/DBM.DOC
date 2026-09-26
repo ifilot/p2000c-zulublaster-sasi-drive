@@ -1,0 +1,459 @@
+.PN1
+.HE                         File DBMDEF.LIB
+.FO                              Blz #
+Variabelen beschrijving:
+
+Allå   globalå   variabeleî  wordeò  gedeclareerä  iî   då   filå 
+DBMDEF.LIB®  Dezå  filå ió opgenomeî iî iedeò programma®  Diô waó 
+natabank voorkomen.
+
+Verdeò  zijî  hieò noç enkelå stringtypeó gedefinieerd®  Diô  waó 
+nodiç  omdaô  eeî functiå alleeî maaò eeî typå kaî zijî  eî  nieô 
+b.v. STRING[5].
+
+Variabelen:
+
+Verder worden de globale variabelen nog gedeclareed in deze fileodiç  omdaô  iî  iedeò  programmá  då  variabeleî  iî   dezelfdå 
+volgordå gedeclareerä moesteî worden¬ waardooò heô mogelijë wordt 
+oí variabeleî vaî heô enå programmá naaò heô anderå programmá meå 
+over te nemen.
+
+Constanten:
+
+Diô  zijî då constan.
+PRMCHAÒ ió heô karaktertekeî daô wordô gebruikô biê heô  invoereî 
+vaî gegevens®  Hieraaî keî meî zieî hoeveeì karakteró meî biê heô Šinvoeren van een variabele nog kan of moet invoeren.
+DUMMÙ  ió  eeî variabelå diå geeî betrekenió heeæ maaò diå  worteî welkå nodiç zijî vooò då procedureó iî då 
+filå DBM0.LIB®
+STATØ  eî STATÙ geveî då cursorstartpositiå vaî då statuslijî  oğ 
+heô  beeldscherm®  Oğ dezå statuslijî wordeî allå berichteî gege
+ven.
+LINELEÎ geefô heô maximalå aantaì karakteró aaî diådô 
+gebruikô  aló iî heô programmá staaô "Presó anù kye"®  Daî  wordô 
+deze variabele ingelezen maar niet verder gebruikt.
+XXX,YYÙ  wordeî gebruikô oí biê tå houdeî waaò då cursoò zicè  oğ 
+dit moment bevindt.
+CHRCNÔ ió eeî variabelå diå dienô vooò he oğ eeî  regeì 
+vaî heô scherí geplaatsô kunneî worden.
+MAXLINÅ  geefô heô maximalå aantaì regeló daô oğ eeî  beeldscherí 
+geplaatst kunnen worden.
+LINELEÎ  eî MAXLINÅ telleî vanaæ 0®  Vooò eeî beeldscherí vaî  8° 
+karakters en 24 regels wordt dus opgô bijhoudeî vaî  hoeveeì 
+karakters er al zijn ingegeven.
+DISCURS,ENCURÓ   zijî  tweå  stringó  diå  naaò  heô  beeldscherí 
+geschreveî dieneî tå wordeî vooò resğ "disablå cursor¢ eî "enablå 
+cursor".
+TABCNT,COLCNT,TABSTOĞ  zijî  variabeleî diå nodiç egeven resp. 79 en 23.
+ALPHA¬ INTG¬ FTĞ eî ALCHRÓ wordeî iî då procedurå GETALÌ gebruikô 
+oí  tå  testeî  oæ eeî inpuô voldoeô aaî då  eiseî  diå  hiervooò 
+gesteld werden.
+UPCASE geeft de karakters die behoren tot alpha.
+DIG geeft de karakters die bezijî  vooò  heô 
+verwerken van tabs op de printer.
+NEXTMENU is een variabele die nodig is in de procedure MENU.
+TABS is een array waar de tab posities instaan.
+
+Toô  zoveò zijî då variabeleî diå nodiç zijî vooò  då  procedureó 
+uiô  då filå "DBM0.LIBhoren tot intg.
+ALNUÍ geefô då karakteró diå behoreî toô alchr.
+FLOAÔ geefô då karakteró diå behoreî toô fpt.
+PRMCOÌ  ió  då koloí waaò begonneî wordô meô  schrijveî  biê  heô 
+opmakeî vaî heô beeldscherm.
+MAXTAÂ  ió heô maximaaì aantaì tabó daô peò r"®  Nõ volgeî då variabeleî diå nodiç  zijî 
+voor het programma om ORDERS te verwerken.
+
+F is een file die nodig is voor het "Program chaining".
+MDL is een record uit het bestand modellen.
+ORDER is een record uit het bestand orders.
+SFREÃ  ió  eeî  pegeì naaò då printeò 
+wordt gestuurd.
+MPRÓ  ió  då  strinç diå biê heô kiezeî vaî  eeî  functiå  iî  då 
+procedure menu op de statuslijn wordt geschreven.
+Daî volgeî eò noç vieò constanteî diå wordeî gebruikô oí bepaaldå 
+ASCII-karakters te kunnen gebointervariabelå  diå  gebruikô  wordô  vooò  heô 
+wegschrijven van een record.
+STATUÓ ió eeî booleaî variabelå diå aangeefô oæ då informatiå diå 
+oğ diô momenô iî heô recorä ordeò ziô vaî belanç ió oæ niet®  Biê 
+wijzigingeî  oæ  nieuwå invoeò wordô deruiken in pascal.
+
+Als type zijn gedeclareerd:
+
+MODELRECº  Diô ió eeî recorä daô allå variabeleî bevaô diå iî eeî 
+record modellen van de databank voorkomen.
+
+ORDERRECº  Diô ió eeî recorä daô allå variabeleî bevaô diå iî eeî 
+record orders van de dzå true®  Wanneeò meî  eeî 
+ordeò alleeî maaò vaî då disã afhaalô blijfô dezå false® Meô namå 
+biê heô verlateî vaî heô programmá oæ vooò heô uitprinteî vaî eeî 
+order wordt hierop getest.
+ERÒ  ió  eeî variabelå diå diå aangeefô biê heô  zoekeî  vaî  eeî 
+record uit het bestand of dit record gevonden is of niet.
+QUIÔ  ió då variabelå diå aangeefô oæ heô programmá verlateî moeô 
+worden.
+HEADIÎ ió eeî strinç diå boveî aaî heô beelä wordô geschreveî biê 
+het opmaken van een beeldscherm.
+PROMÔ bevaô d
+SF    = De startpositie van de cursor voor de invoer.
+AORÎ  ½ Eeî nummeò tusseî ± eî 4® Daô aangeefô waô vooò eeî soorô         
+        invoeò gewensô is.
+PROÍ  ½ Eeî eventuelå vraaç diå oğ heô beeldscherí dienô komeî tå 
+        staan.
+ATRÂ  ½ Eeî å volgendå regeló diå oğ heô beelä moeteî komeî  biê 
+het opmaken van een beeldscherm.
+KEUZÅ  ió  då  variabelå  diå aangeefô waô eò gekozeî  ió  iî  då 
+procedure menu.
+.PAŠ.HE                            DBM0.LIB
+Då  filå  DBM0.LIÂ bevaô procedureó variabelå diå aangeeftº spatiå º allå invoeò mogelijk.
+                                    p      : geen echo.
+                                    c      : invoer verplicht.
+STOP  = Boolean welke true wordt als ^Z wordt ingedrukt.
+
+FUNCTIOÎ      GETALvooò då input/outpuô  diå  iî 
+allå programma'ó nodiç zijn® Zå wordô daî ooë meå gecompileerä iî 
+allå   programma's®   Dezå  procedureó  wordeî  iî  heô  volgendå 
+hoofdstuë beschreven.
+
+PROCEDURE PMESS(MESSAGE:STR64);
+Diô  ió eeî procedurå diå eeî L(NC,SF:INTEGER;DF:STR40;PR:STR80;OPT:CHAR;VAÒ 
+STOPº BOOLEAN):STR64;
+Dezå procedurå haalô eeî strinç binneî vaî heô toetsenbord® Wordô Šeò  geeî  waardå ingegeveî daî wordô då  defaultwaardå  welkå  ió 
+meegegeveî  aaî  då functiå toegekenä aaî  då  fmededelinç meegegeveî iî då  strinç 
+waarmeå   då   procedurå  wordô  aangeroepeî  uitprinô   oğ   heô 
+beeldscherm op de statuslijn.
+
+PROCEDURE CURSOFF;
+Diô  ió eeî procedurå diå ervooò zorgô daô då cursoò nieô meeò oğ 
+het beeldscherm komt.
+
+PROCunctiewaarde®  Då 
+variabeleî  diå  moeteî  wordeî meegegeveî aaî  då  functiå  zijî 
+ongeveeò  gelijë  aaî diå diå wordeî meegegeveî naaò  då  functiå 
+"GETAL"®  Meô  uitzonderinç  vaî  DF¬  diô ió då  waardå  diå  då 
+functie krijgt als er geen waardEDURE CURSON;
+Diô  ió eeî procedurå diå ervooò zorgô daô då cursoò weeò oğ  heô 
+beeldscherm komt.
+
+PROCEDURE CURSOR(SCRPOS:INTEGER);
+Diô  ió eeî procedurå diå berekenô wanneeò meî eeî  cursorpositiå 
+meegeefô  oğ  welkå lijî eî iî welkå koloí dezå pe wordt ingegeven.
+
+FUNCTIOÎ    GETINT(NC,SF,DF:INTEGER;PR:STR80;OPT:CHAR;VAÒ    STOĞ 
+:BOOLEAN)INTEGER;
+Dezå  procedurå ió gelijë aaî då voorgaandå meô diô verschiì  daô 
+deze procedure integers leest van het toetsenbord.
+
+PROCEDURE DISFOR(NLINE,STositiå  valô  eî 
+stuurô  då  cursoò naaò dezå positie®  Dezå  waardeó  wordeî  daî 
+geplaatsô iî XXØ eî YYY.
+
+PROCEDURE REVON;
+Dezå  procedurå zeô heô beeldscherí iî då "inverse¢ mode®  D.W.Z® 
+allå karakteró diå vanaæ nõ oğ heô beeldscherí geschrevARTL:INTEGER;HEADIN:STR64;PROMT:STR255);
+Dezå  procedurå bouwô eeî beeldscherí oğ oveò NLINÅ regeló  vanaæ 
+regeì  STARTL®  Waô  oğ dezå regeló dieî tå komeî staaî staaô  iî 
+PROMT® Boveî iî heô beelä komô HEADIÎ tå staaî iî "inverså video¢ 
+meô  daaroeî  wordeî 
+diå  wordeî  aló zwartå letteró tegenoveò eeî  lichtå  ondergronä 
+geschreven.
+
+PROCEDURE REVOFF;
+Deze procedure zet het beeldscherm weer in de normale mode.
+
+PROCEDURE CLRSCREEN;
+Dezå  procedurå  maakô heô beeldscherí schooî eî stuuò dndeò eeî streeğ oveò heô helå beeld®  Regeló  diå  nieô 
+worden beschreven in deze procedure worden ook niet uitgeveegd.
+
+FUNCTION JANEE(PRMT:STR40):BOOLEAN;
+Dezå functiå schrijfô ² regeló boveî då statuslijî då promtstrinç 
+eî  vraagô daî Y/Î aló hieå  cursoò 
+naar positie 0,0.
+
+FUNCTIOÎ     GETIN(NRCHS,SF,AORN:INTEGER;PROM:STR80;ATRB:CHAR;VAÒ 
+STOP:BOOLEAN):STR64;
+Diô  ió  eeî functiå welkå eeî strinç vaî heô  toetsenborä  haalä 
+waarbij:
+NRCHR = Het aantal karakters dat kan worden ingevoerd.ò Ù wordô ingetypô daî wordô janeå truå 
+anders wordt janee false.
+
+PROCEDURE LSTOUT(CH:CHAR);
+Diô ió eeî vervangendå procedurå vooò dezelfdå vaî  pascal¬  maaò 
+deze houdt rekening met de tabs voor de tally printer.
+
+FUNCTION TAB(NR:INTEGER):CHAR;
+Dezå  functiå  zeô  då  tabwaardå oğ NÒ eî geefô  heô  ^É  teken® 
+Wanneeò  meî diô laaô printeî zorgô då lstouô routinå daî daô  eò 
+genoeç  spatieó wordeî ingevoerä totdaô meî oğ då  juistå  plaató 
+van het papier is.
+
+FUNCTION BIGLET: STR4;
+WanneLEAN):STR65;
+Då  functiå  RTÇ  ió bedoelä oí wanneeò meî vaî då  databaså  eeî 
+adreó  terugkrijgô waaò eeî recorä staat®  Eeî variabelå vaî  diô 
+recorä oveò tå haleî iî eeî stringvariabelå iî pascal® Då functiå 
+haalä  då  eersô volgenä variabelå oveeò meî dezå functiå aanroepô daî krijgô meî eeî strinç vaî ´ 
+karakteró  teruç  welkå  aló meî zå laaô  uitprinteî  då  printeò 
+omschakelen naar het grote lettertype.
+
+FUNCTION NORMLET: STR4;
+Dezå  functiå  leveò ooë eeî strinç vaî ´ karakteró oğ  wer®  Heô ió duó zaaë  oí  då 
+variabelå  oveò  tå haleî iî dezelfdå volgordå aló  daô  zå  zijî 
+weggescheveî  iî då database®  Iî då variabelå DEPTÒ bevindô zicè 
+haô adreó waô meî gekregeî heefô vaî då database® Diô adreó wordô 
+biê  iederå  aanroeğ  lkå  då 
+printeò  ná heô aanroepeî vaî BIGLEÔ weeò terugzeô oğ heô normalå 
+karakterset.
+
+FUNCTION CONDLET: STR4;
+Wanneeò  meî  dezå functiå aanroepô krijgô meî eeî strinç  vaî  ´ 
+karakters die de printer omschakelen naar compressed print.
+
+FUNCTIvaî då functiå  aangepaasô  zodaô  biê  eeî 
+volgendå  aanroeğ  då  volgendå  variabelå  wordô  ingeladen®  Då 
+variabelå  stoğ  wordô truå gezeô aló heô recorä vaî då  databaså 
+leeç is®  Aló dezå variabelå truå ió daî wordô iî då functiå geeî 
+variabON DRAFT: STR4;
+Dezå  functiå  leverô eeî strinç diå då printeò  omschakelä  naaò 
+draft kwaliteid printen.
+
+FUNCTION CORR: STR4;
+Dezå  functiå  leverô eeî strinç diå då printeò  omschakelä  naaò 
+correspondentie kwaliteit printen.ŠFUNCTION MENU(N,Fele meer gelezen.
+
+PROCEDURE DBM;EXTERNAL 13;
+Biê  då  aanroeğ  vaî  dezå procedurå  wordô  heô  DBÍ  programmá 
+aangeroepen®  Voordaô dezå procedurå kaî wordeî aangeroepeî dienô 
+meî eersô heô C- eî DE-registeò vaî då CPÕ oğ då juistå waardå tå 
+zetSTLN: INTEGER; TITLE: STR40; PROMPTS: STR255;
+               STATLN:STR80):INTEGER;
+Dezå  functiå  maakô eersô eeî beelscherí oğ  bestaandå  uiô  eeî 
+titelregeì  welkå  wordô  ingegeveî iî TITLÅ eî  prinô  då  keuzå 
+mogelijkhedeî  diå  zijî meegegeveten®  Ná  då  aanroeğ  bevaô heô DE-registeò vaî  då  CPÕ  heô 
+startadreó  vaî  heô "antwoord¢ vaî då databaså eî bevaô  heô  A-
+registeò eeî errorcode.
+
+PROCEDURE GETDBM(STR:STR30;FUNCNR:INTEGER;VAR DEPTR:INTEGER;VAR 
+ERRORNR:BYTE);
+Då  procedurå  î iî PROMTS®  Î ió  heô  aantaì 
+keuzå  mogelijkhedeî  eî FSTLÎ ió då regeì waaò då texô  oğ  moeô 
+starten®  STATLÎ  ió waô oğ då onderstå regeì vaî heô beeldscherí 
+geschreveî  moeô worden®  Iî dezå functiå kaî meî vervolgenó  eeî 
+keuze maken. De fuGETDBÍ  ió bedoelä aló  då  pascalaanroeğ  vaî  då 
+database®  Iî  då variabelå STÒ kaî meî eeî modfelstrinç meegeveî 
+vooò  då  database®   Iî  då  variabelå  FUNCNÒ  geefô  meî   heô 
+functienummeò  vaî  då  aanroep®  Ná då aanroeğ bevaô  DEPTÒ  heô nctiewaarde wordt dan het gekozen nummer. 
+
+PROCEDURE LPHDR(HDRSTR: STR64; UNDCHR : CHAR);
+Då procedurå LPHDÒ ió eeî procedurå diå oğ då printeò eeî  headeò 
+schrijfô vaî ³ regels®  Tå wetenº eersô eeî helå regeì vaî UNDCHÒ 
+eî  vervolgenó då HDRSTÒ i
+startadreó  vaî  heô  antwoorä  vaî  DBÍ  eî  ERRORNÒ  bevaô   då 
+returncodå vaî DBM®  Iî då procedurå wordeî daî då juistå waardeó 
+iî  då  registeró  geladeî voordaô zå springô  naaò  DBM®  Ná  då 
+terugkeeò  vaî  DBÍ  wordeî  DEPTÒ eî ERRORNÒ daî  î heô middeî vaî heô papieò eî daî  noç 
+een hele rgel van UNDCHR.
+
+PROCEDURE INTVAR;
+Då  procedurå intvaò maakô allå variabeleî vaî eeî ordeò  bestanä 
+leeg.
+.PAŠ.HE                            PROC.LIB
+
+FUNCTION RTG(VAR DEPTR:INTEGER;VAR STOP:BOOoğ  då  juistå 
+waardes gezet.
+
+PROCEDURE RESET;
+Då procedurå RESEÔ ió bedoelä oí då findpointeò vaî DBÍ teruç  tå 
+zetteî  naaò heô begiî vaî heô bestand®  Wanneeò meî gaaô  zoekeî 
+naaò  eeî recorä eî meî wiì heô helå bestanä doorzoekeî daî dienô 
+meî  eersô då findpointeò teruç tå zetteî naaò heô begiî vaî  heô 
+bestand. Hiervoor zorgt deze procedure.
+
+PROCEDURE LAADRECORDMODEL(VAR DEPTR:INTEGER);
+Dezå procedurå ió eeî procedurå diå peò gebruikeò verschillenä ió 
+dezå  ió  gebruikô  vooò heô ovenstaandå 
+procedurå meô diô verschiì daô hieò aló eeî ordeò gevondeî ió ooë 
+heô bijbehorenä modeì uiô heô bestanä modelleî wordô geladen® Diô 
+is nodig als men een order wil laten uitprinten.
+
+PROCEDURE ERAORDER;
+Dezå  procedurå vraagô vooò eeî ooverladeî vaî  eeî  recorä  uiô  heô 
+bestanä MODELLEN® Wanneeò meî eeî recorä uiô eî andeò bestanä wiì 
+ladeî  daî dienô meî då variabeleî iî anderå volgordå tå lezeî eî 
+zaì   duó  ooë  dezå  procedurå  aangepasô  moeteî   worden®   Då 
+basisstructuurdernummeò eî aló dezå ordeò  iî 
+heô bestanä ziô daî wordô dezå uitgeveegd® D.W.Z® då statuó wordô 
+veranderä vaî "active¢ naaò "deleted"®  Biê då eerstvolgendå tidù 
+van de database wordt deze order dan van de disk geveegd.
+
+PROCEDURE UNERAORDER;
+Dr van de procedure kan echter gehandhaafd blijven.
+
+PROCEDURE LAADTORDER(VAR DEPTR:INTEGER);
+Dezå procedurå ió gelijë aaî då bovensaandå meô dezå uitzonderinç 
+daô  dezå procedurå gebruikô wordô vooò heô ladeî vaî eeî  recorä 
+uit het bestand ORDERS.ezå  procedurå  doeô heô omgekeerdå vaî då  voorgaande®  Aló  då 
+ordeò  meô heô ingegeveî ordernummeò noç oğ då disë staaô daî kaî 
+dezå  procedurå  då statuó weeò terugzetteî  vaî  "deleted¢  naaò 
+"active"®  Aló då ordeò nieô meeò oğ då disë staaô da
+ŠPROCEDURE ZOEKMODEL (MODELNR:STR5;VAR FOUT:BOOLEAN);
+Dezå  procedurå zoekô iî heô bestanä MODELLEÎ eeî recorä  oğ  meô 
+heô  modelnummeò daô wordô meegegeveî iî då strinç  MODELNR®  Aló 
+diô  modeì  wordô  gevondeî iî heô bestanä daî wordô  heô  binnî wordô hieò 
+een meededeling van gedaan.
+
+PROCEDURE PRTORDER;
+Då procedurå PRTORDEÒ roepô eersô då procedurå LOADORDEÒ aaî vooò 
+heô  ladeî  vaî eeî ordeò meô heô bijbehorenä modeì  eî  schrijfô 
+bepaalde gegevens hiervan op de printer.
+
+.PAŠ.HE eî 
+geladen® Wordô heô recorä nieô gevondeî daî wordô då booleaî FOUÔ 
+truå gezet® Aló eò geeî recorä meô diô modelnummeò iî heô bestanä 
+zit dan wordt er een foutmelding op het beeldscherm geschreven.
+
+PROCEDURE CLOSEDBM;
+Dezå  procedurå  sluiô  då                            PROC2.LIB
+PROCEDURE INPUTORDER1(HEADIN:STR64;INPMOD:CHAR);
+Procedurå   inputorder±   dienô   vooò   heô   ingeveî   vaî   då 
+orderbasisgegevens®  Heô  beeldscherí wordô hiervooò opgemaakô eî 
+då  hiermeå bedoeldå variabeleî fileó waaò oğ  heô  momenô  meå  wordô 
+gewerkô  af®  Diô  dienô  tå gebeureî voordaô meî meô  eeî  andeò 
+bestand gaat werken.
+
+PROCEDURE CHANGENAME (NAME:STR10);
+Dezå  procedurå  sluiô heô bestanä waarmeå gewerkô  wordô  aæ  eî 
+openô  heô bestanä wordeî ingelezen®  HEADIÎ ió  eeî 
+strinç  diå  bovenaaî oğ heô beeldscherí uitgeschreveî  dienô  tå 
+wordeî eî INPMOÄ ió eeî variabelå diå aangeefô oæ eeî modelnummeò 
+ingegeven moet worden of niet.
+In deze procedure bevindt zich de procedure:
+      meô då naaí diå meegegeveî wordô iî då  strinç 
+NAME.
+
+PROCEDURE LOADBASEORDER;
+Då  procedurå LOADBASEORDEÒ vraagô vooò eeî ordernummeò eî  laadô 
+dezå  ordeò uiô heô bestanä orders®  Voorwaardå ió daô meî weì oğ 
+heô  momenô  vaî  binnenkomsô iî heô                PROCEDURE DUMPDEFAULT;
+Diå ervooò bedoelä ió oí allå defaulô waardeó oğ heô  beeldscherí 
+te plaatsen.
+
+PROCEDURE INPUTORDER2(HEADIN:STR64);
+Dezå  procedurå  doeô hetzelfdå aló då voorgaandå procedurå  maaò 
+dan met de set/kleur gegev bestanä orderó  ió  aaî  heô 
+werken®  Wanneeò  då  ordeò meô heô  ingegeveî  ordernummeò  nieô 
+gevondeî  wordô  daî wordô eò eeî foutmeldinç oğ  heô  beelscherí 
+gegeven.
+
+PROCEDURE LOADORDER;
+Dezå  procedurå  doeô  ongeveeò  hetzelfdå  aló  då  bens.
+Ook deze bevat een PROCEDURE DUMPDEFAULT;
+
+PROCEDURE INPUTORDER3(HEADIN:STR64);
+Dezå  procedurå  doeô hetzelfdå aló då voorgaandå procedurå  maaò 
+dan met de set/stuks gegevens.
+Ook deze procedure bevat een PROCEDURE DUMPDEFAULT;
+
+PROCEDURE MUTEERORDER;
+Dezå  procedurå vraagô welë gedeeltå vaî eeî ordeò gewijzichô  oæ 
+ingevoerä dienô tå wordeî eî gaaô afhankelijë vaî då invoeò  naaò 
+en van de 3 bovenstaande procedures.
+
+.PAŠ.HE                            PROC3.LIB
+PROCEDURE DBM;EXTERNA meô bepaaldå gegevenó vaî heô modeì 
+daô  iî  eeî  ordeò gebruikô wordt®  Diô koî nieô  dooò  heô  DBÍ 
+programmá  zelæ oæ dooò heô programmá FORMÓ wordeî gedaaî oí tweå 
+redenen. Te weten:
+Teî eersteº Då totalå hoeveelheiä gegevenó diå iî eeî ordeò mL 13;
+Deze procedure is al beschreven bij PROC.LIB.
+
+PROCEDURE GETDBM(STR:STR30;FUNCNR:INTEGER;VAR DEPTR:INTEGER;VAR ERRORNR:BYTE);
+Idem.
+
+PROCEDURE RESET;
+Idem.
+
+PROCEDURE SFTAG(MDLSTR:STR64);
+Dezå  procedurå  voegô då modelstrinç toå aaî eeî rioesô 
+komeî  tå  staaî  waó tå grooô oí iî eeî  beeldscherí  tå  kunneî 
+ingeven. Iets wat bij het programma forms noodzakelijk is.
+Teî  tweedeº  Oí biê heô uitprinteî vaî eeî ordeò ooë gegeveî vaî 
+heô  iî diå ordeò opgenomeî modeì tå kunneî uitprinteê  diå  wordô 
+klaargemaakô  oí tå stureî naaò DBM®  Aaî heô eindå vaî då strinç 
+wordô eò eeî Enä Oæ Iteí karakteò vooò DBÍ toegevoegd®  Dezå  riê 
+wordô  opgeslageî  iî  heô  geheugeî  direcô  achteò  heô  pascaì 
+programma®  Biê  heô gebruië vaî dezî dienô  meî 
+oí  tå  kunneî  schakeleî vaî heô enå  bestanä  naaò  heô  anderå 
+bestand®  Diô  waó vanuiô heô programmá formó nieô mogelijk®  Meî 
+zoõ  daî eersô terugmoeteî naaò DBÍ waaò meî heô bestanä  waarmeå 
+gewerkô  wordô weì kaî verandereî eî å procedurå dienô meî eò  weì 
+zekeò  vaî tå zijî daô dezå riê nieô zï lanç wordô daô hiê  tegeî 
+då  variabeleî vaî pascaì iî heô geheugeî komô daaò eò anderó eeî 
+run error in pascal optreedt.
+
+PROCEDURE SAFEORDER;
+Dezå  procedurå voegô allå tagó vdaarná weeò teruç  naaò  heô 
+programmá  forms®  Diô  waó ietó waaò vriê veeì tijä meå  gemoeiô 
+was.
+Vanuiô  eeî pascalprogrammá ió dezå omschakelinç  gemakkelijë  tå 
+realiseren.
+
+Heô  totalå programmá meô då bijbehorendå variabeleî werä  echteò 
+aî eeî ordeò recorä toå  aaî  då 
+eeî  riê  diå gemaakô wordô m.b.v®  då bovenstaandå procedurå  eî 
+geefô  vervolgenó DBÍ då opdrachô dezå variabeleî oğ tå slaaî  iî 
+heô orderbestand® Voorwaardå ió weì daô meî oğ heô momenô vaî heô 
+binnentredeî  vaîzï grooô daô heô nieô meeò tegenlijë meô heô DBÍ programmá iî heô 
+geheugeî  vaî  då computeò paste®  Hierdooò ió heô opgesplitó  iî 
+driå kleinerå programma'ó diå viá heô z.g®  program-chaininç  meô 
+elkaaò  verbondeî  zijn®  Oí iî eeî vaî dezå driå pr då procedurå iî heô bestanä orderó ió  aaî  heô 
+werken.
+
+PROCEDURE CLOSEDBM;
+Deze procedure is al beschreven bij PROC.LIB.
+
+PROCEDURE CHANGENAME (NAME:STR10);
+Idem.
+
+PROCEDURE TIDY;
+Dezå  procedurå  doeô eeî tidù vaî heô bestanä orderó waarná  ogramma'ó  tå 
+kunnen komen werd het programma strt eraan toegevoegd.
+Biê då beschrijvinç vaî då programma'ó kaî meî heô bestå  uitgaaî 
+van het hoofdmenu:
+
+          1   Invoeren order.
+          2   Laden order uit database.
+          3   Wijzigeneeî 
+indeø  wordô  aangemaakô vooò heô  bestanä  ORDERS¬  MODELLEÎ  eî 
+DESSINS®  Dezå indexeî heteî resp®  ORDINDEX.NDX¬ MDLINDEX.NDØ eî 
+DESINDEX.NDX®  Biê  eeî eventuelå fouô iî då databaså wordô  hieò 
+melding van gedaan.
+.PAŠ.HE                  van een order.
+          4   Wegschrijven van een order.
+          5   Uitvegen van en order.
+          6   Herstellen uitgeveegde order.
+          7   Uitprinten van een order.
+          8   Tidy en nieuwe index maken.
+          9   Exit.
+
+Aì  de          PROGRAMMA'S
+Toô  zoveò  zijî alleî då procedureó eî då variabeleî  declaratiå 
+beschreven® Nõ volgô eeî programmá beschrijving® Heô doeì vaî heô 
+programmá waó daô meî orderó iî då databaså koî inbrengeî eî  daô 
+meî dezå koî lateî uitprinteîzå komando'ó m.u.v®  heô laatstå vertegenwoordigeî bepaaldå 
+procedureó  diå uitgevoerä moeteî worden®  Dezå  procedureó  zijî 
+gesplitsô   iî  driå  groepen®   Daardooò  krijgô  meî  ooë  driå 
+programma'ó   diå   elë   huî   eigeî   procedureó   hebben®   Då 
+onderverdelinç werä zï genomeî daô programmá stukkeî diå dezelfdå 
+procedureó  gebruikeî  zoveeì mogelijë biê elkaaò  bleveî  staan® 
+Hierdoor zijn devolgende drie groepen ontstaan.
+
+     1 en 3     Programmanaam: F13.PAS       Gebruikt: PROCåååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååå.LIB
+     2,5,6 en 7 Programmanaam: F2567.PAS     Gebruikt: PROC2.LIB
+     4 en 8     Programmanaam: F48.PAS       Gebruikt: PROC3.LIB
+.PAŠHoofdprogramma's:
+
+Då  hoofdprogramma'ó  zijî allemaaì vaî dezelfdå opzet®  Biê  heô 
+startprogrammá  wordô eeåååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååårsô då keuzå bepaalä eî aaî då  hanä  vaî 
+diå keuzå wordô eeî andeò programmá geladeî eî uitgevoerd®  Iî då 
+anderå  programma'ó  wordô  eersô då  oudå  keuzå  uitgevoerä  eî 
+vervolgenó vooò eeî nieuwå keuzå gevraagd®  Wanneeò dezå keuzå iî 
+hetzelfd

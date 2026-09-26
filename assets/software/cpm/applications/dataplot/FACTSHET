@@ -1,0 +1,360 @@
+.cw 10
+.FO GRAFOX FACT SHEET FOR DATAPLOT PLUS  15.May.84            Page #
+.PN1
+
+
+
+
+
+
+
+                         ===============
+                         =DATAPLOT PLUS=
+                         ===============
+
+
+                     SOPH 35 St Clements, Oxford, England.
+        Phone : 0865-242597    Telex : 83147 Attn Grafox
+.PAŠ
+DATAPLOT+ WORKS ON THE FOLLOWING PHILIPS COMPUTERS
+==================================================
+
+
+P2010 160K disk format (2 disks)
+P2012 640K dISTICATED SOFTWARE
+
+
+DATAPLOT«  representó á ne÷ concepô iî businesó graphicó softwarå  foò 
+microcomputers®   Iô  haó beeî designeä tï allo÷ yoõ tï preparå graphó 
+oæ youò datá iî á quick¬  easù anä flexiblå manner¬ withouô disruptinç 
+youò daù tï isk format (1 disk)
+
+(not yet available) 
+P2500 304K disk format
+P2500 608K disk format
+
+
+DATAPLOT+ WORKS WITH THE FOLLOWING PLOTTERS
+=============================================
+
+CALCOMP M84                        HEWLETT PACKARD 7475
+CALCOMdaù work®   Almosô certainlù yoõ alreadù havå numeriã datá 
+storeä oî á microcomputeò system®   DATAPLOT« wilì reaä thió datá froí 
+botè locaì anä remotå sources¬  includinç tabulaò datá files¬  spread-
+sheeô models¬  databaså reports¬  anä worä processP M81                        HEWLETT PACKARD 7470
+NICOLET ZETA 8                     GOULD COLORITER CS10
+WATANABE 4636R                     MANNESMAN TALLY PIXY 3
+ROLAND DXY 800                     SWEET P
+COMSCRIBER I                       HPGL compaeä documents®   Youò 
+graphinç  commandó arå storeä iî thå datá file¬  sï yoõ  kno÷  exactlù 
+whaô youò grapè ió goinç tï looë like®   Yoõ don'ô havå tï learî á ne÷ 
+prograí tï uså DATAPLOT«  -  yoõ jusô preparå youò datá filå normally¬ 
+addinç youò grtible plotters
+
+Furtheò  plotteró  arå beinç addeä tï thió lisô (particularlù  Philipó 
+plotters)¬ aó welì aó populaò doô matriø printeró including:
+
+     MT80           
+     MT180L         
+
+
+
+DATAPLOT+ SPEAKS MANY LANGUAGES
+=================apè requests¬ anä leô DATAPLOT« dï thå rest.
+
+Thió  facô  sheeô  provideó  yoõ witè á synopsió oæ  thå  featureó  oæ 
+DATAPLOT« anä showó yoõ ho÷ graphó maù bå prepareä usinç thå  program®  
+
+DATAPLOT«  ió  designeä aó aî entrù leveì graphicó prograí ==============
+
+
+DATAPLOT« ió currentlù availablå iî Englisè anä German®   Translationó 
+into other languages are possible as demand requires.
+
+
+.PAŠ
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+DATAPLOT+ READS WORD PROCESSED foò uså  bù 
+professionaló iî á widå rangå oæ businesó areas®   Timå ió onå oæ youò 
+mosô importanô assets¬  anä sï DATAPLOT« runó quicklù anä efficiently¬ 
+anä  ió  verù  easù  tï  learî  ho÷  tï  use®   Iæ  yoõ  havå  useä  á 
+microcomputeò before¬ yFILES
+====================================
+
+
+<TI>,Growth Industries
+<ST>,Monthly Report
+<FN>,Source : Accounts
+<Jan 1983 #2>
+<HI>,Profit & Loss,-59,-51,-38,-20,-4,28,55,102,165,214,288,391
+
+
+Usinç thió simplå datá filå prepareä witè á worä procoõ wilì bå ablå tï dra÷ youò firsô grapè withiî 
+minuteó  oæ usinç thå program®   Thå prograí wilì makå logicaì choiceó 
+iæ   yoõ  forgeô  tï  includå  informatioî  iî  youò   commands¬   anä 
+distinguisheó betweeî monochromå anä colouò outpuô devices® essor¬  DATAPLOT« 
+drawó  á  fullù titleä anä correctlù scaleä graph®   Alì thå  plottinç 
+informatioî  ió containeä iî thå <.....¾ commandó iî thå firsô  columî 
+oæ eacè ro÷ oæ data®  Thå threå titleó (title¬ subtitle¬ anä footnote© 
+arå centrallù loc  Althougè 
+thió  facô sheeô ió iî blacë anä white¬  thå graphó showî herå maù  bå 
+seeî iî colouò iî thå DATAPLOT« brochure.
+
+DATAPLOT+®   Simplå  yeô sophisticated®   Yoõ spenä lesó timå aô  youò 
+computer¬ noô more.
+
+
+
+
+          GRAFOX Ltd,ateä oî thå grapè iî theiò defaulô sizes®   DATAPLOT« 
+useó  thå  commanä  iî  thå fourtè ro÷ <Jaî  198³  #2¾  tï  starô  thå 
+labellinç oî thå horizontaì axió witè Januarù 1983®   Thå #² meanó thå 
+datá  ió  tï bå outpuô monthlù anä aó therå arå twelvå valueó  iî  thå 
+file¬ DATAPLOT« automaticallù labeló thå axió witè consecutivå months®  
+Thå  crosó hatchinç stylå haó beeî decideä bù thå program®   Thå  baró 
+havå beeî drawî upwardó iæ thå valuå ió abovå zero¬ anä downwardó froí 
+thå zerï linå iæ tionó onlù parô oæ thå 
+datá  valueó  arå  shown)®   Noticå thaô yoõ  caî  blanë  ouô  certaiî 
+sectionó oæ thå grapè anä reservå iô purelù foò thå legends.Š
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+DATAPLOT+ READS SPREADSHEET MODELSthå valuå ió negative.
+.PAŠ
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+DATAPLOT+ HAS HIGH QUALITY TEXT
+===============================
+
+
+<ti f4>,"BMW MEDIA ALLOCATION"
+<st f4 s1>,"THIS YEAR'S BUDGET"
+<fn f4>,"SOURCE : MEAL"
+==================================
+
+
+   |    A   ||   B  ||   C  ||  D  ||   E  ||  F  ||  G  ||   H  |
+ 1|<TIF5>    European Holiday Locations
+ 2|<STF5>    Based on last holiday only
+ 3|<LG F5>
+ 4|<1>
+ 5|<LX>                Greece  Italy  France
+<lg f4>
+<pi h3>,"REGIONAL",75
+<pi h4>,"NATIONAL",743
+<pi h6 x>,"TELEVISION",380
+<pi h8>,"MAGAZINES",1350
+
+
+DATAPLOT«  wilì  alsï reaä Commá Separateä Valuå fileó  likå  thå  onå 
+showî  above®   Thå  <F...¾  commanä  selectó froí á  choicå  oæ  fi  Spain  Ibiza Majorca
+ 6|<HIH7>    1979         280    550    1080    912    189     489
+ 7|<HIH8>    1980         350    580    1150    730    230     650
+ 8|<HIH6>    1981         500    710    1512    764    210     614
+ 9|<XL F5 S3>
+10|<YL F5 S3>vå 
+differenô fontó foò alì titling¬  labellinç anä legendó oî thå  graph®  
+Theså  fontó  alsï supporô speciaì languagå  characters®   Usinç  higè 
+qualitù  text¬  youò  graphó  arå professionallù prepareä anä  caî  bå 
+includeä directlù intï reports¬
+
+
+Iæ yoõ uså SuperCalã oò PeachCalc¬  theî yoõ wilì recogniså thå formaô 
+oæ thå datá filå above®  Iô ió thå printeä outpuô froí youò model®  Iæ 
+yoõ  storå  thió oî disë usinç thå outpuô commanä iî  SuperCalc¬  likå 
+thióº  
+     /Outpuô  Disp  presentationó anä publications®  Wheî 
+drawinç  piå  charts¬  anù  oæ thå segmentó maù  bå  explodeä  tï  adä 
+emphasió  tï thå informatioî beinç displayed®   Alsï thå percentagå oæ 
+thå totaì ió calculateä bù DATAPLOT« anä addeä tï youò chart.
+.PAŠlaù  All‚  Disë  Filename
+
+theî  DATAPLOT« wilì transparentlù interfacå witè youò  data®   Noticå 
+thå uså oæ thå <LX¾ commanä iî thå datá filå tï uså ro÷ µ tï labeì thå 
+horizontaì axis.
+.PAŠDATAPLOT+ COMMANDS
+==================
+
+Thå  lisô
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+DATAPLOT+ IS EASY TO USE
+========================
+
+
+<TI F2>,INVESTMENT PORTFOLIO
+<ST F2 S1>,COMPARATIVE ANALYSIS
+<FN F2>,BUTTERWORTH & SIDELL
+<1/1970:#4>
+<LI T3>,ABC INVESTMENTS,61,6 oæ commandó showî belo÷ ió thå entirå rangå availablå tï yoõ 
+wheî  yoõ preparå youò graphs®   Theù arå storeä iî thå datá filå  anä 
+refeò  eitheò  tï  aî individuaì linå oæ data¬  oò  theù  arå  generaì 
+instructionó oî youò graph'ó appearance®   Com6,73,81,86,90,96,100,96,98,99,105,100
+<LI T3 L5>,XYZ INDUSTRIES,87,89,96,99,92,88,84,86,99,102,97,91,86
+<UL 50/110>
+<ND 30>
+<LG P3 F2>
+<XL F2>
+<YL F2>
+<GR W Y>
+
+
+Wheî  yoõ wanô tï overridå thå computeò defaults¬  jusô  includå  youò 
+speciaì  comandó thaô arå  encloseä 
+iî  {....ı arå optional¬  anä iæ theù arå noô includeä DATAPLOT«  wilì 
+makå á sensiblå decisioî oî whaô valuå shoulä bå used.
+
+
+{.....} = Optional
+
+GRAPH TYPES                                  CROSS HATCHING STYLES     mmandó  iî thå datá file¬  anä DATAPLOT« wilì  obey®  Largå 
+amountó  oæ datá arå handleä bù thå prograí witè easå aó iî thå  abovå 
+examplå  wherå twelvå yearó oæ quarterlù datá (4¸ datá pointó peò  seô 
+oæ data© ió beinç displayeä (duå tï spacå limita
+Histogram   - <HI,{Col},{Hatch}>             H1 - Link to colour       
+Line graph  - <LI,{Col},{Thick},{Style}>     H2 - Solid filled         
+Scattergram - <SC,{Col},{Type}>              H3 - Vertical             
+Pie chart   - <PI,{Col},{Hatch},{Explode}>   H4 - Horizontal           
+                                             H5 - Inclined up          
+TITLES AND LEGENDS                           H6 - Inclined down        
+Title       - <TI,{Col},{Font},{Size}>       H7 - Vertical & horizontal                Y  - Yellow               
+F4 - Times bold                              C  - Cyan (light blue)    
+F5 - Times italic                            M  - Magenta  (Violet)    
+                                             K  - blacK           
+Sub-title   - <ST,{Col},{Font},{Size}>       H8 - Inclined up and down 
+Footnote    - <FN,{Col},{Font},{Size}>       H9 - Tartan               
+Legends     - <LG,{Col},{Font},{Size},{Pos}>                          
+X labels    - <XL,{Col},{Font},{Size     
+LEGEND POSITIONS            
+P1-Left/top   
+P2-Right/top   
+P3-Left/bottom   
+P4-Right/bottom
+
+åååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååå}>       SCATTER GRAPH TYPES       
+Y labels    - <YL,{Col},{Font},{Size}>       T1 - Circle               
+                                             T2 - Box                  
+ADDITIONAL COMMANDS                          T3 - Triangle up        åååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååå  
+Grids       - <GR,{Col},{X},{Y}>             T4 - Triangle down        
+Upper/lower - <UL,UPPER,LOWER>               T5 - Cross                
+Divisions   - <ND,1-99>                      T6 - Tripod               
+Label x axis- <LX>               åååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååå            T7 - Star                 
+Bar width   - <HW,1-99>                                               
+3-D bars    - <3D>                           LINE GRAPH STYLES         
+                                             L1 - Solid              åååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååååå

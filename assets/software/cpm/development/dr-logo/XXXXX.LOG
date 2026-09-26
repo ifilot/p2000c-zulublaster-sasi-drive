@@ -1,0 +1,168 @@
+to ende
+local "file
+ct
+pr [onder welke naam moet het geheugen gesaved worden ?]
+make "file first rl
+save :file
+repeat 10 [pr "]
+pr [de data is opgeslagen.]
+pr [* * * * * * * PROGRAMMAEINDE * * * * * * *]
+stop
+end
+to start
+ct
+pr [* * * * gegevefeldnr + 1]]
+pr [- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -]
+pr "
+end
+to ansehen
+pr [welchen datensatz wollen sie sehen ?]
+pr [(eingabe 0 fuehrt zum menue)]
+type [datensatz nnsbeheer logodat * * * *]
+repeat 5 [pr "]
+pr [i nitialisierung]
+pr [e ingabe]
+pr [a nsehen]
+pr [l isten]
+pr [d atensatz suchen]
+pr [s ortieren]
+pr [p rogrammende]
+repeat 4 [pr "]
+pr [= = = = = = = > maak uw keuze ...]
+make "wunsch []
+make "wunsummer:]
+make "nr first rl
+if emptyp :nr [start]
+if :nr = "0 [start]
+pr "
+druckesatz :nr
+ansehen
+end
+to suche
+(local "gefunden "suchbegriff "suchfeld "zugriff "daten "inhalt "nr)
+ct
+pr [in welk verl zoeken ?]
+feldwahl
+pr [es soll gesucht werdench rc
+ausfuehrung :wunsch
+end
+to eingabe
+(local "dat "daten "eingebefeld "ausgabetext "satznummer "nr "feldnr)
+ct
+pr [* * * * * * * data ingeven * * * * * * *]
+type [satz nr.]
+make "satznummer rl
+if emptyp :satznummer [start]
+make "nr first :satz nach ?]
+make "suchbegriff rl
+make "suchfeld word "feldname :feld
+make "nr 1
+make "gefunden "n
+pr "
+pr [suche laeuft ...]
+pr "
+repeat :feldanzahl [make "zugriff gprop :suchfeld ".apv make "daten word "d :nr make "inhalt gprop :daten :zugriff if (:snummer
+if :nr > :maximum [eingabe]
+make "daten word "d :nr
+ct
+type [eingabe:]
+pr "
+make "feldnr 1
+repeat :feldanzahl [make "eingabefeld word "feldname :feldnr make "ausgabetext gprop :eingabefeld ".apv type :ausgabetext make "dat rl pprop :daten :auuchbegriff = :inhalt) [druckesatz :nr make "gefunden "j] make "nr:nr + 1]
+if :gefunden = "n [pr [* * * nicht in der datei * * *]]
+end
+to feldwahl
+make "feldnr 1
+pr "
+repeat :feldanzahl [type :feldnr type "# = make "ausgabefeld word "feldname :feldnr sgabetext :dat make "feldnr :feldnr + 1]
+eingabe
+end
+to init
+(local "feldnr "ausgabe "eingab)
+ct
+make "felder [feldnamen]
+pr [* * * * * * aufau der datei * * * * * *]
+pr "
+pr [hoeveel ingeefvelden ?]
+make "feldanzahl rc
+pr :feldanzahl
+make "felmake "zugriff gprop :ausgabefeld ".apv pr :zugriff make "feldnr :feldnr + 1]
+pr "
+pr [geef het nummer van het gewenste veld .]
+make "feld rc
+end
+to sortiere
+(local "sortfeld)
+make "n 1
+ct
+pr [welk veld moet gesorteerd worden ?]
+feldwahl
+pr "
+madnr 1
+repeat :feldanzahl [make "ausgabe word "feldname :feldnr type :ausgabe type [.] make "eingab first rl make "eingab word :eingab ": make :ausgabe :eingab make "feldnr :feldnr + 1]
+ct
+pr [wie viele datensaetze ?]
+make "maximum first rl
+end
+to liske "sortfeld word "feldname :feld
+make "zugriff gprop :sortfeld ".apv
+pr [* * * sorteren in werking... * * *]
+repeat :maximum [if :n = 1 [make "n 0 sort2]]
+end
+to sort2
+(local "is1 "is2 "nr)
+make "nr 1
+repeat :maximum [make "satz1 word "d :nr make te
+ct
+pr [* * * * * * ausgabe der gesamten datei * * * * * *]
+pr "
+drucker
+ct
+make "nr 0
+repeat :maximum [make "nr :nr + 1 druckesatz :nr]
+copyoff
+warte
+end
+to druckesatz :nr
+(local "daten "feldnr "ausgabefeld "zugriff)
+make "daten word "d :nr"is1 gprop :satz1 :zugriff make "satz2 word "d :nr + 1 make "is2 gprop :satz2 :zugriff if emptyp :is2 [stop] if ((first :is2) < (first :is1)) [tausche make "n 1] make "nr + 1]
+end
+to tausche
+(local "feldnr "feld "dummy "zugriff)
+make "feldnr 1
+repeat 
+make "feldnr 1
+type [datensatz nr.:]
+pr :nr
+pr [- - - - - - - - -]
+repeat :feldanzahl [make "ausgabefeld word "feldname :feldnr make "ausgebetext :ausgabefeld make "zugriff gprop :ausgabefeld ".apv type :zugriff type gprop :daten :zugriff pr ["make ":feldanzahl [make "feld word "feldname :feldnr make "zugriff gprop :feld ".avp make "dummy gprop :satz1 :zugriff pprop :satz1 :zugriff (gprop :satz2 :zugriff) pprop :satz2 :zugriff :dummy make "feldnr :feldnr + 1]
+end
+to warte
+local "eingabe
+pr "
+pr [tastendruck fuehrt zum menue ...]
+make "eingabe rc
+end
+to drucker
+pr [ausdruck auch auf den drucker geben ?]
+make "eingabe rc
+if :eingabe = "j [copyon]
+end
+to ausfuehrung :wunsch
+if :wunsch = "i [init]
+if :wunsch = "e [eingabe]
+if :wunsch = "a [ееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееansehen]
+if :wunsch = "l [liste]
+if :wunsch = "p [ende]
+if :wunsch = "d [suche]
+if :wunsch = "s [sortiere]
+start
+end
+to s
+ct
+pr [* * * * gegevensbeheer logodat * * * *]
+repeat 5 [pr "]
+pr [i nitialisierung]
+pr [e ingabe]
+pr [a nsehen]
+pr [l iееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее

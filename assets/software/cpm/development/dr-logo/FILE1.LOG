@@ -1,0 +1,41 @@
+pprop "princ "bury "true
+pprop "x "bury "true
+pprop ".system "bury "true
+to start 
+init.nouns.rhymes
+instruc
+ask
+end
+
+to init.nouns.rhymes 
+make "nouns [men women children workers friends]
+make "rhymes [[lend mend defend pretend spend] [lament rееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееepent represent invent dissent] [own loan moan drone groan] [joke awoke spoke invoke provoke] [might fight excite reunite delight]]
+end
+
+to ask 
+pr " 
+type [would you like to add nouns ?]
+make "keyin rl
+if emptyp :keyin = "false [if first first :keyееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееin = "y [add.nouns]]
+pr " 
+type [would you like to add verbs ?]
+make "keyin rl
+if emptyp :keyin = "false [if first first :keyin = "y [add.rhyme]]
+pr " 
+poetry
+ask
+end
+
+to instruc 
+ct ts
+setcursor [3 11]
+pr [random rhymes]
+setcursor [6 3]
+pr ееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее[this program creates rhymes from]
+pr [nouns and verbs. it contains a]
+pr [collection of words, and you can add]
+pr [others.]
+setcursor [11 3]
+pr [to make a rhyme press any key.]
+pr [press the space bar to add your own]
+pr [nouns or verbs. press theееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее

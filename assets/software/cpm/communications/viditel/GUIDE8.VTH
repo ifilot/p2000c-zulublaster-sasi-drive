@@ -1,0 +1,195 @@
+-------------------------------------------------------------------------------
+VIEWTEXT USER GUIDE   Section 8.1                            (C) T SYSTEMS 1984
+Version 1.0                                                  (C) TANDATA   1984
+-------------                               (C) TANDATA   1984
+-------------------------------------------------------------------------------
+  HELP              ...  recall this page without upsetting the edit           
+  NEWPAGE           ...  create a new page ------------------------------------------------------------------
+                         THE VIEWTEXT EDITOR                                   
+                                                                               
+The VIEWTEXT editor allows (and save current page if changed) 
+  READ  filename    ...  read a page to the screen    }   default extension for
+  WRITE  filename   ...  write the screen to a file   }   files is set to .PGE 
+  HDR               ...  display the file header & date  you to create and modify PRESTEL pages on a standard
+CP/M system. All the facilities of PRESTEL are available except for dynamic-   
+ally changing pages. You can use colour, double height, flashing and concealed 
+characters regardless of the capabiliti                       
+  NEWHDR            ...  to type a new header (date inclusion is automatic)    
+  SEE COLOUR        ...  alpha colours          }                              
+      GRAPHICS      ...  graphic colours        } Displayed on the ries of your host system. Graphics are    
+usable on any system, but will only appear correctly if your system terminal   
+is capable of reproducing the TELETEXT graphics characters. For non-graphics   
+the TELETEXT character is replaced by its correspondght screen
+      HIDDEN        ...  mark concealed chars   } half. Only the initial letter
+      FLASHING      ...  mark flashing chars    } of the attribute is needed   
+      BACKGROUND    ...  background colour      }                              
+ ing ASCII character.       
+When the editor is first entered a HELP MENU is displayed with a summary of the
+commands available. The menu is shown on the next frame of this section of the 
+User Guide (8.2). Some commands are a single word, others are fol     PRESTEL       ...  attribute control characters (can be edited)          
+In edit mode (after a command) you can type freely on the left screen half     
+Ctrl-E ... insert space     Ctrl-W ... delete character  Ctrl-S ... insert line
+Ctrl-N ... dellowed by a    
+second word or a file name. All may be typed in upper or lower case, all allow 
+corrections using BACKSPACE, and all are terminated by RETURN. If a command is 
+incorrect for any reason, an error message will be displayed (ie. Cannot find ete line      Ctrl-P ... switch screens    Ctrl-Q ... quick help 
+Ctrl-D ... find @   Ctrl-F ... COMMAND MENU   Dual ESCAPE ... exit to MAIN MENU
+-------------------------------------------------------------------------------
+Press any key to continue o 
+file) or the prompt will be repeated.                                          
+-------------------------------------------------------------------------------
+Press any key to continue or press ESCAPE twice to return to MAIN MENU
+
+-----------------r press ESCAPE twice to return to MAIN MENU
+
+------------------------------------------------------------------------------$
+-------------------------------------------------------------------------------
+VIEWTEXT USER GUIDE   Section 8.3              -------------------------------------------------------------$
+-------------------------------------------------------------------------------
+VIEWTEXT USER GUIDE   Section 8.2                            (C) T SYSTEMS 1984
+Version 1.0                                 (C) T SYSTEMS 1984
+Version 1.0                                                  (C) TANDATA   1984
+-------------------------------------------------------------------------------
+If you change your mind about a command, backspace to the start and hit RETURN.
+This is guaranteed to restore the status quo. When editing, the screen is      
+divided by a vertical line in the first column of the right screen as a guide  
+to the screen boundaries. This line can be overwritten, and is not saved  spaces in the text. Other displays are available via the SEE command,
+but these are for information only. The attribute display (SEE PRESTEL) is the 
+only one that can be edited.                                                   
+                      on    
+disc when writing out a file. The cursor will be placed initially at the top   
+left of the screen.                                                            
+                                                                               
+To co                                                         
+Right screen displays show a dot wherever there is a visible but non-relevant  
+character, e.g. an alphanumeric character after SEE GRAPHIC. In the PRESTEL    
+attribute display these dots mark anstruct a page of text, simply type it onto the left half of the screen.  
+The RETURN and cursor keys will behave exactly as normal, except that column 40
+will be treated as the right hand margin. Page layout can be tidied up with the
+CTRL-N,S,E and W cll the visible characters on the left screen
+i.e. all but spaces and attribute control characters. New attribute control    
+characters must be typed between the dots - either on top of spaces or existing
+control characters. Cursor keys are active on thommands to move the text about. If you want to use colours   
+other than black-on-white, or special attributes such as double height, a SPACE
+must be entered on the left screen at the required position, as the attribute  
+cannot be placed in a position e right screen half, but other-
+wise only characters from the special set shown on the next frame (8.5) are    
+recognised. When an attribute is typed, the cursor does not move - when you    
+see the effect you may wish to undo what you just did...!    currently occupied by a character. To edit an   
+existing page, READ the file and then type over the sections that you wish to  
+change.                                                                        
+--------------------------------------------                  
+-------------------------------------------------------------------------------
+Press any key to continue or press ESCAPE twice to return to MAIN MENU
+
+------------------------------------------------------------------------------$
+-----------------------------------
+Press any key to continue or press ESCAPE twice to return to MAIN MENU
+
+------------------------------------------------------------------------------$
+-----------------------------------------------------------------------------------------------------------------------------------------------
+VIEWTEXT USER GUIDE   Section 8.5                            (C) T SYSTEMS 1984
+Version 1.0                                                  (C) TANDATA   1984
+----------------------------
+VIEWTEXT USER GUIDE   Section 8.4                            (C) T SYSTEMS 1984
+Version 1.0                                                  (C) TANDATA   1984
+-----------------------------------------------------------------------------------------------------------------------------------------------
+Character set for PRESTEL attribute controls:                                  
+                                                                               
+   W R G B M C Y   set alp--
+When the text is complete, change screens using CTRL-P and enter any special   
+attribute characters on the right screen. After a READ command, the right half 
+of the screen will be showing the attribute control characters which normally  
+appear ashanumeric mode and colour: white, red, green, blue,  
+                   magenta, cyan, yellow.                                      
+   w r g b m c y   set mosaic (graphic) mode and colour.                       
+                                                                               
+       *  :        set contiguous/separated mosaics.                           
+       !  =        hold/release mosaic.                                        
+       f  s        flashing/steady.                           
+Any double height attribute causes the whole of the next line to be obscured,  
+except for the lower halves of double height characters. The next line will    
+remain in the screen buffer and will reappear if all double height attribute   
+c                           
+       1  2        set normal/double height. Any double height characters will 
+                   cause the whole of the next line to be obscured.            
+       h           conceal display ("hidden"). Any "set mode & coontrol characters are deleted from the line above. The WRITE command will only
+output those characters visible on the screen at the time of writing.          
+                                                                               
+Note also thatlour"         
+                   control cancels this code.                                  
+       +           set background colour (to current alpha or mosaic colour).  
+       -           set black background.                                       the cursor cannot be placed on the lower half of a double       
+height line in either screen half.                                             
+-------------------------------------------------------------------------------
+Press any key to continue o 
+      DEL          erase an attribute i.e. make it a simple space.             
+-------------------------------------------------------------------------------
+Press any key to continue or press ESCAPE twice to return to MAIN MENU
+
+-----------------r press ESCAPE twice to return to MAIN MENU
+
+------------------------------------------------------------------------------$
+-------------------------------------------------------------------------------
+VIEWTEXT USER GUIDE   Section 8.7              -------------------------------------------------------------$
+-------------------------------------------------------------------------------
+VIEWTEXT USER GUIDE   Section 8.6                            (C) T SYSTEMS 1984
+Version 1.0                                 (C) T SYSTEMS 1984
+Version 1.0                                                  (C) TANDATA   1984
+-------------------------------------------------------------------------------
+Generation and display of RUN COMMAND files:                                               (C) TANDATA   1984
+-------------------------------------------------------------------------------
+Notes on attributes - for full details see "PRESTEL Terminal specification"    
+                                                              
+                                                                               
+When a file is READ or WRITTEN, a header is included which assists the user to 
+identify the file in the directory displays. The RUN COMMAND file does no      (British Telecom)             
+All attributes revert to their default settings at the start of each line.     
+The default settings are:                                                      
+   Alphanumeric mode, white on black background.        t have
+this header, and therefore a special file extension is used to inform both the 
+editor and the run command system that the file is of the correct type.        
+                                                                               
+This                        
+   Normal height, not flashing or concealed.                                   
+   Mosaic graphics are initially contiguous and not held.                      
+                                                                     extension is .PRC, and although the run command system will accept files  
+with different headers, the editor will only recognise .PRC as a valid file    
+type without a header. When such a file is READ, the editor will prompt the    
+user to warn that the run command mode is active. In this mode, the CTRL-P     
+screen switch and commands HDR, NEWHDR and SEE are inactive, as the file may   
+only contain normal ASCII characters, and therefore the attribute editor is    
+not required. As a safeguard aghe next "@" character in the   
+text. The cursor will be left at the postion after the "@". If no "@" found,   
+the cursor does not move. This command is used for rapid generation of FORM    
+fields (see section 7 of the User Guide).                    ainst reading a .PGE file and writing in .PRC   
+mode all attributes are stripped from the screen buffer before the write takes 
+place.                                                                         
+--------------------------------------------                  
+-------------------------------------------------------------------------------
+Press any key to return to the HELP MENU or press ESCAPE twice to return to the
+MAIN MENU                                                                 -----------------------------------
+Press any key to continue or press ESCAPE twice to return to MAIN MENU
+
+------------------------------------------------------------------------------%
+----------------------------------------------------------------     
+------------------------------------------------------------------------------%
+
+---------------
+VIEWTEXT USER GUIDE   Section 8.8                            (C) T SYSTEMS 1984
+Version 1.0                                                  (C) TANDATA   1984
+-----------------------------------------------------------------------------been      
+entered, pressing RETURN will exit from edit mode and re-display the prompt.   
+                                                                               
+To program the next field, do not enter RETURN. Press the space bar until the  
+c--
+FILE NAMES - the VIEWTEXT disc contains a number of files with .PRC extensions 
+and therefore these names MUST NOT BE USED for run command file names, as the  
+VIEWTEXT overlays correspoding to the files will not function correctly.       
+         ursor jumps to the start of the next field, then enter the new information.   
+When RETURN is entered, all characters in that field after the current cursor  
+position will be discarded. When programming the "id" field, remember that any 
+non-trailing s                                                                      
+The reserved names are:-                                                       
+                                                                               
+DLLDIR.PRC        DSCD

@@ -1,0 +1,15 @@
+to demo
+ht cs fs
+loadpic "squiral
+loadpic "birdeye
+loadpic "star
+loadpic "hilbert
+loadpic "ny
+wait 300
+loadpic "kasteel
+wait 500
+loadpic "dorf
+wait 1000
+demo
+end
+

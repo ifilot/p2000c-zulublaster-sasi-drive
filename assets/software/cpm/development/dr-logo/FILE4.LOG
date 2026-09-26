@@ -1,0 +1,127 @@
+pprop "x "bury "true
+pprop "princ "bury "true
+pprop ".system "bury "true
+to descrip 
+cs
+title -110 100 [the towers of hanoi]
+setcursor [5 0]
+pr [the puzzle begins with a "tower"]
+pr [of discs, arranged in order of size,]
+pr [with the largest at thstick) * 80 - 160
+make "dsk thing :stick
+sety 10 * (count :dsk) - 50
+end
+
+to color :n
+op 1 + round 3 * ((quotient :n 3) - (int quotient :n 3))
+end
+
+to bottomstick :pos
+rt 90
+setx xcor - 30
+repeat 2 [fd 60 rt 90 fd 10 rt 90]
+pu
+setpos se xcor e bottom and]
+pr [the smallest at the top.]
+pr []
+pr [the task is to move them, one by one,]
+pr [from the start pole to the goal pole,]
+pr [without placing a larger disc on a]
+pr [smaller disc.]
+pr " pr "
+pr [it's not easy; even the computer]
+pr [+ 5 ycor - 5
+pd
+fill
+pu
+setpos :pos
+seth 0
+end
+
+to start 
+ct cs
+descrip
+makenum
+if :num > 7 [make "fact 2] [make "fact 4]
+cs
+ht
+fullscreen
+3sticks
+disks 1 :num
+make "co 0
+make "s2 []
+make "s3 []
+make "s1 sequence :num
+ht
+hanoi :num "takes a while to figure it out!]
+pr []
+pr [select the number of discs :]
+setcursor [21 8]
+type [( 14 maximum )]
+end
+
+to makenum 
+make "num rw
+if emptyp :num [type [i need a number...] makenum]
+if numberp :num = "false [type [a number, please...] s1 "s2 "s3
+ct
+settext 3
+pr (se [it took] :co [moves for] :num "discs)
+wait 50
+pr [press any key to play again, or]
+pr [esc to return to the main menu.]
+waitkey
+make "dummy rc
+if :dummy = char 27 [cs ht ct demo]
+start
+end
+
+make "key 1
+make "rumakenum]
+if numberp [] [makenum]
+if or :num < 1 :num > 14 [type [a number between 1 and 14, please:] makenum]
+end
+
+to 3sticks 
+setpc 1
+pu
+sety -50
+stick
+setx 80
+stick
+setx -80
+stick
+title -95 110 [the towers of hanoi]
+title -103 -80 [start]n "0
+ееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее
+title -23 -80 [spare]
+title 64 -80 [goal]
+pu setpos [-80 -50]
+end
+
+to disks :small :big
+if :small > :big [sety -50 stop]
+if :big = :num [fd 10] [fd 8]
+pd
+disq :big
+disks :small :big - 1
+end
+
+to sequence :n
+op if :n = 1 [[1]] [se sequence :n ееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее- 1 :n]
+end
+
+to hanoi :num :start :spare :goal
+if :num = 0 [stop]
+hanoi :num - 1 :start :goal :spare
+move.one :start :goal
+hanoi :num - 1 :spare :start :goal
+end
+
+to move.one :from :to
+make "co :co + 1
+elim :from
+add :to
+end
+
+to elim :stickееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее

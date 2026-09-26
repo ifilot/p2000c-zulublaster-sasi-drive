@@ -1,0 +1,16 @@
+
+to vierkant
+repeat 4 [fd 40 rt 90]
+end
+to veel :size :limit
+rt 90
+repeat 10 [triad :size :limit rt 18]
+end
+to triad :size :limit
+;Parameter 243 1
+if :size < :limit [fd :size stop]
+triad :size / 3 :limit
+lt 60
+triad :size / 3 :limit
+rt 120
+tееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее

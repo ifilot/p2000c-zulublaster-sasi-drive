@@ -1,0 +1,100 @@
+[menu]
+title = "P2000C NAVIGATOR {version}"
+footer = "Home Computer Museum | SASI-distro {version}"
+screensaver_seconds = 120
+
+[[categories]]
+label = "Spellen"
+description = """Ontdek klassieke avonturen, bordspellen en nieuwe P2000C-spellen. Kies een verhaal, denk vooruit of test je reactiesnelheid. Er is voor iedere speler iets te beleven."""
+
+[[categories.programs]]
+label = "Zork I"
+drive = "F"
+user = 0
+command = "ZORK1"
+description = """Tekstavontuur in het Grote Ondergrondse Rijk. Onderzoek iedere ruimte, verzamel voorwerpen en los raadselachtige puzzels op. Typ HELP wanneer je uitleg over de Engelse opdrachten nodig hebt."""
+
+[[categories.programs]]
+label = "Zork II"
+drive = "F"
+user = 0
+command = "ZORK2"
+description = """Het avontuur gaat verder in een nieuw deel van het ondergrondse rijk. Gebruik voorwerpen op slimme wijze en let goed op verborgen aanwijzingen. Kennis van het eerste avontuur kan goed van pas komen."""
+
+[[categories.programs]]
+label = "Zork III"
+drive = "F"
+user = 0
+command = "ZORK3"
+description = """Het laatste klassieke Zork-avontuur brengt je tegenover de Dungeon Master. Verken een gevaarlijke wereld en bewijs dat je inzicht en geduld bezit. Het spel gebruikt eenvoudige Engelse tekstopdrachten."""
+
+[[categories.programs]]
+label = "Othello"
+drive = "F"
+user = 0
+command = "OTHELLO"
+description = """Speel het klassieke bordspel tegen de P2000C. Sluit stenen van de tegenstander tussen je eigen stenen in om ze om te draaien. De speler met de meeste stenen aan het einde wint de partij."""
+
+[[categories.programs]]
+label = "Chess"
+drive = "F"
+user = 0
+command = "CHESS"
+description = """Speel Super-Chess 2000 tegen de P2000C. Kies je zetten zorgvuldig en probeer de koning van de tegenstander schaakmat te zetten. Dit is het klassieke schaakprogramma uit 1984."""
+
+[[categories.programs]]
+label = "Schaken"
+drive = "F"
+user = 0
+command = "SCHAKEN"
+description = """Speel het nieuwe Nederlandstalige schaakspel tegen de P2000C. Kies wit of zwart en een van drie niveaus. Het bord, de zetten en alle aanwijzingen worden duidelijk weergegeven."""
+
+[[categories.programs]]
+label = "Mijnenveger"
+drive = "F"
+user = 0
+command = "MINES"
+description = """Zoek alle veilige velden zonder een mijn te raken. Kies uit drie speelvelden en plaats vlaggen bij verdachte vakjes. De eerste zet is altijd veilig en opent meteen een gebied."""
+
+[[categories.programs]]
+label = "Zeeslag"
+drive = "F"
+user = 0
+command = "ZEESLAG"
+description = """Speel Zeeslag tegen de P2000C en breng de vijandelijke vloot tot zinken. Plaats vijf schepen en kies je schoten zorgvuldig. Er zijn drie niveaus voor een rustige of stevige uitdaging."""
+
+[[categories.programs]]
+label = "Tetris"
+drive = "F"
+user = 0
+command = "TETRIS"
+description = """Stapel vallende blokken en maak volledige rijen om punten te verdienen. Kies een startniveau van 0 tot 9 en voer het tempo steeds verder op. Gebruik de pijltjes of W, A, S en D om te spelen."""
+
+[[categories]]
+label = "Kantoor"
+description = """Maak tabellen en berekeningen met een vertrouwd CP/M-programma. SuperCalc is geschikt voor dagelijks thuisgebruik. Geef eigen werkbladen altijd een duidelijke bestandsnaam."""
+
+[[categories.programs]]
+label = "SuperCalc"
+drive = "D"
+user = 3
+command = "SC2"
+description = """Maak berekeningen en tabellen in een elektronisch rekenblad. Formules worden automatisch opnieuw berekend wanneer waarden veranderen. Ideaal voor begrotingen, lijsten en eenvoudige administratie."""
+
+[[categories]]
+label = "Hulpmiddelen"
+description = """Leer programmeren en ontdek welke software op de P2000C staat. Microsoft BASIC is een toegankelijke eerste stap. De programmagids geeft uitleg aan nieuwe gebruikers."""
+
+[[categories.programs]]
+label = "Programmagids"
+drive = "D"
+user = 0
+command = "README"
+description = """Bekijk een overzicht van de programma's op de P2000C. De gids vermeldt waar toepassingen staan en waarvoor ze bedoeld zijn. Dit onderdeel brengt geen wijzigingen aan op de schijven."""
+
+[[categories.programs]]
+label = "Microsoft BASIC"
+drive = "D"
+user = 1
+command = "MBASIC"
+description = """Leer programmeren met Microsoft BASIC-80. Voer opdrachten direct uit of schrijf een programma met genummerde regels. Bewaar je programma's onder een duidelijke naam."""

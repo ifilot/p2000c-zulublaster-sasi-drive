@@ -1,0 +1,24 @@
+ZRS ;RESTORE GLOBALS AND/OR ROUTINES FROM FLOPPY DISK
+ K  W !!!,"RESTORE ROUTINES AND/OR GLOBALS",!
+ S DEV=2
+D R !,"DRIVE (DEFAULT=B): ",DRV I DRV="" S DRV="B" W "(B)"
+ I DRV'?1U W !,"ENTER THE LETTER OF THE DESIRED DRIVE" G D
+E R !!,"FILE NAME: ",FILееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее I FIL="" G END
+ D OPEN W !,"DISK FILE ",DRV,":",FIL," OPENED"
+ D RSTOR G E
+END U DEV C DEV:0 U 0
+ K %R,BLK,DEV,FNO,FIL,DRV Q
+ ;*************************
+RSTOR S %H="",%Q=0,%J=0,EOL=$C(13)_$C(10),EOR=$C(13)_$C(12)
+ D READ S TYP=$P(%TP," ",2) D READ ееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееS DAT=%TP D READ S TTL=%TP
+ W !!,TYP," SAVED ",DAT W:TTL'="" !,"TITLED: ",TTL K DAT,TTL
+RS2 R !,"DISPLAY OR RESTORE: ",FLG,! I FLG="" Q
+ S FLG=$E(FLG,1) I "DR"'[FLG W "ENTER 'D' OR 'R'",! G RS2
+ I FLG="R" W "BEGIN ",$E(TYP,1,$L(TYP)-1)," RESTORE" W:TYPееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее="ROUTINES" !
+ D RTN:TYP="ROUTINES",GLB:TYP="GLOBALS"
+ I FLG="R" W !,"END OF ",$E(TYP,1,$L(TYP)-1)," RESTORE",!
+ K %H,%TP,EOL,EOR,FLG,TYP Q
+ ;*************************
+ ;RETRIEVE GLOBALS FROM FLOPPY
+GLB D READ I %TP="END GLOBALS" K GLB,I,RG Q
+ S RG=

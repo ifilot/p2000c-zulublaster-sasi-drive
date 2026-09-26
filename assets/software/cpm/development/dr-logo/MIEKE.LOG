@@ -1,0 +1,22 @@
+to figuur
+cs ht
+repeat 36 [vierkant lt 10]
+end
+to vierkant
+repeat 4 [fd 50 rt 90]
+end
+to fred
+ht cs
+bk 5 rt 210 driehoek
+home
+pu fd 25 pd
+repeat 180 [fd 1 rt 2]
+repeat 180 [fd 1 lt 2]
+pu rt 45 fd 50 pd
+repeat 90 [fd 1 rt 4]
+pu bk 50 lt 90 fееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееd 50 pd
+repeat 90 [fd 1 lt 4]
+pu home fd 25 rt 90 fd 20 pd
+repeat 45 [fd 1 rt 8]
+pu home fd 25 lt 90 fd 20 pd
+repeat 45 [fd

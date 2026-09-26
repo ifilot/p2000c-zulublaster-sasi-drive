@@ -1,0 +1,10 @@
+diskdef p2000c-640
+  seclen 256
+  tracks 160
+  sectrk 16
+  blocksize 4096
+  maxdir 128
+  skew 1
+  boottrk 2
+  os 2.2
+end

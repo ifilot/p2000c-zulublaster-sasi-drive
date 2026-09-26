@@ -1,0 +1,204 @@
+Compiler Operation
+Invoking Pascal
+Compilation Switches
+File Input/Output
+Special Functions and Procedures
+Pascal/MT Symbolic Debugger
+Pascal/MT Reserved Words
+Notes
+:Compiler Operation
+
+     Thе Pascal/MФ compileт existу iо twп versions¬  eacи c thе BCД versioо oж thе  compiler¬  thе  commandу  arе Ќ
+similar except that 'PASCAL' is replaced by 'BCDCOMP'.
+:Compilation Switches
+     Compile-timе  optionу maщ bе specifieд tп thе compileт froн withiо thе Ќ
+sourcе file®   Sucи optionу takе thе forн onsistinз oж twп Ќ
+808°  objecф  codе filesє  FLTCOMP.COН (renameд PASCAL.COН oо ARIES-1©  anд Ќ
+P2/FLT.OVМ  foт  thе  versioо  iо whicи REAМ  numberу  arе  implementeд  aу Ќ
+floatinз  poinф  valueу internallщ anд BCDCOMP.COН anд P2/BCD.OVМ  foт  thе Ќ
+veroж speciaм comments®  Thе forн oж Ќ
+thesе commentу is
+          (*$o info*) or {$o info}
+wherе  'o§  iу  thе  letteт oж thе optioо anд  'info§  iу  informatioо Ќ
+particular to that option.  These options are --Љ
+          $I<filename>   Include <filenasioо  iо  whicи REAМ numberу arе implementeд aу BCД  valueу  internally®  Ќ
+Thesе fileу arе Pasу ± anд Pasу І oж thе Pascal/MФ compiler¬  respectively®  Ќ
+Alsп requireд bщ thе compileт arе thе followinз fileу --
+
+          P1ERRORS.TXT   - Pass 1 Error Mme>.SRC into source stream
+          $L+ or $L-     Turn listing on (default) or Turn listing off
+          $P             Insert form feed into .PRN file
+          $D+ or $D-     Turn debug code on (default) or Turn debug code off
+          $C+       essages
+          P2ERRORS.TXT   - Pass 2 Error Messages
+          PASCAL/F.RTР   - Run-timе Packagе (includinз debugger© foт FLT
+          PASCAL/B.RTP   - Run-time Package (including debugger) for BCD
+
+     Thе  inpuф  fileу tп thе Pascal/MФ compile     Use CALL instructions for real operations
+          $Cn            Use RST n for real operations (n=0 ... 7)
+          $O $aaaa       ORG program (run-time) at $aaaa (default 100H)
+          $R $bbbb       ORG RAM data at $bbbb
+          $Z $cc00 т musф  havе  thе  extensioо Ќ
+'.SRC§  oт '.PAS§ indicatinз thaф iф iу б sourcе prograн file®   Therе musф Ќ
+bе  б carriagе return/linе feeд sequencе aф thе enд oж eacи inpuф linе  anд Ќ
+aо inpuф linе maщ noф bе longeт thaо 8° characters.
+:Invoking Pascal      Set run-time size to $cc 256-byte pages
+          $X $dddd       Set run-time stack space to $dddd (default $200)
+          $S+ or $S-     Turn recursion or or Turn recursion off (default)
+          $Q+ or $Q-     Enable verbose output (default) o
+
+     Thе  Pascal/MФ  compileт iу invokeд oо ARIES-± bщ usinз thе  followinз Ќ
+commanд --
+
+          PASCAL filename.DL
+
+wherе  'filename§  iу  thе namе oж thе filе witи thе  extensioо  '.SRC§  oт Ќ
+'.PAS§ containinз thе Pascal/MФ sourcе statementу r Disable verbose
+:File Input/Output
+     Thе standarд Pascaм READ¬  READLN¬  WRITE¬ anд WRITELО statementу Ќ
+arе  implementeд foт thе CP/Н consolе device®   WRITЕ oт WRITELО tп  б Ќ
+built-iо  filе calleд PRINTEТ iу alloweд tп directlщ accesу  thе  CP/Н tп bе compiled¬ Д iу Щ oт Ќ
+О  tп indicatе whetheт tп includе thе debuggeт iо thе resultanф .COН  file¬ Ќ
+anд  М  iу  Щ oт О tп indicatе whetheт tп producе б  .PRО  filе  (listing)®  Ќ
+PASCAМ defaultу tп nп debuggeт anд nп listing®  Thе fouт invocatioо optЌ
+list device (like, WRITE(PRINTER,'Hello')).
+     The following extensions are implemented to handle files --
+          OPEN(fcbname,title,result{,extent_number});
+               (extent_number defaults to 0)
+          CLOSE(fcbname,result);
+        ionу Ќ
+are --
+
+          PASCAL filename     - no debugger, no listing
+          PASCAL filename.Y   - debugger, no listing
+          PASCAL filename.NY  - no debugger, listing
+          PASCAL filename.YY  - debugger, listing
+
+     Foт  usagе  witи  CREATE(fcbname,title,result);
+          DELETE(fcbname);
+          BLOCKREAD(fcbname,buffer,result{,relativeblock});
+          BLOCKWRITE(fcbname,buffer,result{,relativeblock});
+where    fcbname : a variable of type TEXT (array 0..32 of CHAR)
+         title   : ARRAY [0..11] of CHAR with
+                    title[0]=disл   selecф  bytе  (0=loggeд  iо  disk¬ Ќ
+                      1=A,...)
+                    title[1..8]=filename and title[9..11]=filetype
+         result  : integer to contain retuG{,<linenumber>}
+               G{,<proc/func name>}
+
+     Gп resumeу executioо wherе thе prograн lasф stopped®   Breakpoinф Ќ
+may be optionally set at a specific line or function/procedure.
+
+Debugger Command:  T - Trace
+
+     Syntax:   T{<integer>}rned value
+         buffer  : ARRAY [0..127] of CHAR
+         relativeblock : optional integer 0..255
+:Special Functions and Procedures
+
+     Pascal/MT supports the following special routines --
+
+          PROC MOVE(source,dest,length-in-bytes);
+  
+
+     Execute one or more lines of the program.
+
+Debugger Command:  E - Procedure/Function Display Toggle
+
+     Syntax:   {-}E
+
+     Е  engageу displaщ oж thе nameу oж procedures/functionу  entered»   Ќ
+-Е disengageу it.
+
+Debugger Command:  S -        PROC EXIT;
+          FUNC TSTBIT(16-bit-var,bit#):BOOLEAN;
+          PROC SETBIT(VAR 16-bit-var,bit#);
+          PROC CLRBIT(VAR 16-bit-var,bit#);
+          FUNC SHR(16-bit-var,#bits):16-bit-result; {Shift Right}
+          FUNC SHL(16-bit-var, Set/Clear Slow Execution Mode
+
+     Syntax:  {-}S
+
+     У  allowу  thе useт tп selecф Fast¬  Medium¬  oт  Sloч  executioо Ќ
+speed; -S causes the program to run at full speed.
+
+Debugger Command:  P - Set/Clear Permanent Breakpoint
+
+     Syntax:  -P#bits):16-bit-result; {Shift Left}
+          FUNC LO(16-bit-var):16-bit-result;
+          FUNC HI(16-bit-var):16-bit-result;
+          FUNC SWAP(16-bit-var):16-bit-result;
+          FUNC ADDR(variable reference):16-bit result;
+          PROC WAIT(port     (* Clears breakpoint *)
+              P<linenumber>
+              P<proc/func name>
+
+     P sets the permanent breakpoint; -P clears it.
+
+Debugger Command:  B - Display Permanent Breakpoint
+
+     Syntax:  B
+
+     Displays line the permanent num:constant; mask:constant; polarity:boolean);
+          FUNC SIZEOF(variable or type name):integer;
+     Please refer to pp 32-33 of "Pascal/MT 3.0 Guide" for further info.
+:Pascal/MT Symbolic Debugger
+
+     Thе  debugginз  facilitieу availablе tп tbreakpoint is set for.
+
+Debugger Command:  D - Variable Display
+
+     Syntax:   D <global var>
+               D <proc/func name>:<local var>
+               D <func name>
+               D <pointer name>^
+
+     The D command is used as indicated.
+hе useт wheо  usinз  thе ЌЉdebuggeт falм intп twп catagorieу -- prograн floч controм anд variablе Ќ
+display.
+
+     Iж  thе useт wisheу tп seе thе commandу durinз thе  executioо  oж Ќ
+the debugger, type a '?' followed by a return.
+
+     Thе prograн floч
+Debugger Commands:  +,-,* - Variable Display
+
+     Syntax:  *  -- display last value requested (using D or some other)
+              +n -- display variable n bytes forward from last
+              -n -- display variable n bytes backward from last
+:Pa commandу provideд iо thе symboliг debuggeт alloч Ќ
+thе useт tп debuз thе Pascal/MФ prograн aф thе Pascaм sourcе statemenф Ќ
+level®   Includeд  arе go/continuе (witи optionaм breakpoint)¬  trace¬ Ќ
+set/clear/displaщ  permanenф breakpoinф anд б modе whicи wscal/MT Reserved Words
+
+     ABS            DO             LO             READ         TSTBIT
+     ADDR           DOWNTO         MAXINT         READLN       TYPE
+     AND            ELSE           MOD            REAL         UNTIL
+     ARRAY          ilм  displaщ Ќ
+thе namе oж eacи procedure/functioо oо thе consolе aу thе procedurе oт Ќ
+function is entered.
+
+     These commands are discussed briefly on the following displays --
+
+Debugger Command:  G - Go with optional breakpoint
+
+     Syntax:   ENABLE         MOVE           RECORD       VAR
+     BEGIN          END            NIL            REPEAT       WAIT
+     BLOCKREAD      EXIT           NOT            RIM85        WHILE
+     BLOCKWRITE     EXTERNAL       ODD            ROUND        WRITE
+     BOOLEAN        FALSE          OF             SETBIT       WRITELN
+     CASE           FILE           OPEN           SHL
+     CHAIN          FOR            OR             SHR
+     CHAR           FUNCTION       ORD            SIM85
+     CHR        ееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее    GOTO           OUTPUT         SIZEOF
+     CLOSE          HI             PACKED         SQR
+     CLRBIT         IF             PRED           SQRT
+     CONST          INLINE         PRINTER        SUCC
+     CREATE         INPUT          PROCEDURE   ееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее   SWAP
+     DELETE         INTEGER        PROGRAM        THEN
+     DISABLE        INTERRUPT      RANDOMREAD     TO
+     DIV            LABEL          RANDOMWRITE    TRUE
+:Notes
+     1. Hexadecimal values may be specified as $hhhh, like $1A = 1AH.
+  ееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее   2®  Alм  standarд Pascaм typе definitionу excepф ARRAЩ arе  supported®  Ќ
+Thе   standarд   forн   ARRAY...OЖ   ARRAY..®    mu

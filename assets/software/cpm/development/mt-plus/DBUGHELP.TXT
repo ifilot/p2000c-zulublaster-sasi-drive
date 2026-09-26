@@ -1,0 +1,27 @@
+<parm> = (<name> or <num>) +/- <num>
+<num>  = <int> or $ <hexnum>
+<name> = <varname> or <procname> : <varname>
+
+Display commands:
+D? <parm> where ? is as follows
+I - INTEGER   C - CHAR      L - BOOLEAN   R - REAL
+B - BYTE      W - WORD      S - STRIite#v
+range all the way from#w>range from
+rather#v
+real good#u>very good/really good
+reason is because#w>reason
+reason why#r>reason
+reasons why#r>reasons
+recur again#r>recur
+refer back#r>refer
+referred to as#w>called
+reflective of#w>reflect
+regrNG    X - EXTENDED
+V - var by name
+PN - display procnames
+VN <procname> - display all var names associated with this proc
+SB <procname> - Set breakpoint
+RB <procname> - Remove breakpoint
+E+    Entry/Exit display on
+E-    Entry/Exit display off
+BE  

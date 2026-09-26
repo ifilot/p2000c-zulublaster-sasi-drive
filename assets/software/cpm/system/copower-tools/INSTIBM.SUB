@@ -1,0 +1,11 @@
+a:stat a:cbios6?.com $$r/w
+a:pip a:=b:msboot.com
+a:pip a:=b:msutil.com
+a:pip a:=b:msutil.msg
+a:pip a:=b:msconf.dat
+a:pip a:=b:msconf.com
+a:pip a:=b:cbios??.com
+a:pip a:=b:test88.com
+a:pip a:mskey.tab=b:ibmkey.tab
+msconf
+

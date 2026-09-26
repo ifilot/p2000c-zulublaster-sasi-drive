@@ -1,0 +1,12 @@
+tests/fixtures/references/
+.venv/
+build/
+dist/
+release/
+*.egg-info/
+.pytest_cache/
+__pycache__/
+*.py[cod]
+*.hda
+
+.vscode/

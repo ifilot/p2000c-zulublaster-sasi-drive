@@ -1,0 +1,59 @@
+
+;LOAD MESSAGE FILE
+	.Z80
+;
+FPAR	EQU	5CH
+BDOS	EQU	5
+	LD	DE,FPAR
+	LD	A,(4)		;DEFAULT DRIVE
+	INC	A
+	LD	(DE),A
+	LD	C,0FH		;OPEN FILE
+	CALL	BDOS
+	INC	A
+	JR	NZ,RD1
+	LD	HL,5CH
+	LD	DE,8000H
+	LD	BC,80H
+	LDIR
+	LD	DE,NOTFND
+	LD	C,9
+	CALL	BDOS
+NOееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееTFND:	DEFB	0DH,0AH,'FILE NOT FONUD$'
+	RST	0
+;
+RD1:	LD	BC,80H
+	LD	HL,(RDADR)
+	ADD	HL,BC
+	LD	(RDADR),HL
+;
+;READ ONE CP/M SECTOR TO (RDADR)
+	EX	DE,HL
+	LD	C,1AH	;SET DMA
+	CALL	BDOS
+	LD	DE,FPAR
+	LD	C,14H	;READ ONE SECTOR
+	CALL	BDOS
+;
+	AND	A
+	JRееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее	Z,RD1	;NEXT
+;
+	LD	BC,10FEH	;LENGTH+100H
+	LD	HL,RBUF
+	SUB	A
+	LD	D,A
+CHSC:	ADD	A,(HL)
+	INC	HL
+	JR	NC,$+3
+	INC	D
+	DEC	C
+	JR	NZ,CHSC
+	DJNZ	CHSC
+	LD	(HL),A
+	INC	HL
+	LD	(HL),D
+	LD	DE,FPAR
+	LD	C,13H
+	CALL	BDOS	;DELETE FILE
+	SUB	A
+	LD	(FPAR+0E

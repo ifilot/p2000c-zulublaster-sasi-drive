@@ -1,0 +1,15 @@
+FORMO ; DEMONSTRATION OF FORMS SYSTEM
+ S X=0,Y=22 D MOVE R "DISPLAY ID # ",ID I ID="" Q
+ I '$D(^ID(ID)) S X=15,Y=22 D ERA W "? NOT DEFINED" G FORMO
+ W *26 F LIN=1:1 S FMT=$T(FORM+LIN) Q:FMT=""  D ITEM
+ G FORMO
+ Q
+ITEM S DY=$P(FMT,";",2),DX=$P(FMT,";"ееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее,3),PROMT=$P(FMT,";",4)
+ S VAR=$P(FMT,";",5),DISP=$P(FMT,";",6)
+ S X=DX,Y=DY D ERA W DISP
+ I $L(VAR),$D(^ID(ID,VAR)) S @VAR=^(VAR) W @VAR
+ Q
+ERA D MOVE W $J(" ",52) D MOVE
+MOVE W *27,"=",*Y+32,*X+32 Q
+FORM ; FORM DATA FOLLOWS
+ ;0;0;;;DEMONSTRATION ееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее

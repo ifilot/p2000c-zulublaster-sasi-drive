@@ -1,0 +1,46 @@
+0 REM Beeldpresentaties-demonstartie P2000/C
+10 DEFINT A-Z:DEFSTR P-S:RESTORE 10000:DIM S(255)
+20 SH="0123456789ABCDEF":SC="GPRIWT":SG="12SMN":SB="KIO":SI="DNHK":AR=1
+30 DEF FNP(X,Y)=CHR$(13)+CHR$(27)+"Y"+CHR$(31+X)+CHR$(31+Y):DEF FNQ=CHR$(27)+"0"+CHR$(* HHIIJJ ***
+9010 FOR X=1 TO LEN(S) STEP 2:PRINT CHR$(VAL("&H"+MID$(S,X,2)));:NEXT:RETURN
+10000 REM Beeldinfo in DATA
+10010 DATA 0C,PBI,IH,PC0101,"T    Philips P2000/C  portable microcomputer     Demonstratie BEELDSCHERM    ",IN,PBI,PC0301,TDeze demonstBI2+2*BK+16*BI+32*BO+64*BI1)
+100 READ S:FOR X=1 TO LEN(S):S(X)=MID$(S,X,1):NEXT:LS=LEN(S):IF INSTR(SH,S(1)) THEN GOSUB 9000:GOTO 100
+110 ON INSTR(SC,LEFT$(S,1))+1 GOTO 100,1000,1250,1500,1750,2000,2250
+1000 REM *** G ***
+1010 IF LS<>2 THEN 1249 ELSE ONratie laat wat beeldscherm-mogelijkheden van de P2000C zien...
+10020 DATA PC1010,TDe cursor verdwijnt van het beeld.,1B63,PC1501,TMaar... tijdens wachttijden staat hij rechts-onder in het beeld.,PC1701,TDan kunt u zien dat de P2000C zich verveelt met wach INSTR(SG,S(2))+1 GOTO 100,1020,1030,1040,1050,1060
+1020 S="0C1B35":GOSUB 9000:XL=0:XH=256:YL=0:YH=252:GOTO 100
+1030 S="0C1B33":GOSUB 9000:XL=0:XH=512:YL=0:YH=252:GOTO 100
+1040 S="0C1B34":GOSUB 9000:XL=-1:XH=-1:YL=-1:YH=-1:GOTO 100
+1050 S="1B31":GOSUB ten.,PC1901,TDat wachten kunt U afbreken door op ESC te drukken.,W5
+10030 DATA 0C,0D,TDe P2000C kan op verschillende tekst e.d. weergeven.,PC0416,PBI,T Invers,IH,T met,IK,T verschillende,ID,T intensiteiten.,PBI,IN,PC0616,PBO,TU kunt het ook laten onderstr9000:XL=-1:XH=-1:YL=-1:YH=-1:GOTO 100
+1060 S="1B32":GOSUB 9000:XL=-1:XH=-1:YL=-1:YH=-1:GOTO 100
+1249 GOTO 100
+1250 REM *** P ***
+1260 IF LS<2 THEN 1499 ELSE IF S(2)="C" THEN IF LS<>6 THEN 1499 ELSE PRINT FNP(VAL(MID$(S,3,2)),VAL(MID$(S,5,2)));:GOTO 149epen.,PBO,PBK,PC0816,TOf laten knipperen om op te vallen.,PBK
+10040 DATA IH,PBI,PBO,PC1016,Ten om het,IN,"T HELEMAAL ",IH,"Tmooi te maken:",PBK,ID,"T GECOMBINEERD ! ",IN,PBK,PBO,PBI,W5
+10050 DATA PC1416,TOok kunt U zgn.'Teletekst'-grafisch iets weergeven9
+1270 IF S(2)<>"B" THEN 1499 ELSE IF LS<>3 THEN 1499 ELSE ON INSTR(SB,S(3))+1 GOTO 1499,1280,1290,1300
+1280 BK=1-BK:GOTO 1350
+1290 BI=1-BI:GOTO 1350
+1300 BO=1-BO:GOTO 1350
+1350 PRINT FNQ;:GOTO 1499
+1499 GOTO 100
+1500 REM *** R ***
+1510 IF LS=1 THE...,PC1616,GM,Tmbknbkjgwwlqwu35123((&$)(=,GN,W3,PC2416,TEr volgt nog meer,W1
+10060 DATA 0C0D,TU kunt ook bepaalde gebieden van het beeld blokkeren (NIET LATEN DRAAIEN),W1,PC1001,TKijk maar eens wat hieronder gebeurt...,011B410A,PC1101,R1
+20000 DATA G4,1BN 100 ELSE X=VAL(MID$(S,2)):IF X<1 OR X<>INT(X) OR X>AR THEN 100 ELSE ON R GOTO 5000
+1750 REM *** I ***
+1760 IF LS<>2 THEN 1999 ELSE ON INSTR(SI,S(2))+1 GOTO 1999,1770,1780,1790,1800
+1770 BI1=0:BI2=1:GOTO 1810
+1780 BI1=1:BI2=0:GOTO 1810
+1790 BI1=1:BI243,IN
+d blokkeren (NIET LATEN DRAAIEN),W1,PC1001,TKijk maar eens wat hieronder gebeurt...,011B410A,PC1101,R1
+20000 DATA G4,1Bееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее=1:GOTO 1810
+1800 BI1=0:BI2=0:GOTO 1810
+1810 PRINT FNQ;:GOTO 1999
+1999 GOTO 100
+2000 REM *** W ***
+2010 IF LS=1 THEN 100 ELSE PRINT FNP(24,79)CHR$(27)"C";:X=500+325*VAL(MID$(S,2)):WHILE X AND INKEY$<>CHR$(27):X=X-1:WEND:PRINT CHR$(27)"c";:GOTO 100
+22ееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее

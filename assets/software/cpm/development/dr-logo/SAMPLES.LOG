@@ -1,0 +1,53 @@
+ööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööm :lst make "num :num + 1]
+setshape "turtle
+ht pd seth 0
+end
+
+to which :member :list
+if not memberp :member :list [op 0]
+if :member = first :list [output 1]
+output 1 + which :member bf :list
+end
+
+to while :condition :instructionlist
+test run :cööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööondition
+iffalse [stop]
+run :instructionlist
+while :condition :instructionlist
+end
+
+line :sups :downlevel - 10 :uplevel + 1
+end
+
+to fill.up.to.level :sups :downlevel :uplevel
+if :downlevel = 0 [stop]
+fill.onööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööe.level :uplevel
+if :downlevel = 10 [tcs 3 :strline tc1 32] [tcs 4 32]
+fill.up.to.level :sups :downlevel - 10 :uplevel + 1
+end
+
+to add1 :var
+make :var 1 + thing :var
+end
+
+to extraline.fill :level
+tcs 1 + thing word "where :level 32
+if thing wordöööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööö "finished :level [tc1 32] [tc1 :vertline]
+end
+
+to tcs :n :c
+repeat :n [type char :c]
+end
+
+to fill.one.level :level
+tcs 1 + thing word "where :level 32
+if thing word "finished :level [tc1 32 stop]
+if :downlevel = 10 [corner.or.intersec] [tc1 :veröööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööööötline]
+end
+
+to get.subprocedures :proc
+local "line
+make "line readlist
+if [end] = :line [stop]
+subprocedures :line
+get.s

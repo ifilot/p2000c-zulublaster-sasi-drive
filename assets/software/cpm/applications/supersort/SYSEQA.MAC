@@ -1,0 +1,10 @@
+;SYSEQA.MAC  7/13/78  SYSTEM EQUATES - MIGHT CHANGE BETWEEN VERSIONS OF CP/M
+;
+	ENTRY BDOS
+	ENTRY BDOSP
+	ENTRY CCPLIN
+	ENTRY BOOT
+;
+BDOS	EQU	5	;ENTRY POINT FOR SYSTEM CALLS - CALL BDOS
+BDOSP	EQU	BDOS+1	;POINTER TO TOP USABLE MEMORY+1
+			;(ADDRESS ееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее

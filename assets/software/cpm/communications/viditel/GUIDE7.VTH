@@ -1,0 +1,287 @@
+-------------------------------------------------------------------------------
+VIEWTEXT USER GUIDE   Section 7.1                            (C) T SYSTEMS 1984
+Version 1.0                                                  (C) TANDATA   1984
+-------------                               (C) TANDATA   1984
+-------------------------------------------------------------------------------
+Note that all keyboard characters are "live" during on-line operation, and the 
+only characters not sent to the modem are E------------------------------------------------------------------
+                DISPLAY, COMPARE, PRINT AND TRANSMIT PAGES                     
+                                                                               
+RETURN TO DISPLAY - FunctiSCAPE twice which will recall the   
+MAIN MENU. When a frame asks for a key to select the next frame VIEWTEXT will  
+not echo the character on the screen. However, it will be displayed if echoed  
+by the database being used. This may upset the appearancon 10 of the MAIN MENU will show the current page(s),
+and when the display is complete a prompt will be displayed on the bottom line 
+of the "current" screen. If the prompt is "O>", the modem is off-line, and the 
+only characters which will be accepted e of the page, and if  
+required the "P>" prompt can be called before pressing the key. Note that any  
+format breakup can be corrected with ESCAPE, ESCAPE then display (function 10).
+                                                                     are ESCAPE twice to return to the MAIN  
+MENU. If the modem is on-line, the prompt will be "P>". This prompt can be     
+shuttled from screen to screen by pressing CTRL-P, allowing the "current" page 
+to be changed. When on-line, incoming pages will be           
+COMPARE PAGES - when both display buffers contain pages they may be compared by
+function 13 of the MAIN MENU. If 2 pages are not present an error message is   
+displayed. The comparison will highlight any differences on the left screen,   
+adisplayed on the "current" 
+screen. Pressing ESCAPE twice will return to the MAIN MENU.                    
+                                                                               
+When the modem is on-line and an incoming page is displayed the cnd in cases where the pages are totally different the resulting display will  
+be confusing. This is due to the type of comparison used. Each page will       
+contain a large number of hidden attribute characters controlling colour,      
+height, flash,ursor is left 
+at the last displayed character position. This ensures that response frames can
+be handled correctly by VIEWTEXT. To display the prompt, enter CTRL-P. When a  
+page request is entered by the user, the cursor will move to the bottom line t and other codes, and ALL characters are compared position-for-  
+position. Pages MUST be displayed before they can be compared.                 
+-------------------------------------------------------------------------------
+Press any key to continue oo
+echo the page number requested.                                                
+-------------------------------------------------------------------------------
+Press any key to continue or press ESCAPE twice to return to MAIN MENU
+
+-----------------r press ESCAPE twice to return to MAIN MENU
+
+------------------------------------------------------------------------------$
+-------------------------------------------------------------------------------
+VIEWTEXT USER GUIDE   Section 7.3              -------------------------------------------------------------$
+-------------------------------------------------------------------------------
+VIEWTEXT USER GUIDE   Section 7.2                            (C) T SYSTEMS 1984
+Version 1.0                                 (C) T SYSTEMS 1984
+Version 1.0                                                  (C) TANDATA   1984
+-------------------------------------------------------------------------------
+When two pages have an identical layout, but contain fields of equal size with 
+visible differences the display is coherent, and the changes will be shown in  
+highlighted mode.                                                              
+                                                                                                                                               
+If fan-fold paper is being used ensure that the top of form is correctly set,  
+as VIEWTEXT will print a header with the current date and then the recorded    
+date and string of the      
+If there is ANY difference in the pages a flag is set which can be used by the 
+RUN COMMAND function (see section 4 of the User Guide) to save any page which  
+has changed. When the comparison is completed, pressing ESCAPE twice will      
+retur page(s). Pages are printed side by side, and therefore a
+single printer page will contain up to 4 VIEWTEXT pages. When 4 pages have been
+printed, a FORM FEED is sent to align the next sheet.                          
+                                   n to the MAIN MENU. If the pages are then displayed (function 10) the     
+highlights will have been removed. The highlights cannot be saved on disc, nor 
+will they be printed.                                                          
+                                                              
+All graphics characters are replaced by "*" characters when printing unless a  
+MICROLINE 80 series or compatible printer is connected. During the print       
+operation the prompt line displays a "WAIT" mess                                                             
+PRINT PAGES - function 14 of the MAIN MENU prints the displayed pages. Note    
+that a page must be displayed before it can be printed, as the display routine 
+is used to load the printer bufage. At the end of each print  
+the MAIN MENU is restored. For details of printer selection see section 5 of   
+the User Guide (CONFIGURATION MENU).                                           
+                                                             fers with a formatted page. If both pages are   
+blank, or either page is present but has not been displayed an error message is
+displayed inviting the user to display before attempting to print.             
+--------------------------------------------                  
+-------------------------------------------------------------------------------
+Press any key to continue or press ESCAPE twice to return to MAIN MENU
+
+------------------------------------------------------------------------------$
+-----------------------------------
+Press any key to continue or press ESCAPE twice to return to MAIN MENU
+
+------------------------------------------------------------------------------$
+-----------------------------------------------------------------------------------------------------------------------------------------------
+VIEWTEXT USER GUIDE   Section 7.5                            (C) T SYSTEMS 1984
+Version 1.0                                                  (C) TANDATA   1984
+----------------------------
+VIEWTEXT USER GUIDE   Section 7.4                            (C) T SYSTEMS 1984
+Version 1.0                                                  (C) TANDATA   1984
+-----------------------------------------------------------------------------------------------------------------------------------------------
+                                TRANSMIT FILE                                  
+                                                                               
+Function 15 of the MAIN ME--
+The printer must be on and ready to receive characters, as function 14 will    
+"hang" until the print operation is completed. Some CP/M systems will time the 
+printer out, but this depends on the system and not on VIEWTEXT.               
+         NU allows the user to send a pre-prepared message to 
+the modem (if on-line) in addition to keyboard characters. The CONFIGURATION   
+MENU (see section 5 of the User Guide) allows certain straps to be set or      
+cleared which affect the operation of TRANSMIT. If the modem is off-line an    
+error message is displayed on the prompt line.                                 
+                                                                               
+The user is prompted for a file name and also to seld sent    
+must therefore not contain "!" or "|" characters. In .FRM and .PGE modes       
+the BELL code is sounded at the end of the transmit operation. A form can hold 
+more than one "@....!" field. Each field can be separated by comments. It is   
+aect the L or R screen on   
+which the file is to be displayed. The file is then loaded to the selected     
+screen buffer and displayed. The filename extension is then tested to determine
+the type of transmit operation to be performed, and the file datalso possible to delay the transmission of each field by placing "*" characters
+between fields. Each "*" will force a wait of 1 second before sending the next 
+field. This allows time-sensitive operations to be performed. Within each field
+a "\" characte is sent to   
+the modem in the appropriate manner. At the end of the transmit operation a    
+BELL code is sent to the terminal, and any special configuration-dependent     
+characters are sent to the modem.                                             r will send a CR,LF and will also remove any trailing spaces.    
+-------------------------------------------------------------------------------
+Press any key to continue or press ESCAPE twice to return to MAIN MENU
+
+---------------------------------- 
+-------------------------------------------------------------------------------
+Press any key to continue or press ESCAPE twice to return to MAIN MENU
+
+------------------------------------------------------------------------------$
+-------------------------------------------------------------$
+-------------------------------------------------------------------------------
+VIEWTEXT USER GUIDE   Section 7.7                            (C) T SYSTEMS 1984
+Version 1.0                                    --------------------------------------------------------------
+VIEWTEXT USER GUIDE   Section 7.6                            (C) T SYSTEMS 1984
+Version 1.0                                                  (C) TANDATA   1984
+------------------------------              (C) TANDATA   1984
+-------------------------------------------------------------------------------
+An example of a FORM is shown below which demonstrates the use of "*" and "\". 
+                                                            -------------------------------------------------
+FILE EXTENSION - there are 3 types of file extension recognised by VIEWTEXT    
+which will affect the transmit mode. If the extension is .PGE (the default),   
+the entire file is sent to the modem. The V                   
+@ send this ! *** wait 3 seconds @ then        The layout is for a 40 column   
+send this \ and this bit on a new line !       page, and contains 4 fields     
+now wait for ********** 10 seconds             and 3 timing delay sequencIEWTEXT Editor will "clip" all lines
+containing only spaces from the end of a file when it is written to disc - this
+allows the page length to be varied.                                           
+                                                        es.   
+@1| ******** send "1", wait 8 seconds          At the end of the last field    
+@*00! get the message frame again              the keyboard will be "live".    
+                                                                               
+                            
+FORMS MODE - If the extension is .FRM (a form), only those characters enclosed 
+in "@" and "!" or "@" and "|" are sent. The "@" is not sent, and if the "!"    
+character is used a HASH (5FH) is sent as a field delimiter. The fiel                                                                          
+SPEED MODE - If the extension is .SPD (speed page) a prompt is displayed on the
+last line of the selected screen. The prompt is "SELECT:" and the user enters a
+number and then presses RETURN. The number corresponds to a speed page index   
+number displayed in column 1 of the speed page, and the associated string      
+between the "[" and "]" characters will be sent to the modem. The incoming page
+will be displayed on the other                                
+Valid speed selector digits are "0" to "9". Up to 10 page numbers can be held  
+on a page, and can therefore be double line spaced to improve visibility.      
+-------------------------------------------------------------page.                                           
+                                                                               
+-------------------------------------------------------------------------------
+Press any key to continue or press ESCAPE tw------------------
+Press any key to continue or press ESCAPE twice to return to MAIN MENU
+
+------------------------------------------------------------------------------$
+-------------------------------------------------------------------------------
+ice to return to MAIN MENU
+
+------------------------------------------------------------------------------$
+-------------------------------------------------------------------------------
+VIEWTEXT USER GUIDE   Section 7.8                            (C)VIEWTEXT USER GUIDE   Section 7.9                            (C) T SYSTEMS 1984
+Version 1.0                                                  (C) TANDATA   1984
+-------------------------------------------------------------------------------
+EXIT FROM SPE T SYSTEMS 1984
+Version 1.0                                                  (C) TANDATA   1984
+-------------------------------------------------------------------------------
+:1 [*23343200!]          The example on the left shows a typical speed page. ED MODE - to exit from speed mode, press ESCAPE twice. This will  
+return to the MAIN MENU. If an exit is required to save an incoming page, the  
+"Q" character should be entered. This will also return to MAIN MENU, but will  
+leave the speed mode activ  
+:2 [*799!]               The index number must preceded by a ":" character and 
+:3 [*55678!]             must be a single digit. If the speed page selector    
+:4 [*234!]               cannot be found an error message will be displayed on 
+:5 [*3300e. To return to speed mode, select TRANSMIT FILE     
+(function 15 of the MAIN MENU). The file request will be bypassed and the      
+"SELECT:" prompt will be displayed on the last line of the speed page.         
+                                       66!]            the last line in place of the "SELECT:" prompt.       
+:6 [*22143!]             Pressing RETURN will restore the prompt.              
+                                                                               
+Note that the CTRL-P s                                        
+Note that the speed mode will remain active only if the speed page is not      
+overwritten (by returning to display and using the prompt shuttle CTRL-P to    
+receive incoming pages on the speed screen, or by recreen shuttle is inactive in speed page mode, as all     
+incoming pages will be displayed on the "other" screen (the one not selected   
+when the speed page was loaded). Any characters outside the "]" and up to the  
+next ":" are ignored and can therefading a file from disc to  
+the speed screen).                                                             
+This facility allows the user to recall regularly used pages without having to 
+type the page number each time. The speed page facility can also ore be used as a brief comment facility. As 
+an example,   :5  comment [*799!] comment   would be a valid entry, provided   
+that the "comments" did not contain "[" or ":" characters.                     
+                                                be used in    
+run command mode (see section 4 of the User Guide). If an incorrect number is  
+sent in speed mode, the prompt may not re-appear depending on the error message
+returned. Press "Q" or ESCAPE twice to return to MAIN MENU.                    
+-------------------------------------------------------------------------------
+Press any key to continue or press ESCAPE twice to return to MAIN MENU
+
+------------------------------------------------------------------------------$
+-------------------------------------------------------------$
+-------------------------------------------------------------------------------
+VIEWTEXT USER GUIDE   Section 7.11                           (C) T SYSTEMS 1984
+Version 1.0                                    --------------------------------------------------------------
+VIEWTEXT USER GUIDE   Section 7.10                           (C) T SYSTEMS 1984
+Version 1.0                                                  (C) TANDATA   1984
+------------------------------              (C) TANDATA   1984
+-------------------------------------------------------------------------------
+GOLD STRAP   - if set this strap configures VIEWTEXT for TELECOM GOLD. In this 
+               mode CTRL-P is not used as a screen switch, b-------------------------------------------------
+CONFIGURATION STRAPS - there are 4 straps which affect the TRANSMIT operation. 
+In speed page mode, the straps are ignored regardless of their state.          
+                                           ut is sent to the  
+               modem if entered. This acts as a BREAK key to return to system  
+               level. All incoming characters will be sent to the left page    
+               only. When a file is sent to TELECOM GOLD, any "\" charact                                    
+TXECHO STRAP - if set the file transmitted will be echoed back, and will be    
+               displayed on the "other" screen. This allows a side-by-side     
+               comparison to be made of the page with iter    
+               found in the file is converted to CR,LF. This conversion is     
+               required as the VIEWTEXT editor strips all CR and LF characters,
+               but GOLD expects CR,LF after (up to) 80 characters are entered. 
+     s source to check for  
+               transmission errors.                                            
+                                                                               
+IVS3 STRAP   - if set the character codes for cursor home, backspace,                                                                          
+Note that when logging onto the TELECOM GOLD database the log-on string should 
+restrict the page size to 40 characters by 24 lines.                           
+                   "1" and  
+               "!" will be sent to the modem after the BELL is sounded. This   
+               sequence is required to cause an auto-echo of transmitted data  
+               when accessing an IVS3 database.                                
+                                                              
+All of the above straps will be saved on disc by SAVE CONFIGURATION (function  
+17 of the CONFIGURATION MENU). Care should be taken to set only those straps   
+which are specifically required                                                                              
+CR STRAP     - if set this strap causes a LF character to be added to each CR  
+               character sent to the modem. Used for IVS3 databases. Do not use
+               for each type of transmit access, or the       
+resulting operation will be unpredictable.                                     
+-------------------------------------------------------------------------------
+Press any key to continue or press ESCAPE tw for TELECOM GOLD mode.                                          
+-------------------------------------------------------------------------------
+Press any key to continue or press ESCAPE twice to return to MAIN MENU
+
+----------------------------------ice to return to MAIN MENU
+
+------------------------------------------------------------------------------$
+-------------------------------------------------------------------------------
+VIEWTEXT USER GUIDE   Section 7.12                           (C) T SYSTEMS 1984
+Version 1.0                                                  (C) TANDATA   1984
+-------------------------------------------------------------------------------
+TERMINATION OF PAGES - When the IVS3 flag is set, the full 960 character pagehe next "@" character in the   
+text. The cursor will be left at the postion after the "@". If no "@" found,   
+the cursor does not move. This command is used for rapid generation of FORM    
+fields (see section 7 of the User Guide).                      
+is sent, and the special characters are added to the end.                      
+                                                                               
+In FORMS mode (ext = .FRM), the characters between "@" and "!" are sent. Note  
+that when                  
+-------------------------------------------------------------------------------
+Press any key to return to the HELP MENU or press ESCAPE twice to return to the
+MAIN MENU                                                                  sending to PRESTEL or GOLD the first "!" will be taken as the end of 
+transmission, but VIEWTEXT will send all fields. The use of multiple "@...!"   
+fields should therefore be restricted to systems which will not expect "!" as  
+the terminal character     
+------------------------------------------------------------------------------%
+
+.                                                        
+                                                                               
+In PAGE mode the page size should be limited to 22 lines, and a "!" character  
+should be entered at the keyboard aееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее

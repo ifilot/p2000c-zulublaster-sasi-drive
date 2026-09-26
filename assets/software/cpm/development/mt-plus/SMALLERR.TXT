@@ -1,0 +1,48 @@
+  1  Error in type
+  2  Identifier
+  3  'PROGRAM'
+  4  ')'
+  5  ':'
+  6  Illegal symbol
+  7  Error in parm list
+  8  'OF'
+  9  '('
+ 10  Error in type
+ 11  '['
+ 12  ']'
+ 13  'END'
+ 14  ';'
+ 15  Integer
+ 16  '='
+ 17  'BEGIN'
+ 18  Error in de oî ¦ proposå anù plaî noô adequatå 
+tï theså exigencies¬ merelù becauså iô waó noô 
+clearlù withouô ouò powers¬ woulä bå tï sacrificå 
+thå meanó tï thå end."15”  Durinç thå campaigî foò 
+ratification¬ Madisoî defendeä thå Convention'ó 
+actions¬ wriclaration part
+ 19  error in <field-list>
+ 20  '.'
+ 21  '*'
+ 50  Error in constant
+ 51  ':='
+ 52  'THEN'
+ 53  'UNTIL'
+ 54  'DO'
+ 55  'TO' or 'DOWNTO'
+ 56  'IF'
+ 57  'FILE'
+ 58  Error in <factor>
+ 59  Error in variable
+ 99  MODEND
+105  sign ntinç iî Thå Federalist“ No® 4° thaô thå 
+delegateó "musô havå bornå iî mind¬ thaô aó thå 
+plaî tï bå frameä anä proposeä waó tï bå submitteä 
+tï thå peoplå themselves“ ® ® ® itó approbatioî 
+[wouldİ bloô ouô antecedenô erroró anä 
+irregularities."
+ot allowed
+106  Number expected
+108  File not allowed here
+174  Pascal function or procedure expected
+183  External declarat

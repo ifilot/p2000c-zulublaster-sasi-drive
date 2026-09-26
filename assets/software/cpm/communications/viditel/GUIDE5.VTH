@@ -1,0 +1,266 @@
+-------------------------------------------------------------------------------
+VIEWTEXT USER GUIDE   Section 5.1                            (C) T SYSTEMS 1984
+Version 1.0                                                  (C) TANDATA   1984
+-------------                               (C) TANDATA   1984
+-------------------------------------------------------------------------------
+MAIN MENU - the command prompt line will accept up to 3 characters. This allows
+2 characters to remain on the prompt line a------------------------------------------------------------------
+                MAIN, COMMUNICATIONS AND CONFIGURATION MENUS                   
+                                                                               
+The VIEWTEXT system is connd be changed using the BACKSPACE   
+key if required. In the event of an incorrect entry, the prompt is repeated.   
+If an error occurs (for example, an incorrect READ file name), the prompt is   
+replaced with an appropriate warning. Pressing RETURN witrolled using a number of menus which require only   
+a selector number followed by RETURN to call a function. When VIEWTEXT is run  
+the MAIN MENU is displayed. This menu selects the most commonly used functions.
+The COMMUNICATIONS menu and CONFIGURATIll restore the prompt. 
+All VIEWTEXT menus behave in this manner, although certain functions do not    
+require a RETURN key (see Directories). As a general rule, functions which do  
+not require a RETURN cannot do any damage or change or erase files.  ON menu are called from the MAIN menu   
+(functions 6 and 7).                                                           
+                                                                               
+Each menu displays the current date in the top left           
+                                                                               
+To return to the MAIN MENU from most functions the ESCAPE key is pressed twice.
+The directories also use the dual ESCAPE mechanism to exit from sub-functions, 
+shand corner or the string  
+"NO DATE ENTERED" if the current date has not been set. The menus are all      
+similar in appearance but are identified on the top line of the menu. All of   
+the cursor control keys except BACKSPACE are inactive when a menuo the ESCAPE key must be pressed twice again to return to MAIN MENU. Note that
+ESCAPE followed by a character other than ESCAPE is a valid key code on some   
+computer systems (cursor moves etc), and also ESCAPE'd characters can be sent  
+to the modem,  is displayed.
+                                                                               
+The version number of the VIEWTEXT release is also shown. In the event of any  
+difficulty with this module, please quote this version number in any query.   so be careful to press ESCAPE in multiples of 2 if you want to   
+exit to a higher menu level.                                                   
+-------------------------------------------------------------------------------
+Press any key to continue o 
+                                                                               
+-------------------------------------------------------------------------------
+Press any key to continue or press ESCAPE twice to return to MAIN MENU
+
+-----------------r press ESCAPE twice to return to MAIN MENU
+
+------------------------------------------------------------------------------$
+-------------------------------------------------------------------------------
+VIEWTEXT USER GUIDE   Section 5.3              -------------------------------------------------------------$
+-------------------------------------------------------------------------------
+VIEWTEXT USER GUIDE   Section 5.2                            (C) T SYSTEMS 1984
+Version 1.0                                 (C) T SYSTEMS 1984
+Version 1.0                                                  (C) TANDATA   1984
+-------------------------------------------------------------------------------
+The individual functions called from the MAIN MENU are described in detail in  
+the various sections of this guide. All functions give sufficient detail on the
+prompt line at each stage of an operation. The host computer type and serial   
+number of the VIEWTEXT module are also displayed.                                             is sent to the modem when the RETURN key is      
+                              pressed. The state of this flag will be saved    
+                              in the CONFIG file.                              
+                            
+                                                                               
+CONFIGURATION MENU - this menu contains a number of functions which are only   
+used occasionally, and some of the changes can be saved in the configuration   
+file                                                          
+                                                                               
+SELECT HASH CHARACTER         The PRESTEL HASH character (ASCII code 95) is    
+                              an unPRCONFIG.DAT on the VIEWTEXT disc. The functions are:-                    
+                                                                               
+SET or CLEAR REVEAL           Certain database systems send characters in a    
+                  derline in the ASCII character set, and is  
+                              often difficult to see on a page. This function  
+                              allows a new character to be chosen. The CONFIG  
+                              file is delivered             concealed mode - they are stored, but will not   
+                              be displayed unless the REVEAL flag is set. This 
+                              allows confidential information to be received   
+                              awith the character set to !    
+and the current character is displayed by this function. If no change is       
+required, press RETURN without entering a new character. The value of the hash 
+character will be saved in the CONFIG file.                  nd examined at a later time in private. The     
+                              REVEAL flag state will be saved in the PRCONFIG  
+                              file when a save operation is performed.         
+--------------------------------------------                  
+-------------------------------------------------------------------------------
+Press any key to continue or press ESCAPE twice to return to MAIN MENU
+
+------------------------------------------------------------------------------$
+-----------------------------------
+Press any key to continue or press ESCAPE twice to return to MAIN MENU
+
+------------------------------------------------------------------------------$
+-----------------------------------------------------------------------------------------------------------------------------------------------
+VIEWTEXT USER GUIDE   Section 5.5                            (C) T SYSTEMS 1984
+Version 1.0                                                  (C) TANDATA   1984
+----------------------------
+VIEWTEXT USER GUIDE   Section 5.4                            (C) T SYSTEMS 1984
+Version 1.0                                                  (C) TANDATA   1984
+-----------------------------------------------------------------------------------------------------------------------------------------------
+                                                                               
+CHANGE PASSWORD               The default password in the CONFIG file is set   
+                          --
+                                                                               
+SET or CLEAR CR STRAP         Certain databases require a LF character after   
+                              a CR character. When this strap is set a CR,LF   
+             to "VIEWTEXT". This function allows the user to  
+                              set a new password of up to 14 characters. The   
+                              current password must be entered correctly before
+                              a new password can be set. The password can be   
+                              made up of any printing characters in upper or   
+                              lower case, and will be saved in the CONFIG file.
+                                                     These    
+                              characters are CURSOR HOME, BACKSPACE, "1" and   
+                              HASH. See section 7 of the User Guide.           
+                                                                               
+S                           
+CHANGE DISC TO READ-WRITE     If a data disc is changed CP/M will not allow    
+                              that disc to be written to unless it has been    
+                              "logged" onto the system. This funcET, CLEAR GOLD STRAP         when this flag is set the prompt shuttle "P>" is 
+                              disabled and any CTRL-P characters are sent to   
+                              the modem. See section 7 of the User Guide.      
+              tion asks for 
+                              the drive code holding the new disc, and will set
+                              its status to READ-WRITE. This will not override 
+                              any protection given by a write protect tab on                                                                   
+                                                                               
+-------------------------------------------------------------------------------
+Press any key to continue o 
+                              the disc.                                        
+-------------------------------------------------------------------------------
+Press any key to continue or press ESCAPE twice to return to MAIN MENU
+
+-----------------r press ESCAPE twice to return to MAIN MENU
+
+------------------------------------------------------------------------------$
+-------------------------------------------------------------------------------
+VIEWTEXT USER GUIDE   Section 5.7              -------------------------------------------------------------$
+-------------------------------------------------------------------------------
+VIEWTEXT USER GUIDE   Section 5.6                            (C) T SYSTEMS 1984
+Version 1.0                                 (C) T SYSTEMS 1984
+Version 1.0                                                  (C) TANDATA   1984
+-------------------------------------------------------------------------------
+                                                                                           (C) TANDATA   1984
+-------------------------------------------------------------------------------
+                                                                               
+SET, CLEAR TXECHO STRAP       when this fla                   
+                                                                               
+SET, CLEAR PRINTER GRAPHICS   if a MICROLINE 80 series or compatible printer   
+                              is used this flag can be set to enable the g is set any characters transmitted 
+                              to the modem will be echoed back to VIEWTEXT     
+                              from the database and will be displayed. See     
+                              section 7 of the User Guidfull  
+                              graphics set of the printer. The VIEWTEXT module 
+expects the printer to be set up in 7 bit mode, and sends SO and SI codes to   
+the printer to enable and disable the graphics font. When the graphics mode    
+is ofe.                     
+                                                                               
+SET, CLEAR IVS3 STRAP         when this flag is set a group of characters are  
+                              added to the end of a transmitted file.f all graphics characters will be printed as "*" characters.              
+                                                                               
+MICROLINE 80 internal switch settings for serial interface are:                
+                                                                               
+8 position   1   2   3   4   5   6   7   8   BRIT char set, 7 bit, no LF added 
+**********                                   print DEL char, serial interface  
+             -  ON   -   -  ON arning is issued from this     
+                              menu if the CONFIGURATION DATA has been changed. 
+                              This warning will be issued on exit to CP/M from 
+                              the MAIN MENU (function 18).     -  ON  ON   See MICROLINE manual for details. 
+                                                                               
+The above settings refer to a V24 serial interface option printer (type 82A).  
+--------------------------------------------                  
+-------------------------------------------------------------------------------
+Press any key to continue or press ESCAPE twice to return to MAIN MENU
+
+------------------------------------------------------------------------------$
+-----------------------------------
+Press any key to continue or press ESCAPE twice to return to MAIN MENU
+
+------------------------------------------------------------------------------$
+-----------------------------------------------------------------------------------------------------------------------------------------------
+VIEWTEXT USER GUIDE   Section 5.9                            (C) T SYSTEMS 1984
+Version 1.0                                                  (C) TANDATA   1984
+----------------------------
+VIEWTEXT USER GUIDE   Section 5.8                            (C) T SYSTEMS 1984
+Version 1.0                                                  (C) TANDATA   1984
+-----------------------------------------------------------------------------------------------------------------------------------------------
+CONFIGURATION STATUS - the lower part of the CONFIGURATION MENU shows the      
+current status of the flags and also of the modem. For the flags, a "0" is used
+to indicate an OFF state, --
+                                                                               
+SAVE CONFIGURATION            This function will re-write the PRCONFIG.DAT     
+                              file to disc in order to make the configuration  
+         and a "1" indicates an ON state. The modem status    
+will be OFF, ON or ON-LINE. In the event of a remote disconnect (for example,  
+in response to a password error after dialling) the VIEWTEXT status will be    
+incorrect. The user should select DISCO                     changes effective every time VIEWTEXT is run.    
+                              The user is prompted to remove any write protect 
+                              tab on the disc and then press return. This      
+                      NNECT (function 17 of the MAIN MENU) to 
+ensure that VIEWTEXT and the modem state are equivalent.                       
+                                                                               
+The status line also shows the state of the SPEED PA        function must be called in order to save any     
+                              change made, as there is no automatic save of    
+                              the configuration data.                          
+                                   GE mechanism (see section  
+7 of the User Guide). A "1" indicates that speed mode is active, and any call  
+of TRANSMIT FILE (function 15 of the MAIN MENU) will return directly to SPEED  
+MODE.                                                                                                        
+EXIT TO MAIN MENU             This returns control to the MAIN MENU. The dual  
+                              ESCAPE mechanism is not active while this menu   
+                              is displayed. No w              
+                                                                               
+The last status item is the edit status of the memory copy of the CONFIGURATION
+DATA, and will be "SAFE" if unchanged or "NEW" if any item has been changed.   
+                                                                               
+-------------------------------------------------------------------------------
+Press any key to continue or press ESCAPE twice to return to MAIN MENU
+
+-----------------r press ESCAPE twice to return to MAIN MENU
+
+------------------------------------------------------------------------------$
+-------------------------------------------------------------------------------
+VIEWTEXT USER GUIDE   Section 5.11             -------------------------------------------------------------$
+-------------------------------------------------------------------------------
+VIEWTEXT USER GUIDE   Section 5.10                           (C) T SYSTEMS 1984
+Version 1.0                                 (C) T SYSTEMS 1984
+Version 1.0                                                  (C) TANDATA   1984
+-------------------------------------------------------------------------------
+                                                                                           (C) TANDATA   1984
+-------------------------------------------------------------------------------
+MODEM DIRECTORY CLEAR - function 15 on the CONFIGURATION MENU can be used to   
+erase the entire directory held in the mode                   
+                *****      COMMUNICATIONS MENU      *****                      
+                                                                               
+This menu is inactive for this copy of VIEWTEXT. The communications functm. The modem contains two MN2400    
+alkaline batteries which power the memory holding the directory, and they will 
+need to be replaced occaisionally. The modem has a facility for retaining power
+for a short period while the batteries are replaced. If ions  
+provided are contained in command files which must be purchased separately.    
+Facilities include file transfer, modem-to-modem communication and a remote    
+terminal handler for linking a CP/M system to a mainframe. New modules will    
+also the modem directory is 
+corrupted, this function will erase all entries and re-format the directory in 
+the memory.                                                                    
+                                                                     be added to this menu, including TELESOFTWARE up and down loaders.        
+                                                                               
+Please contact your VIEWTEXT distributor for information on the communications 
+module and for ava          
+If this function is called unintentionally, the clear operation can be aborted 
+by pressing ESCAPE twice in response to the prompt, or permitted by pressing   
+the RETURN key. The clear operation takes several seconds, and will exit back  
+tilability of new facilities.                                 
+                                                                               
+                                                                               
+                               o the CONFIGURATION MENU when completed. The entries can then be re-programmed
+using the LOAD facility in the Dialling  Directory (Function 1 of MAIN MENU).  
+                                                                               
+ **** If the m  **********                                    
+                                                                               
+                                                                               
+--------------------------------------------odem is returned for repair the directory should be erased. **** 
+                                                                               
+-------------------------------------------------------------------------------
+Press any key to continue o-----------------------------------
+Press any key to return to the HELP MENU or press ESCAPE twice to return to the
+MAIN MENU                                                                      
+------------------------------------------------------------------------------%
+
+

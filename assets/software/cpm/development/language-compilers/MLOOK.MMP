@@ -1,0 +1,17 @@
+MLOOK ;LOOKUP A FILE ENTRY.  JEB 12/80
+ ;RETURNS S - POINTER TO ENTRY
+ ;        <0 ENTRY NOT FOUND (-S IS ENTRY LOCATION)
+ ;        =0 NULL ENTERED
+ ;    NAM - ENTRY NAME (INTERNAL FORMAT)
+ ;    NAKED STATE SET TO MAIN FILE POSITION
+READ SET S=0 READוווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווו !,"NAME > ",N QUIT:N=""  ;GET ENTRY NAME
+ IF N="?" DO QUES GOTO READ
+ ;FIND LAST NAME (LAST PIECE BY " ")
+ SET NAM=$PIECE(N,",",1) FOR I=1:1 QUIT:NAM'[" "  SET NAM=$PIECE(NAM," ",2,99)
+ SET NAM=NAM_","_$PIECE(N," ",1,I-1)_","_$PIECE(N,",",2) ;INTERNALוווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווו FORMAT
+ SET HASH=$ASCII(NAM)*100+$ASCII(NAM,2)*100+$ASCII(NAM,3)
+ IF '$DATA(^MAIL(HASH,0)) SET ^MAIL(HASH,0)=0
+ SET N=^(0),LAST=$PIECE(NAM,",",1),I=0
+ ;
+ ;SEARCH FOR NAME, BUILD ARRAY OF CLOSE ENTRIES IN IDX(I)
+ FOR S=1:ESIZ:N GOTO:^(S)=NAM FOUND IFוווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווו

@@ -1,0 +1,32 @@
+;EQUATES FOR AMBER CBIOS
+;
+BIT0	EQU	1
+BIT1	EQU	2
+BIT2	EQU	4
+BIT3	EQU	8
+BIT4	EQU	10H
+BIT5	EQU	20H
+BIT6	EQU	40H
+BIT7	EQU	80H
+;
+BELL	EQU	7
+CR	EQU	13
+LF	EQU	10
+ESC	EQU	1BH
+;PORT ADDRESSES
+DMA	EQU	0
+DEL	EQU	7FH
+USART3	EQU	14H
+SASIDA	EQU	16H
+ווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווSASICO	EQU	18H
+REQ	EQU	0
+BUSY	EQU	3
+;
+FDSTAT	EQU	1AH	;FLOPPY STATUS INPUT
+FDDAT	EQU	1BH	;FLOPPY DATA INPUT/OUTPUT
+MEMMGR	EQU	1EH	;MEMORY MANAGER
+FDCWRO	EQU	1FH	;FLOPPY WRITE ONLY PORT
+NOTRES	EQU	BIT4	;NOT RESET
+MOTON	EQU	BIT5
+DS4EN	EQU	BIT6
+SFSE

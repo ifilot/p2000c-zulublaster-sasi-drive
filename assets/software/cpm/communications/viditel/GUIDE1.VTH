@@ -1,0 +1,165 @@
+-------------------------------------------------------------------------------
+VIEWTEXT USER GUIDE   Section 1.1                            (C) T SYSTEMS 1984
+Version 1.0                                                  (C) TANDATA   1984
+-------------                               (C) TANDATA   1984
+-------------------------------------------------------------------------------
+To run VIEWTEXT correctly, you MUST log on to the disc drive which holds the   
+VIEWTEXT programs, as there are several dis------------------------------------------------------------------
+GETTING STARTED - your VIEWTEXT system is supplied on a master disc which has  
+been created specifically for your computer. All of the files present on this  
+disc are required to run Vc-based overlays which cannot be    
+loaded from any drive except the "current" drive. If you forget, VIEWTEXT will 
+warn you with a "CANNOT FIND FILE" message.                                    
+                                                        IEWTEXT, and therefore it is important that you make 
+a back-up copy of the disc before you run VIEWTEXT, as certain files will be   
+changed on each run.                                                           
+                                                              
+i.e  if you are currently logged on to drive "A", and run VIEWTEXT by typing   
+     B:VIEWTEXT, the overlay files cannot be read by the main program if the   
+     VIEWTEXT disc is in drive "B".                                                                          
+Also the password on the master disc is set to "VIEWTEXT", and if you forget   
+your own password, the default password can be used by copying the original    
+of the file PRCONFIG.DAT to your current disc. This           
+                                                                               
+The VIEWTEXT loader displays a banner page, and then prompts for the password  
+and the date. The date can be ignored simply by pressing RETURN, but any page  
+fwill also destroy any of   
+the changes made using the CONFIGURATION MENU, so remember to set them up if   
+you do re-load the configuration file.                                         
+                                                                 iles recorded or printed will contain the default string NO DATE ENTERED in   
+the file header. The date is included in the file to assist in identification  
+of pages, together with an (optional) 40 character string which will also be   
+printed. The d              
+The dialling directory updates the file DIAL.DAT each time you add a number    
+and password, so remember to back this file up (under a different name) on the 
+master disc occasionally, as the DIAL.DAT file on the master disc is empty, anisc directory displays the date and the string for each page.    
+                                                                               
+-------------------------------------------------------------------------------
+Press any key to continue od
+you will have to re-enter the contents if the active file is corrupted.        
+-------------------------------------------------------------------------------
+Press any key to continue or press ESCAPE twice to return to MAIN MENU
+
+-----------------r press ESCAPE twice to return to MAIN MENU
+
+------------------------------------------------------------------------------$
+-------------------------------------------------------------------------------
+VIEWTEXT USER GUIDE   Section 1.3              -------------------------------------------------------------$
+-------------------------------------------------------------------------------
+VIEWTEXT USER GUIDE   Section 1.2                            (C) T SYSTEMS 1984
+Version 1.0                                 (C) T SYSTEMS 1984
+Version 1.0                                                  (C) TANDATA   1984
+-------------------------------------------------------------------------------
+                                                                               
+VIEWTEXT cannot monitor the current ON-OFF state of the modem. The user will be
+prompted to turn on the modem at the correct time, and it is important that the
+modem is left on if several calls are made, or the internal status of VIE and it will be possible to enter commands before the corresponding   
+prompt is displayed. VIEWTEXT does not provide this type-ahead facility, so it 
+may be possible to "lose" characters on your system if commands are entered    
+before the prompt is dWTEXT 
+will be incorrect, and therefore the operation will be unpredictable.          
+                                                                               
+VIEWTEXT is a menu-driven program, and each major function is supported by its 
+own misplayed.                                                
+                                                                               
+All ASCII control characters are displayed with a "^" prefix, and characters   
+preceded by ESCAPE are displayed wienu, with a prompt line at the bottom of the screen. The MAIN MENU can be 
+reached from any function by pressing ESCAPE twice, although there are certain 
+operations which must be completed and therefore will not immediately accept   
+the dual ESCAPE keth a "~" prefix. When pages are displayed,  
+any graphics character is shown as "*" if the computer display is not capable  
+of reproducing the TELETEXT graphics characters. Double height characters are  
+displayed as normal height but underlined with "y.                                                           
+                                                                               
+For certain operations the command input can be edited using the BACKSPACE key.
+Note that all other cursor keys*" on computer displays not    
+capable of reproducing the double height characters. Colour attributes have    
+no effect on monochrome displays. When pages are printed graphics characters   
+are reproduced on compatible printers (see section 5.7 of the are disabled during command input. All commands
+which respond to editing ask for the input text followed by RETURN.            
+                                                                               
+-------------------------------------------- User Guide).     
+-------------------------------------------------------------------------------
+Press any key to continue or press ESCAPE twice to return to MAIN MENU
+
+------------------------------------------------------------------------------$
+-----------------------------------
+Press any key to continue or press ESCAPE twice to return to MAIN MENU
+
+------------------------------------------------------------------------------$
+-----------------------------------------------------------------------------------------------------------------------------------------------
+VIEWTEXT USER GUIDE   Section 1.5                            (C) T SYSTEMS 1984
+Version 1.0                                                  (C) TANDATA   1984
+----------------------------
+VIEWTEXT USER GUIDE   Section 1.4                            (C) T SYSTEMS 1984
+Version 1.0                                                  (C) TANDATA   1984
+-----------------------------------------------------------------------------------------------------------------------------------------------
+                                                                               
+The USER GUIDE files are GUIDE0.VTH to GUIDE8.VTH, with the first file being   
+the HELP MENU. These files--
+All commands will accept upper or lower case letters, but the password must be 
+entered in the same case(s) as used when initially set. On certain computer    
+systems the operating system provides type-ahead buffering from the console    
+keyboard, contain all ASCII characters, and can be printed if 
+required. VIEWTEXT generates page and form files with extensions .PGE, .FRM and
+.SPD for the page, form and speed page directories. These files contain binary 
+information and cannot be displayed or printed other than by VIEWTEXT without  
+unpredictable results.                                                         
+                                                                               
+In order to separate VIEWTEXT command files from dat the cable
+and this port must be set up as described above.                               
+                                                                               
+PRINTER SETTING - the internal graphics mapping of VIEWTEXT is set for the OKI 
+Ma files it is recommended  
+that a new system disc be created, and all files on the VIEWTEXT master disc   
+be moved to the new disc. If there is insufficient room, do not copy the HELP  
+text files (any file with extension .VTH). These files can be lisICROLINE 80 series printers, and if the host system is equipped with this type
+of printer the full PRESTEL graphics will be reproduced. The CONFIGURATION MENU
+allows a flag to be set if using a MICROLINE or compatible printer to produce  
+correct graphited instead.  
+If the User Guide is called from the MAIN MENU the help files will be reported 
+as missing from the disc, but no harm will be done.                            
+                                                                              cs. See sections 5 and 7 of the User Guide for full details.     
+                                                                               
+-------------------------------------------------------------------------------
+Press any key to continue o 
+                                                                               
+-------------------------------------------------------------------------------
+Press any key to continue or press ESCAPE twice to return to MAIN MENU
+
+-----------------r press ESCAPE twice to return to MAIN MENU
+
+------------------------------------------------------------------------------$
+-------------------------------------------------------------------------------
+VIEWTEXT USER GUIDE   Section 1.7              -------------------------------------------------------------%
+-------------------------------------------------------------------------------
+VIEWTEXT USER GUIDE   Section 1.6                            (C) T SYSTEMS 1984
+Version 1.0                                 (C) T SYSTEMS 1984
+Version 1.0                                                  (C) TANDATA   1984
+-------------------------------------------------------------------------------
+QUICK GUIDE - to run VIEWTEXT, select Dialling Directory (fu                               (C) TANDATA   1984
+-------------------------------------------------------------------------------
+SETTING THE BAUD RATE - the TANDATA Tm110 and Td 1400/Td 1600 Viewdata Adaptors
+require a 1200 speed setting on the communinction 1 of the    
+MAIN MENU) and prepare a directory entry with a telephone number, password and 
+ID (see section 2 of the User Guide). Press ESCAPE twice to return to the      
+dialling prompt, and press "L" to load the entry to the modem, followed bcations port used. The VIEWTEXT     
+module does not set the baud rate, and therefore this must be done by the user 
+with the correct local utility supplied with the host CP/M system. The format  
+should be set to 1200 baud, 7 bits, even parity, 1 stop y the 
+directory entry number, COMMA, and the modem directory number. When the entry  
+has been loaded, press "D" to dial. The modem directory will be displayed on   
+the left side of the screen. Enter the modem directory number (1-8) to select  
+the dbit.                   
+                                                                               
+MODEM CABLE - the cable supplied with the VIEWTEXT system connects the modem to
+an appropriate port on the computer system. The port is identified onialling information which has been loaded. The modem will dial the number,
+and when connected will send out the password and the ID. Incoming pages will  
+appear on the left side of the screen. To change screens, press CTRL and "P"   
+together. Pages can be called by entering "*pagenumber!" or any digits or      
+characters specified on the displayed page to select the next page choice. To  
+return to the MAIN MENU, press ESCAPE twice. DISCONNECT (17) when finished.    
+                               ееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее                                                
+ ***  PLEASE read all sections of the User Guide before running VIEWTEXT  ***  
+           ***  Back up your MASTER DISC before using VIEWTEXT  ***            
+--------------------------------------------ееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее

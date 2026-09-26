@@ -1,0 +1,39 @@
+INDX1 ; ERROR,STORE VAR,PRINT ; 02/26/81  18:22
+ER S ERTX=LAB S:LABO ERTX=ERTX_"+"_LABO S ERTX=ERTX_"           ",ERTX=$E(ERTX,1,11),ERTX=ERTX_"  "_$P($T(ERROR+ERR),";",2)
+ W !?3,ERTX S:'$D(^XCR(RTN,"E",0)) ^XCR(RTN,"E",0)=0
+ S ERR=^XCR(RTN,"E",0)+1,^(0"Z",RTN)=^XCR("***","Z",RTN)_R_"," G CR1
+CRP B 0 W #!!,"*****   CROSS REFERENCE OF ALL ROUTINES   *****",! S RTN="***"
+ W !,"LOCAL VARIABLES",?21,"ROUTINES",! S LOC="L",SYM="" D P
+ W !!,"GLOBAL VARIABLES",! S LOC="G",SYM="^" D P
+ W !!,"ROUTINE",?21,"IN)=ERR,^(ERR)=ERTX Q
+ERROR ;
+ ;UNDEFINED COMMAND
+ ;UNDEFINED 'Z' COMMAND
+ ;UNDEFINED FUNCTION
+ ;UNDEFINED SPECIAL VARIABLE
+ ;UNMATCHED PARENTHESIS
+ ;UNMATCHED QUOTATION MARK
+ ;ELSE COMMAND FOLLOWED BY ONLY ONE SPACE
+ ;FOR COMMAND DID NOT CONTAIN '=VOKES:",! S LOC="Z",SYM="" D P
+ W !!,"ROUTINE",?21,"IS INVOKED BY:",! S LOC="X",SYM="" D P
+ W !!,"*****   END   *****",!
+END C:IO IO K ^XCR,^UTILITY($J) Q
+ W !!,"ROUTINE",?21,"IS INVOKED BY:",! S LOC="X",SYM="" D P
+ W !!,"*****   END   *****",!
+END '
+ ;QUIT COMMAND FOLLOWED BY ONLY ONE SPACE
+ ;UNRECOGNIZED ARGUMENT IN SET COMMAND
+ ;INVALID LOCAL VARIABLE NAME
+ ;INVALID GLOBAL VARIABLE NAME
+ ;BLANK(S) AT END OF LINE
+ ;MISSING LABEL REFERENCED
+ ;DUPLICATE LABEL
+ ;WARNING - LABEL NOT REFERENCED ееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееIN THIS ROUTINE
+ ;WARNING - FIRST LINE TAG NOT ROUTINE NAME
+PR ;PRINT INDEX
+ S RTN="" S:IO=$I IO=0 I IO O IO U IO
+BEG S RTN=$O(^UTILITY($J,RTN)) I RTN="" G END:NRO<2,CR
+ W # I IOP2 W !!,"*****   ",RTN,"   *****",! F I=1:1 Q:'$D(^XCR(RTN,0,I))  S L=^(Iееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее) W !,$P(L," ",1),?7,$P(L," ",2,999)
+ I IOP3,$D(^XCR(RTN,"E",0)) W !!,"*****   ERROR & WARNINGS IN ",RTN,"   *****",! F I=1:1 Q:'$D(^XCR(RTN,"E",I))  W !?3,^(I)
+ W !!,"*****   INDEX OF ",RTN,"   *****",!
+ W !,"LOCAL VARIABLES",?21,"LINE OCCURRENCES",! Sееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее

@@ -1,0 +1,232 @@
+pprop "x "bury "true
+pprop "princ "bury "true
+pprop ".system "bury "true
+to maplist :list1 :list2
+if emptyp :list1 [stop]
+make first :list1 first :list2
+maplist bf :list1 bf :list2
+end
+
+to lines :line
+if or :line = "d :line = "d [make "line [186 
+
+to it.may.be.run :proc
+if memberp :proc :run [type "& add1 word "where :level]
+end
+
+to ; :comment
+end
+
+to fill.up.to.next :n
+tc1 32
+if 1 = count thing first :sups [tc1 :strline make word "finished :level "true] [tc1 :topcorner]
+tcs 3 :strline200 204 205 201]]
+if or :line = "s :line = "s [make "line [179 192 195 196 218]]
+if or :line = "c :line = "c [make "line [124 124 124 45 124]]
+maplist [vertline botcorner intersec strline topcorner] :line
+end
+
+to ask.ques 
+setwidth ask [width 40 or 
+tc1 32
+end
+
+to extraline :sups :downlevel :uplevel
+if :downlevel = 0 [pr "  stop]
+extraline.fill :uplevel
+tcs 4 32
+extraline :sups :downlevel - 10 :uplevel + 1
+end
+
+to fill.up.to.level :sups :downlevel :uplevel
+if :downlevel = 0 [stop]
+fill.on80?] [40 80]
+make "printer ask [do you want it printed? \(y\/n\)] [y n]
+make "graphics "y
+if :printer = "y [catch "error [dribble "lpt1 nodribble go "next] make "printer "n pr [can't print without a printer]]
+label "next
+make "line "c
+if :printer = "e.level :uplevel
+if :downlevel = 10 [tcs 3 :strline tc1 32] [tcs 4 32]
+fill.up.to.level :sups :downlevel - 10 :uplevel + 1
+end
+
+to add1 :var
+make :var 1 + thing :var
+end
+
+to extraline.fill :level
+tcs 1 + thing word "where :level 32
+if thing wordy [make "graphics ask [graphics printer? \(y\/n\)] [y n]]
+if :graphics = "y [make "line ask [double or single lines? \(d\/s\)] [d s]]
+lines :line
+pr [superprocedures are:] pr "
+pr :sups pr "
+nodribble
+pr [are there any other superprocedures?]
+pr [in "finished :level [tc1 32] [tc1 :vertline]
+end
+
+to tcs :n :c
+repeat :n [type char :c]
+end
+
+to fill.one.level :level
+tcs 1 + thing word "where :level 32
+if thing word "finished :level [tc1 32 stop]
+if :downlevel = 10 [corner.or.intersec] [tc1 :verclude those that are buried.]
+pr [type the list or press enter if none.]
+pr "
+make "sups se :sups readlist
+if :printer = "y [dribble "lpt1]
+label "cont
+pr " pr :file pr "
+pr " pr [superprocedures are:] pr "
+pr :sups pr "
+pr ["\* " procedure is rectline]
+end
+
+to get.subprocedures :proc
+local "line
+make "line readlist
+if [end] = :line [stop]
+subprocedures :line
+get.subprocedures :proc
+end
+
+to subprocedures :line
+if emptyp :line [stop]
+if first :line = :proc [make "recur se :recur :proc sursive]
+pr ["&" procedure performs "run"]
+pr "
+end
+
+to sups :sups :level :inloop
+make word "finished :level "false
+if emptyp :sups [stop]
+local "proc
+make "proc first :sups
+if memberp :proc :inloop [(pr [looping to] :proc) stop]
+type :proc
+makeubprocedures bf :line stop]
+if first :line = "run [make "run se :run :proc subprocedures bf :line stop]
+if listp first :line [subprocedures first :line subprocedures bf :line stop]
+if not memberp first :line :contents [subprocedures bf :line stop]
+if n word "where :level count :proc
+it.may.be.recursive :proc
+it.may.be.run :proc
+; [does it have subprocedures]
+if not emptyp thing :proc [fill.up.to.next :proc sups thing :proc :level + 1 se :inloop :proc]
+; [does it have more than one]
+if not emptyp bot memberp first :line thing :proc [make :proc se thing :proc first :line]
+if not memberp first :line :subs [make "subs se :subs first :line]
+subprocedures bf :line
+end
+
+to get.to.line 
+if readeofp [op []]
+local "line
+make "line readlist
+if emptypf :sups [pr "  extraline bf :sups :level * 10 0 fill.up.to.level bf :sups :level * 10 0]
+; [in all cases let's do the rest]
+sups bf :sups :level :inloop
+end
+
+to it.may.be.recursive :proc
+if memberp :proc :recur [type "* add1 word "where :level]
+end :line [op get.to.line]
+if "to = first :line [op :line]
+op get.to.line
+end
+
+to sav :file
+erasefile :file
+save :file
+end
+
+to tc1 :c
+type char :c
+end
+
+to corner.or.intersec 
+if 1 = count :sups [tc1 :botcorner make word "finished :level "true] [tc1 :intersec]
+end
+
+to printout.tree 
+ask.ques
+catch "error [sups :sups 0 [] pr "  pr "  nodribble stop]
+pr "  pr [nonexistent superprocedure]
+nodribble
+end
+
+to get.sups :contents
+if emptyp :contents [op []]
+if memberp first :contents :subs [ommy = char 27 [demo stop]
+ask.file
+if :file = char 27 [demo stop]
+get.contents
+init.vars :contents
+setreadpos 0
+get.subs
+close :file
+make "sups get.sups :contents
+printout.tree
+pr " 
+pr [press any key to continue.]
+waitkey
+make "dummy rc
+setwp get.sups bf :contents]
+op se first :contents get.sups bf :contents
+end
+
+to get.subs 
+local "line
+make "line get.to.line
+if readeofp [stop]
+get.subprocedures first bf :line
+get.subs
+end
+
+to get.contents 
+local "line
+make "line get.to.line
+iidth :width
+start
+end
+
+to file 
+op [samples]
+end
+
+make "subs []
+make "run []
+make "recur []
+make "contents []
+make "key 1
+make "run "0
+f readeofp [stop]
+make "contents se :contents first bf :line
+get.contents
+end
+
+to ask.file 
+ct
+dir
+pr " type [which file?]
+define "file list [] list "op rl
+if emptyp file [pr " pr [a file name from the directory...] pr [press any key to continue,ееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее esc to exit.] make "dummy rc ( if :dummy = char 27 [closeall demo stop] ) ask.file stop]
+make "file first file
+if not memberp ". :file [make "file word :file ".lf]
+if not filep :file [pr " pr [file does not exist.] pr [press any key to continue, esc toееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее exit.] make "dummy rc ( if :dummy = char 27 [closeall demo stop] ) ask.file stop]
+closeall
+pr [processing file...]
+open :file
+setread :file
+end
+
+to desc 
+ct ts
+setcursor [1 5]
+pr [logo program tree display]
+setcursor [3 0]
+pr [this program wilееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее

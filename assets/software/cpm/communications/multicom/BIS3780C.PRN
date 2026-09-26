@@ -1,0 +1,808 @@
+                                	PAGE	65
+	MACRO-80 3.44	09-Dec-81	PAGE	1
+
+
+                                
+                                	.8080
+                                ;
+                                ;
+                                BOR WIEN - DC      ;
+                                ;       DATE:  16. AUGUST 1984      V5.0 / SER# = PC XXXXX      ;
+                                ;       AFFECTED MODULS:                      PRINTER, SIO      ;
+                                ;   ;        NAME    B3780C          ;USER CONFIGURATION MODULE
+                                ;
+                                ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                                ;                                                                                        ;
+                                ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                                ;
+                                ;
+                                                           ;
+                                ;       (C) 1982 MICRO-INTEGRATION INC. ALL RIGHTS RESERVED,    ;
+                                ;       NO PART OF THIS PROGRAM OR PUBLICATION MAY BE           ;
+                            ;
+                                ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                                ;                                                               ;
+                                ;                          ;       REPRODUCED, TRANSMITTED, TRANSCRIBED, STORED IN         ;
+                                ;       A RETRIEVAL SYSTEM, OR TRANSLATED INTO ANY LANGUAGE     ;
+                                ;       OR COMPUTER LANGUAGE, IN ANY FORM OR B             BISYNC 80/3780                      ;
+                                ;                     USER CONFIGURATION MODULE                 ;
+                                ;                                                               ;
+      Y ANY MEANS,      ;
+                                ;       ELECTRONIC, MECHANICAL, MAGNETIC, OPTICAL, CHEMICAL,    ;
+                                ;       MANUAL OR OTHERWISE, WITHOUT THE PRIOR WRITTEN          ;
+                                ;                              ;		      VERSION 5.0  (1982)			;
+                                ;                                                               ;
+                                ;       THIS MODULE MUST BE CHANGED IF THE LINK'S INITIAL       ;   PERMISSION OF:                                          ;
+                                ;                     MICRO-INTEGRATION INC.                    ;
+                                ;                     63 MAPLE STREET                          
+                                ;       I/O PORT ADDRESSES OR RUN TIME PARAMETERS ARE TO BE     ;
+                                ;       CHANGED.                                                ;
+                                ;                        ;
+                                ;                     FRIENDSVILLE, MD. 21531                   ;
+                                ;                     USA , EARTH                               ;
+                                ;;;;;;;;;;;;;;;;;;;;;;                                        ;
+                                ;                                                               ;
+                                ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+               ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                                ;
+                                ;                   PHILIPS P2000C-MODIFICATION                 ;
+                                ;       PREPARED BY G.HILLEBRECHT, TELECOM LA                 ;
+  0001                          TRUE    EQU     1
+  0000                          FALSE   EQU     0
+  0004                          M2770   EQU     4
+  0002                          M3780   EQU     2
+  0006                          M3741	EQU	6
+  0000                          M2780	EQU	0
+  0008                          MCPU    EQU     8
+  0002                          IN8251  EQU     2
+  0003                          Z80SIO  EQU     3
+  0003                          IN8274	EQU	3           JMP     RTCNTM          ;RETURN CONSOLE TIMING VALUE
+  0036'   01B6'                 SUPPTR:	DW	STARTUP         ;START UP FILE NAME POINTERS
+  0038'   C3 0436'              	JMP	FSTEXT		;
+  003B'   C3 0437'              	JMP	EXTEXT		;
+  003E
+  0005                          CPM	EQU	5
+  0100                          BASEAD  EQU     100H            ;BASE ADDRESS FOR THIS MODULE
+                                ;        ORG     BASEAD          ;ORG TO MODULE START ADDRESS
+  0000'   C3 03EF'    '   C3 0438'              	JMP	INEXT		;
+  0041'   C3 0439'              	JMP	OUTEXT		;
+  0044'   C3 043A'              	JMP	INTEXT		;
+  0047'   C3 043B'              	JMP	RTSEXT		;
+  004A'   C3 043C'              	JMP	RSTEXT		;
+  004D'   C3 043D'                       JMP     USDTIN          ;USART DATA INPUT
+  0003'   C3 03F2'                      JMP     USDTOT          ;USART DATA OUTPUT
+	MACRO-80 3.44	09-Dec-81	PAGE	1-1
+
+
+  0006'   C3 03F5'                      JMP     USSTIN          ;USART          	JMP	XMTEXT		;
+  0050'   C3 043E'              	JMP	RCVEXT		;
+  0053'   C3 043F'              	JMP	DTREXT		;
+  0056'   C3 0440'              	JMP	RECVXT		; RECEIVE FILE EXIT ROUTINE
+                                ;
+                          STATUS INPUT
+  0009'   C3 03F8'                      JMP     USSTOT          ;USART STATUS OUTPUT
+  000C'   C3 03FB'                      JMP     TMCTOT          ;TIMER CONTROL OUTPUT
+  000F'   C3 03FC'                      JMP     TMDTIN          ;TIME      ;       THE FOLLOWING EQUATE STATEMENTS MAY BE CHANGED
+                                ;       TO RECONFIGURE THE LINK'S FACTORY SUPPLIED PARAMETERS FOR --
+                                ;
+                                ;               -       2R DATA INPUT
+  0012'   C3 03FD'                      JMP     TMDTOT          ;TIMER DATA OUTPUT
+  0015'   C3 03FE'                      JMP     RTMODE          ;RETURN DEVICE MODE
+  0018'   C3 0401'                      JMP     RTCMPR          ;RETURN C780, 3780, 2770, 3741, OR CPU INITIAL STARTUP MODE
+                                ;               -       8251 USART, 8274 MPSC, OR SIO SERIAL PORT USE
+                                ;               -       CPU CLOCK SPEED
+                            OMPRESS DEFAULT
+  001B'   C3 0404'                      JMP     RTCMTB          ;RETURN COMMAND TABLE ADDRESS
+  001E'   C3 0408'                      JMP     RTXLAT          ;RETURN TRANSLATE TABLE ADDRESS
+  0021'   C3 040C'                      JMP        ;               -       CONSOLE TERMINAL BAUD RATE
+                                ;               -       LIST DEVICE DRIVER ROUTINE
+                                ;               -       RJE COMMAND IDENTIFIER
+                                ;    RTFLEX          ;RETURN NOTRANSLATE FILE EXTENSIONS
+  0024'   C3 0410'                      JMP     RTRTSA          ;RETURN REQUEST TO SEND ASSERT MODE
+  0027'   C3 0413'                      JMP     RTSCBR          ;RETURN BAUD RATE CLOCK SET VALUE
+              -       TRANSLATE TABLES
+                                ;               -       FILENAME EXTENSIONS
+                                ;               -       3780 BLANK COMPRESSION
+                                ;               -       SELF 002A'   C3 0059'                      JMP     LSTDRV          ;LIST CHAR ROUTINE
+  002D'   C3 0421'              	JMP     SETIO		;SET I/O DEVICE BYTE
+  0030'   C3 0424'              	JMP	SETCPU		;ADJUST TIMING FOR CPU SPEED
+  0033'   C3 0417'           CLOCKING BAUD RATE
+                                ;
+  0002                          DEVICE  EQU     M3780           ;CHANGE THIS STATEMENT TO 'M2780'
+                                ;                               ;TO CHANGE THE INITIAL STARTUP
+                                ;                               ;DEVICE MODE TO 2780 MODE OR TO
+                                ;                               ;'MCPU' TO CHANGE THE INITIAL
+                                ;				;STARTUP DEVICE MODE TO CPU
+                ;
+  0029                          USSTAT  EQU     29H             ;CHANGE THIS STATEMENT TO REFLECT
+                                ;                               ;THE I/O DEVICE STATUS PORT ADDRESS
+                                ;                                    ;				;OR M2770 FOR 2770 MODE OR M3741
+                                ;				;FOR 3741 STARTUP MODE.
+                                ;                               ;                                  
+                                                 ;ON THE Z-80 SIO, 8274 MPSC, OR
+                                ;				;8251 USART BASED I/O BOARD
+                                ;                               ;BEING USED.
+                                ;                             ;                               ;LEAVE THIS STATEMENT AS-IS TO HAVE
+                                ;                               ;THE INITIAL STARTUP MODE REMAIN
+                                ;                               ;3780 MODE.
+              ;SUPPLIED ADDRESS OF 81H.
+                                ;
+  0004                          CPUSPD  EQU     04H		;CHANGE THIS STATEMENT TO REFLECT
+                                ;                               ;THE CPU CLOCK SPEED IN MEGA-HERTZ                          ;
+  0003                          IODEV   EQU     Z80SIO          ;CHANGE THIS STATEMENT TO 'Z80SIO'
+                                ;                               ;FOR USE WITH A Z-80 SIO I/O DEVICE.
+                         
+                                ;
+  2580                          CONSPD  EQU     9600            ;CHANGE THIS STATEMENT TO REFLECT
+                                ;                               ;THE MICROCOMPUTER CONSOLE TERMINAL
+                          ;				;CHANGE THIS STATEMENT TO
+                                ;				;'IN8274' IF AN INTEL
+                                ;				;8274 MPSC DEVICE IS USED
+                                ;				;
+	MACRO-80 3.44	09-Dec-81	PAGE	1-2
+
+
+                          ;                               ;BAUD RATE.
+                                ;
+                                ;
+                                ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                                       ;				;LEAVE THIS STATEMENT AS-IS IF
+                                ;				;THE LINK IS RUNNING ON AN INTEL
+                                ;				;8251 I/O DEVICE.
+                                ;
+  0028                          USDATA            ;									 ;
+                                ;	THE FOLLOWING IS THE ROUTINE USED TO WRITE DATA TO THE LIST      ;
+                                ;	DEVICE (PRINTER) .  IF THE CP/M BIOS ROUTINE IS MODIFIED TO NOT  ;
+                            EQU     28H             ;CHANGE THIS STATEMENT TO REFLECT
+                                ;                               ;THE I/O DEVICE DATA PORT ADDRESS
+                                ;                               ;ON THE Z-80 SIO, 8274 MPSC, OR      ;	WAIT ON THE PRINTER, THEN THIS ROUTINE MAY BE LEFT AS A CP/M     ;
+                                ;       CALL.  IF THE CP/M BIOS ROUTINE IS NOT MODIFIED THEN CHANGE THIS ;
+                                ;       ROUTINE TO WRITE DATA TO THE PRI
+                                ;				;8251 USART BASED I/O BOARD
+                                ;                               ;BEING USED.
+                                ;                               ;SUPPLIED ADDRESS OF 80H.
+                    NTER WITHOUT WAITING ON PRINTER  ;
+                                ;       READY, PER THE USER MANUAL. SEE APPENDIX E FOR MORE DETAIL.      ;
+                                ;									 ;
+                                ;       HERE STARTS THE PHILIPS P2000C SPECIFIC MODIFICATION             ;
+                                ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                                ;
+                                ;
+                                	.Z8 POINTER IS ONLY RESET WHEN ALL CHARACTERS PRINTED
+                                ;**************************************************************
+  0076'                         CLRBUF	EQU	$
+  0076'   E5                    	PUSH	HL
+  0077'   D5       0
+  0059'                         LSTDRV	EQU	$
+  0059'   2A 01A1'              	LD	HL,(NEXT1)
+  005C'   E9                    	JP	(HL)
+                                ;
+  FFAC                          PRTAB	EQU	0FFACH
+  0014                                       	PUSH	DE
+                                	;
+                                	; DECREASE RETRY COUNTER AND TEST FOR ZERO
+                                	; PRINT ERROR MESSAGE WHEN ZERO
+                                	;
+  0078'   2A 0160'USART3	EQU	14H
+                                ;****************************************************************
+                                ; PUT CHARACTER AND GENERATED CHARACTERS INTO LOCAL BUFFER
+                                ; AND SET ENTRY P              	LD	HL,(ACTTRY)
+  007B'   2B                    	DEC	HL
+  007C'   22 0160'              	LD	(ACTTRY),HL
+  007F'   7C                    	LD	A,H
+  0080'   B5                    	OR	L
+  0081'   20 03                 	JR	NZ,$2
+  0083'   CDOINTER TO CLEAR BUFFER ROUTINE
+                                ;****************************************************************
+  005D'                         FILLBUF	EQU	$
+  005D'   E5                    	PUSH	HL
+  005E'   D5                    	PUS 00BE'              	CALL	SNDERR		;SEND ERROR MESSAGE TO CONSOLE
+  0086'   CD 0194'              $2:	CALL	LISTAT
+  0089'   28 2F                 	JR	Z,RETRY 
+  008B'   2A 015C'              	LD	HL,(OUTPTR)
+  008E'   E5                    	PUSH	HL
+  00H	DE
+                                	;
+                                	;SET RETRY COUNTER TO INITIAL VALUE
+                                	;
+  005F'   2A 015E'              	LD	HL,(MAXTRY)
+  0062'   22 0160'              	LD	(ACTTRY),HL
+          8F'   7E                    	LD	A,(HL)
+  0090'   ED 5B 015A'           	LD	DE,(BUFPTR)
+  0094'   ED 52                 	SBC	HL,DE
+  0096'   20 15                 	JR	NZ,$1
+                                	;
+  0098'   21 013A'              	LD	HL,BUFFE                      	;
+  0065'   7B                    	LD	A,E
+  0066'   E6 7F                 	AND	7FH		;STRIP PARITY BIT FROM CHARACTER
+	MACRO-80 3.44	09-Dec-81	PAGE	1-3
+
+
+  0068'   4F                    	LD	C,A
+  0069'   CD 00C9'              R
+  009B'   22 015A'              	LD	(BUFPTR),HL
+  009E'   22 015C'              	LD	(OUTPTR),HL
+                                	;
+  00A1'   21 005D'              	LD	HL,FILLBUF
+  00A4'   22 01A1'              	LD	(NEXT1),HL	;RESET ENTRY POINTER SO 	CALL	LSTTAB		;PRINTER TABLE CODE
+  006C'   21 0076'              	LD	HL,CLRBUF
+  006F'   22 01A1'              	LD	(NEXT1),HL
+  0072'   D1                    	POP	DE
+  0073'   E1                    	POP	HL
+  0074'   4B                    	LD	C,E
+  0THAT NEXT CHAR IS
+  00A7'   E1                    	POP	HL
+  00A8'   D1                    	POP	DE		;ACCEPTED INTO BUFFER FOR PRINTING
+  00A9'   E1                    	POP	HL
+  00AA'   0E 00                 	LD	C,0
+  00AC'   C9                    	RET075'   C9                    	RET
+                                ;**************************************************************
+                                ; CLEAR BUFFER BY PRINTING CHARACTERS ONE AT A TIME
+                                ; ENTRY
+                                	;
+  00AD'   D3 14                 $1:	OUT	(USART3),A
+  00AF'   E1                    	POP	HL
+  00B0'   23                    	INC	HL
+  00B1'   22 015C'              	LD	(OUTPTR),HL
+                                	;
+                                	;SET RETRY COUNTER BACK TO INITIAL VALUE AS A CHARACTER
+                                	;HAS JUST BEEN PRINTED CORRECTLY
+                                	;
+  00B4'   2A 015E'              	LD	HL,(MAXTRY)
+  00B7'   22 0   	LD	E,A
+  00D7'   23                    	INC	HL
+  00D8'   1C                    	INC	E
+  00D9'   3A 0139'              	LD	A,(WORK2)
+  00DC'   3D                    	DEC	A
+  00DD'   47                    	LD	B,A
+  00DE'   28 05                 	JR160'              	LD	(ACTTRY),HL
+                                	;
+  00BA'   D1                    RETRY:	POP	DE
+  00BB'   E1                    	POP	HL
+  00BC'   4B                    	LD	C,E
+	MACRO-80 3.44	09-Dec-81	PAGE	1-4
+
+
+  00BD'   C9    	Z,PRT2
+  00E0'   7E                    	LD	A,(HL)
+  00E1'   23                    	INC	HL
+  00E2'   32 0138'              	LD	(WORK1),A
+                                ;
+  00E5'   04                    PRT2:	INC	B
+  00E6'   78                    	LD                	RET
+                                ;
+                                ;***************************************************************
+                                ; ROUTINE TO SEND PRINTER TIMEOUT ERROR MESSAGE TO CONSOLE
+         	A,B
+  00E7'   BB                    	CP	E
+  00E8'   38 18                 	JR	C,PRT4
+  00EA'   3A 0139'              	LD	A,(WORK2)
+  00ED'   3C                    	INC	A
+  00EE'   32 0139'              	LD	(WORK2),A
+  00F1'   FE 03                 	                       ;
+                                ;***************************************************************
+  00BE'   C5                    SNDERR:	PUSH	BC
+  00BF'   0E 09                 	LD	C,09H	;DISPLAY STRING
+  00C1'   11 0162'      CP	3
+  00F3'   20 E0                 	JR	NZ,PRT1
+                                ;
+  00F5'   79                    	LD	A,C
+  00F6'   FE A0                 	CP	0A0H
+  00F8'   38 02                 	JR	C,PRTC
+  00FA'   0E 20                 	LD	C,20H
+        	LD	DE,ERRMSG
+  00C4'   CD 0005               	CALL	CPM
+  00C7'   C1                    	POP	BC
+  00C8'   C9                    	RET
+                                ;
+                                ;
+                                ;********                                ;
+  00FC'   E5                    PRTC:	PUSH	HL
+  00FD'   CD 012F'              	CALL	PR1
+  0100'   E1                    	POP	HL
+  0101'   C9                    	RET
+                                ;
+  0102'   7E     *******************************************************
+                                ; PRINTER TABLE CODE, ESSENTIALLY A COPY OF THAT CODE IN ROM
+                                ; WHICH IS USED BY CPM, EXCEPT THAT THE ERROR HANDLING HAS BEEN
+                       PRT4:	LD	A,(HL)
+  0103'   57                    	LD	D,A
+  0104'   23                    	INC	HL
+  0105'   7A                    PRT5:	LD	A,D
+	MACRO-80 3.44	09-Dec-81	PAGE	1-5
+
+
+  0106'   A7                    	AND	A
+  0107'   28 DC                         ; REMOVED
+                                ;***************************************************************
+  00C9'   2A FFAC               LSTTAB: LD	HL,(PRTAB)
+  00CC'   7C                    	LD	A,H
+  00CD'   B5                               	JR	Z,PRT2
+  0109'   7E                    	LD	A,(HL)
+  010A'   15                    	DEC	D
+  010B'   23                    	INC	HL
+  010C'   B9                    	CP	C
+  010D'   20 18                 	JR	NZ,PRT8
+  010F'   7E            	OR	L
+  00CE'   28 5F                 	JR	Z,PR1
+  00D0'   3E 01                 	LD	A,1
+  00D2'   32 0139'              	LD	(WORK2),A	;NUM OF REPL CHARS
+  00D5'   7E                    PRT1:	LD	A,(HL)		;NUM OF LEVELS
+  00D6'   5F                              PRT6:	LD	A,(HL)
+  0110'   4F                    	LD	C,A
+  0111'   23                    	INC	HL
+  0112'   CD 00FC'              	CALL	PRTC
+  0115'   10 02                 	DJNZ	PRT7
+  0117'   A7                    	AND	A
+  0118'   C9                    	RET
+                                ;
+  0119'   3A 0139'              PRT7:	LD	A,(WORK2)
+  011C'   FE 02                 	CP	2
+  011E'   3A 0138'              	LD	A,(WORK1)
+  0121'   4F                    	LD	C,A
+  0122'   CC 00FC'           ACTTRY:	DW	0
+  0162'   0D 0A 07 2A           ERRMSG:	DEFB	0DH,0AH,07,'*** ERROR ON PRINTER ** RETRY COUNT EXCEEDED'
+  0166'   2A 2A 20 45           
+  016A'   52 52 4F 52           
+  016E'   20 4F 4E 20           
+  0172'   50 52 49 4E                  	CALL	Z,PRTC
+  0125'   18 E8                 	JR	PRT6
+                                ;
+  0127'   78                    PRT8:	LD	A,B
+  0128'   23                    PRT9:	INC	HL
+  0129'   15                    	DEC	D
+  012A'   3D              
+  0176'   54 45 52 20           
+  017A'   2A 2A 20 52           
+  017E'   45 54 52 59           
+  0182'   20 43 4F 55           
+  0186'   4E 54 20 45           
+	MACRO-80 3.44	09-Dec-81	PAGE	1-6
+
+
+  018A'   58 43 45 45           
+  018           	DEC	A
+  012B'   20 FB                 	JR	NZ,PRT9
+  012D'   18 D6                 	JR	PRT5
+                                ;
+  012F'                         PR1:	; ADD A CHARACTER TO THE LOCAL BUFFER
+                                	; THE E'   44 45 44              
+  0191'   0D 0A 24              	DEFB	0DH,0AH,'$'
+                                ;
+                                ;*******************************************************************
+                                ; ROUTIBUFFER WILL BE EMPTIED BY CLRBUF CODE ON NEXT CALL BY BIS3270
+  012F'   2A 015A'              	LD	HL,(BUFPTR)
+  0132'   71                    	LD	(HL),C
+  0133'   23                    	INC	HL
+  0134'   22 015A'              	LD	(BUFPTR),HL
+  0137'   NE TO READ PRINTER STATUS DIRECTLY FROM 8251 HARDWARE
+                                ;
+                                ;*******************************************************************
+  0194'   DB 15                 LISTAT: IN	A,(USART3+1)
+  0196'C9                    	RET
+                                ;
+                                ;******************************************************************
+                                ; DATA ASSOCIATED WITH PRINTER ROUTINE
+                       E6 85                 	AND	85H
+  0198'   D6 85                 	SUB	85H
+  019A'   28 02                 	JR	Z,RETFF
+  019C'   97                    	SUB	A
+  019D'   C9                    	RET
+  019E'   F6 FF                 RETFF:	OR	0FFH
+  01A0'             ; NOTE LOCAL BUFFER OF 20H CHARACTERS USED BY PRINTER TABLE CODE
+                                ; THIS BUFFER IS USED FOR CHARACTER EXPANSION, THEREFORE A RESTRICTION
+                                ; IS THAT NO MORE THAN 32 CHARACTERS CAN B  C9                    	RET
+                                ;
+  01A1'   005D'                 NEXT1:	DW	FILLBUF
+                                ;
+                                	.8080
+                                ;
+                              E GENERATED OUT OF THE
+                                ; PRINTER TABLE FOR EACH INPUT CHARACTER
+                                ;******************************************************************
+  0138'   00                    WORK1:	DB	0
+  0139'   00  ;
+                                ;
+                                ;
+                                ;
+                                ;
+                                ;       THE FOLLOWING TABLE DEFINES THE HASP AND POWER CONSOLE
+                                   WORK2:	DB	0
+  013A'                         BUFFER: DS	20H
+  015A'   013A'                 BUFPTR: DW	BUFFER
+  015C'   013A'                 OUTPTR: DW	BUFFER
+  015E'   7D00                  MAXTRY:	DW	32000
+  0160'   0000                          ;       COMMAND IDENTIFIERS AND THE STRINGS TO BE SUBSTITUTED
+                                ;       FOR THE IDENTIFIER WHEN TRANSMITTING A CONSOLE COMMAND.
+                                ;       THE IDENTIFIERS AND/OR THE STRINGS MAY BE MODIFIED TO CAUSE
+                                ;       TRANSMISSION OF ANY STRING FOR ANY IDENTIFIER.
+                                ;
+                                ;       TABLE FORMAT :
+                                ;               1 BYTE         ;SUBSTITUTE STRING LINGTH
+	MACRO-80 3.44	09-Dec-81	PAGE	1-7
+
+
+  01AD'   2F 2A 24                      DB      '/*$'           ;SUBSTITUTE STRING
+                                ;
+  01B0'   05                    POWRCM: DB      5             IDENTIFIER LENGTH
+                                ;               N BYTES OF IDENTIFIER
+                                ;               2 BYTE ADDRESS OF SUBSTITUTE STRING
+                                ;
+                                ;               ;SUBSTITUTE STRING LENGTH
+  01B1'   2A 20 2E 2E                   DB      '* .. '         ;SUBSTITETE STRING
+  01B5'   20                    
+                                ;
+                                ;				;CHANGE FOLLOWING TWO STATEMENTS
+     END OF TABLE DELIMITED BY A LENGTH BYTE
+                                ;               WITH A VALUE OF ZERO.
+                                ;
+                                ;       SUBSTITUTE STRING FORMAT:
+                                ;                                    ;				;TO REFLECT THE LENGTH OF
+                                ;				;STRING (DO NOT INCLUDE THE LENGTH
+                                ;				;BYTE ITSELF) DEFINING THE
+                                ;				;START UP FILE NAME,        1 BYTE STRING LENGTH
+                                ;               N BYTES OF STRING
+                                ;
+                                ;
+                                ;
+                                ;
+  01A3'             IF
+                                ;				;NONE IS WANTED USE ZERO
+                                ;				FOR STRING LENGTH.
+                                ;
+  01B6'   00                    STARTUP:DB	0		;STRING LENGTH INCLUDING TERMINATORS
+  01B7'   53             CMDTAB  EQU     $
+  01A3'   01                            DB      1               ;IDENTIFIER LENGTH (MAX 255)
+  01A4'   24                            DB      '$'             ;IDENTIFIER
+  01A5'   01AC'                         DW      HASPC 54 41 52           ST1:	DB	'STARTUP.BIS'	;FILE NAME STRING
+  01BB'   54 55 50 2E           
+  01BF'   42 49 53              
+  01C2'   0D 0A                 	DB	0DH,0AH		;SCAN TERMINATOR (DO NOT REMOVE)
+  01C4'                         ST2:
+          M          ;ADDRESS OF STRING TO SUBSTITUTE
+                                ;                               ;FOR IDENTIFIER
+  01A7'   01                            DB      1               ;IDENTIFIER LENGTH
+  01A8'   2A                            DB                          ;
+                                ;
+                                ;
+                                ;       THE FOLLOWING TWO TABLES ARE THE ASCII TO EBCDIC
+                                ;       AND EBCDIC TO ASCII TRANSLATE T  '*'             ;IDENTIFIER
+  01A9'   01B0'                         DW      POWRCM          ;ADDRESS OF STRING TO SUBSTITUTE
+                                ;                               ;FOR IDENTIFIER
+                                ;
+  01AB'   0ABLES USED BY THE
+                                ;       LINK IN CODE CONVERSION.  THESE TABLES MAY BE
+                                ;       MODIFIED TO ALLOW TRANSLATION OF ANY CHARACTER TO
+                                ;       ANY OTHER CHARACTER0                            DB      0               ;END OF TABLE - DO NOT REMOVE THIS
+                                ;                               ;STATEMENT
+                                ;
+  01AC'   03                    HASPCM: DB      3       , SO LONG AS LINE CONTROL
+                                ;       CHARACTERS ARE NOT TRANSMITTED IN NON-TRANSPARENT
+                                ;       MODE.
+                                ;
+                                ;
+  01C4'                         ASCEBC  EQU     $               ;ASCII TO EBCDIC TRANSLATE TABLE
+                                ;
+  01C4'   00 01 02 03                   DB      000H,001H,002H,003H,037H,02DH,02EH,02FH	 ;00H-07H
+  01C8'   37 2D 2E 2F           
+  01CC'   1      DB      097H,098H,099H,0A2H,0A3H,0A4H,0A5H,0A6H  ;70H-77H
+  0238'   A3 A4 A5 A6           
+  023C'   A7 A8 A9 8B                   DB      0A7H,0A8H,0A9H,08BH,06AH,09BH,0A1H,007H  ;78H-7FH
+  0240'   6A 9B A1 07           
+  0244'   00 01 02 03   6 05 25 0B                   DB      016H,005H,025H,00BH,00CH,00DH,00EH,00FH  ;08H-0FH
+  01D0'   0C 0D 0E 0F           
+  01D4'   10 11 12 13                   DB      010H,011H,012H,013H,03CH,03DH,032H,026H  ;10H-17H
+  01D8'   3C 3D 32 26           
+                 DB      000H,001H,002H,003H,037H,02DH,02EH,02FH  ;80H-87H
+  0248'   37 2D 2E 2F           
+  024C'   16 05 25 0B                   DB      016H,005H,025H,00BH,00CH,00DH,00EH,00FH  ;88H-8FH
+  0250'   0C 0D 0E 0F           
+  0254'   10 1 01DC'   18 19 3F 27                   DB      018H,019H,03FH,027H,01CH,01DH,01EH,01FH  ;18H-1FH
+  01E0'   1C 1D 1E 1F           
+  01E4'   40 5A 7F 7B                   DB      040H,05AH,07FH,07BH,05BH,06CH,050H,07DH  ;20H-27H
+  01E8'   5B 6C 50 7D    1 12 13                   DB      010H,011H,012H,013H,03CH,03DH,032H,026H  ;90H-97H
+  0258'   3C 3D 32 26           
+  025C'   18 19 3F 27                   DB      018H,019H,03FH,027H,01CH,01DH,01EH,01FH  ;98H-9FH
+  0260'   1C 1D 1E 1F           
+  02       
+  01EC'   4D 5D 5C 4E                   DB      04DH,05DH,05CH,04EH,06BH,060H,04BH,061H  ;28H-2FH
+  01F0'   6B 60 4B 61           
+  01F4'   F0 F1 F2 F3                   DB      0F0H,0F1H,0F2H,0F3H,0F4H,0F5H,0F6H,0F7H  ;30H-37H
+  01F8'   F4 F564'   40 5A 7F 7B                   DB      040H,05AH,07FH,07BH,05BH,06CH,050H,07DH  ;A0H-A7H
+  0268'   5B 6C 50 7D           
+  026C'   4D 5D 5C 4E                   DB      04DH,05DH,05CH,04EH,06BH,060H,04BH,061H  ;A8H-AFH
+  0270'   6B 60 4B 61        F6 F7           
+  01FC'   F8 F9 7A 5E                   DB      0F8H,0F9H,07AH,05EH,04CH,07EH,06EH,06FH  ;38H-3FH
+  0200'   4C 7E 6E 6F           
+  0204'   7C C1 C2 C3                   DB      07CH,0C1H,0C2H,0C3H,0C4H,0C5H,0C6H,0C7H  ;40H-47H
+  020    
+  0274'   F0 F1 F2 F3                   DB      0F0H,0F1H,0F2H,0F3H,0F4H,0F5H,0F6H,0F7H  ;B0H-B7H
+  0278'   F4 F5 F6 F7           
+  027C'   F8 F9 7A 5E                   DB      0F8H,0F9H,07AH,05EH,04CH,07EH,06EH,06FH  ;B8H-BFH
+  0280'   4C 7E 6E8'   C4 C5 C6 C7           
+  020C'   C8 C9 D1 D2                   DB      0C8H,0C9H,0D1H,0D2H,0D3H,0D4H,0D5H,0D6H  ;48H-4FH
+  0210'   D3 D4 D5 D6           
+  0214'   D7 D8 D9 E2                   DB      0D7H,0D8H,0D9H,0E2H,0E3H,0E4H,0E5H,0E6H  ;50H- 6F           
+  0284'   7C C1 C2 C3                   DB      07CH,0C1H,0C2H,0C3H,0C4H,0C5H,0C6H,0C7H  ;C0H-C7H
+  0288'   C4 C5 C6 C7           
+  028C'   C8 C9 D1 D2                   DB      0C8H,0C9H,0D1H,0D2H,0D3H,0D4H,0D5H,0D6H  ;C8H-CFH
+  0290' 57H
+  0218'   E3 E4 E5 E6           
+  021C'   E7 E8 E9 AD                   DB      0E7H,0E8H,0E9H,0ADH,0E0H,0BDH,05FH,06DH  ;58H-5FH
+  0220'   E0 BD 5F 6D           
+  0224'   79 81 82 83                   DB      079H,081H,082H,083H,084H,085H,086H,0  D3 D4 D5 D6           
+  0294'   D7 D8 D9 E2                   DB      0D7H,0D8H,0D9H,0E2H,0E3H,0E4H,0E5H,0E6H  ;D0H-D7H
+  0298'   E3 E4 E5 E6           
+  029C'   E7 E8 E9 AD                   DB      0E7H,0E8H,0E9H,0ADH,0E0H,0BDH,05FH,06DH  ;D8H-DFH87H  ;60H-67H
+  0228'   84 85 86 87           
+  022C'   88 89 91 92                   DB      088H,089H,091H,092H,093H,094H,095H,096H  ;68H-6FH
+	MACRO-80 3.44	09-Dec-81	PAGE	1-8
+
+
+  0230'   93 94 95 96           
+  0234'   97 98 99 A2             
+  02A0'   E0 BD 5F 6D           
+  02A4'   79 81 82 83                   DB      079H,081H,082H,083H,084H,085H,086H,087H  ;E0H-E7H
+  02A8'   84 85 86 87           
+  02AC'   88 89 91 92                   DB      088H,089H,091H,092H,093H,094H,095H,096H  ;E8H-EFH
+  02B0'   93 94 95 96           
+  02B4'   97 98 99 A2                   DB      097H,098H,099H,0A2H,0A3H,0A4H,0A5H,0A6H  ;F0H-F7H
+  02B8'   A3 A4 A5 A6           
+  02BC'   A7 A8 A9 8B                   DB      0A7H,0A8H,0A9H,08BH,06AH,09BH4H,02AH,029H,03BH,05EH  ;58H-5FH
+  0320'   2A 29 3B 5E           
+  0324'   2D 2F 00 00                   DB      02DH,02FH,000H,000H,000H,000H,000H,000H  ;60H-67H
+  0328'   00 00 00 00           
+  032C'   00 00 7C 2C                   DB      000H,00,0A1H,007H  ;F8H-FFH
+  02C0'   6A 9B A1 07           
+                                ;
+  02C4'                         EBCASC  EQU     $               ;EBCDIC TO ASCII TRANSLATE TABLE
+                                ;
+  02C4'   00 01 02 03           0H,07CH,02CH,025H,05FH,03EH,03FH  ;68H-6FH
+  0330'   25 5F 3E 3F           
+  0334'   00 00 00 00                   DB      000H,000H,000H,000H,000H,000H,000H,000H  ;70H-77H
+  0338'   00 00 00 00           
+  033C'   00 60 3A 23                   DB           DB      000H,001H,002H,003H,000H,009H,000H,07FH  ;00H-07H
+  02C8'   00 09 00 7F           
+  02CC'   00 00 00 0B                   DB      000H,000H,000H,00BH,00CH,00DH,00EH,00FH  ;08H-0FH
+  02D0'   0C 0D 0E 0F           
+  02D4'   10 11 12 13    000H,060H,03AH,023H,040H,027H,03DH,022H  ;78H-7FH
+  0340'   40 27 3D 22           
+  0344'   00 61 62 63                   DB      000H,061H,062H,063H,064H,065H,066H,067H  ;80H-87H
+  0348'   64 65 66 67           
+  034C'   68 69 00 7B                                DB      010H,011H,012H,013H,000H,00AH,008H,000H  ;10H-17H
+  02D8'   00 0A 08 00           
+  02DC'   18 19 00 00                   DB      018H,019H,000H,000H,01CH,01DH,01EH,01FH  ;18H-1FH
+  02E0'   1C 1D 1E 1F           
+  02E4'   00     DB      068H,069H,000H,07BH,000H,000H,000H,000H  ;88H-8FH
+  0350'   00 00 00 00           
+  0354'   00 6A 6B 6C                   DB      000H,06AH,06BH,06CH,06DH,06EH,06FH,070H  ;90H-97H
+  0358'   6D 6E 6F 70           
+  035C'   71 72 00 7D     00 1C 00                   DB      000H,000H,01CH,000H,000H,00AH,017H,01BH  ;20H-27H
+  02E8'   00 0A 17 1B           
+  02EC'   00 00 00 00                   DB      000H,000H,000H,000H,000H,005H,006H,007H  ;28H-2FH
+  02F0'   00 05 06 07           
+                 DB      071H,072H,000H,07DH,000H,000H,000H,000H  ;98H-9FH
+  0360'   00 00 00 00           
+  0364'   00 7E 73 74                   DB      000H,07EH,073H,074H,075H,076H,077H,078H  ;A0H-A7H
+  0368'   75 76 77 78           
+  036C'   79 7A02F4'   00 00 16 00                   DB      000H,000H,016H,000H,000H,01EH,000H,004H  ;30H-37H
+  02F8'   00 1E 00 04           
+  02FC'   00 00 00 00                   DB      000H,000H,000H,000H,014H,015H,000H,01AH  ;38H-3FH
+  0300'   14 15 00 1A      00 00                   DB      079H,07AH,000H,000H,000H,05BH,000H,000H  ;A8H-AFH
+  0370'   00 5B 00 00           
+  0374'   30 31 32 33                   DB      030H,031H,032H,033H,034H,035H,036H,037H  ;B0H-B7H
+  0378'   34 35 36 37           
+  037      
+  0304'   20 00 00 00                   DB      020H,000H,000H,000H,000H,000H,000H,000H  ;40H-47H
+  0308'   00 00 00 00           
+  030C'   00 00 00 2E                   DB      000H,000H,000H,02EH,03CH,028H,02BH,021H  ;48H-4FH
+  0310'   3C 28 C'   38 39 00 00                   DB      038H,039H,000H,000H,000H,05DH,000H,05FH  ;B8H-BFH
+  0380'   00 5D 00 5F           
+  0384'   00 41 42 43                   DB      000H,041H,042H,043H,044H,045H,046H,047H  ;C0H-C7H
+  0388'   44 45 46 47        2B 21           
+  0314'   26 00 00 00                   DB      026H,000H,000H,000H,000H,000H,000H,000H  ;50H-57H
+	MACRO-80 3.44	09-Dec-81	PAGE	1-9
+
+
+  0318'   00 00 00 00           
+  031C'   00 00 21 24                   DB      000H,000H,021H,02   
+  038C'   48 49 00 00                   DB      048H,049H,000H,000H,000H,028H,02BH,02BH  ;C8H-CFH
+  0390'   00 28 2B 2B           
+  0394'   00 4A 4B 4C                   DB      000H,04AH,04BH,04CH,04DH,04EH,04FH,050H  ;D0H-D7H
+  0398'   4D 4E 4F 50           
+  039C'   51 52 00 7D                   DB      051H,052H,000H,07DH,000H,029H,000H,000H  ;D8H-DFH
+  03A0'   00 29 00 00           
+  03A4'   5C 00 53 54                   DB      05CH,000H,053H,054H,055H,056H,057H,058H  ;E0H-E7H
+  03A8'  2                   DB      '.LIB'          ;.LIB FILES ARE NOT TRANSLATED
+  03DE'   0000                          DW      0               ;REQUIRED
+  03E0'   04                            DB      4               ;ENTRY LENGTH
+  03E1'   2E 52 45 4C      55 56 57 58           
+  03AC'   59 5A 00 00                   DB      059H,05AH,000H,000H,000H,000H,000H,000H  ;E8H-EFH
+  03B0'   00 00 00 00           
+  03B4'   30 31 32 33                   DB      030H,031H,032H,033H,034H,035H,036H,037H  ;F0H-F7H              DB      '.REL'          ;.REL FILES ARE NOT TRANSLATED
+  03E5'   0000                          DW      0               ;REQUIRED
+  03E7'   04                            DB      4               ;ENTRY LENGTH
+  03E8'   4E 55 4C 4C           
+  03B8'   34 35 36 37           
+  03BC'   38 39 00 00                   DB      038H,039H,000H,000H,000H,000H,000H,000H  ;F8H-FFH
+  03C0'   00 00 00 00           
+                                ;
+                                ;
+                          DB      'NULL'          ;NULL EXTENSION FILES ARE NOT
+                                ;                               ;TRANSLATED.  NOTE THAT THE STRING
+                                ;                               ;'NULL' MEANS NO EXTENSION.
+              ;       THE FOLLOWING TABLE DEFINES THE FILENAME EXTENSIONS FOR
+                                ;       FILES THAT ARE NOT TO BE TRANSLATED TO AND FROM EBCDIC.
+                                ;       THE TABLE HAS THE SAME FORMAT AS THE RJE  03EC'   0000                          DW      0               ;REQUIRED
+                                ;
+  03EE'   00                            DB      0               ;END OF TABLE - REQUIRED
+                                ;
+  0001                CONSOLE IDENTIFIER
+                                ;       TABLE SHOWN ABOVE.  THE TABLE MUST HAVE AT LEAST ONE ENTRY.
+                                ;
+                                ;
+  03C4'   04                    FILXTB: DB      4                          COMPRS  EQU     TRUE            ;CHANGE THIS STATEMENT TO 'FALSE'
+                                ;                               ;TO DISABLE BLANK COMPRESSION IN
+                                ;                               ;3780 MODE.
+   ;ENTRY LENGTH
+  03C5'   2E 43 4F 4D           	DB	'.COM'		;.COM FILES ARE NOT TRANSLATED
+  03C9'   0000                  	DW	0		;REQUIRED
+  03CB'   04                    	DB	4		;ENTRY LENGTH
+  03CC'   2E 4F 42 4A                   DB      '.OBJ'                                    ;
+                                
+  12C0                          BAUDRT  EQU     4800            ;CHANGE THIS STATEMENT TO REFLECT THE
+                                ;                               ;BAUD RATE DESIRED WHEN   ;.OBJ FILES ARE NOT TRANSLATED
+  03D0'   0000                          DW      0               ;REQUIRED TABLE ENTRY
+  03D2'   04                            DB      4               ;ENTRY LENGTH
+  03D3'   2E 4C 4E 4B                   DB      '.LNK'  RUNNING THE
+                                ;                               ;LINK IN SELF-CLOCKING (DIRECT CONNECTED)
+                                ;                               ;CONFIGURATIONS.  POSSIBLE VALUES ARE
+                                         ;.LNK FILES ARE NOT TRANSLATED
+  03D7'   0000                          DW      0               ;REQUIRED
+  03D9'   04                            DB      4               ;ENTRY LENGTH
+	MACRO-80 3.44	09-Dec-81	PAGE	1-10
+
+
+  03DA'   2E 4C 49 4;                               ;1200, 2400, 4800, AND 9600,
+                                ;                               ;CORRESPONDING TO 1200, 2400, 4800, AND
+                                ;                               ;9600 BAUD RESPECTIVELY.  THIS PARAMETER
+                                ;                               ;NEED NOT BE CHANGED IF THE LINK IS
+                                ;                               ;RUNNING WITH A MODEM OR MODEM
+                                ;         LE COMMAND TABLE ADDRESS
+  0407'   C9                            RET                     ;BACK TO CALLER
+  0408'   21 01C4'              RTXLAT: LXI     H,ASCEBC        ;GET TRANSLATE TABLE ADDRESS
+  040B'   C9                            RET                                  ;ELIMINATOR.
+                                ;
+                                ;
+                                ;
+                                ;
+                                ;       THE FOLLOWING ROUTINES MUST NOT BE USER          ;BACK TO CALLER
+  040C'   21 03C4'              RTFLEX: LXI     H,FILXTB        ;GET NOTRANSLATE FILE EXTENSION TABLE
+  040F'   C9                            RET                     ;BACK TO CALLER
+  0410'   3E 00                 RTRTSA: MVI   MODIFIED.
+                                ;
+                                ;
+  03EF'   DB 28                 USDTIN: IN      USDATA          ;GET USART BYTE
+  03F1'   C9                            RET                     ;BACK TO CALLER
+  03F2'   D3   A,FALSE         ;GET RTS ASSERT MODE BYTE
+  0412'   C9                            RET                     ;BACK TO CALLER
+	MACRO-80 3.44	09-Dec-81	PAGE	1-11
+
+
+  0413'   21 12C0               RTSCBR: LXI     H,BAUDRT        ;GET BAUD RATE TIMER VALU28                 USDTOT: OUT     USDATA          ;WRITE USART BYTE
+  03F4'   C9                            RET                     ;BACK TO CALLER
+  03F5'   DB 29                 USSTIN: IN      USSTAT          ;GET USART STATUS
+  03F7'   C9          E
+  0416'   C9                            RET                     ;BACK TO CALLER
+                                ;
+  0028                          DATA    EQU     USDATA
+  0029                          STAT    EQU     USSTAT
+                                           RET                     ;BACK TO CALLER
+  03F8'   D3 29                 USSTOT: OUT     USSTAT          ;WRITE USART COMMAND
+  03FA'   C9                            RET                     ;BACK TO CALLER
+  03FB'                              ;
+  0417'                         RTCNTM  EQU     $
+  0417'   3A 0420'                      LDA     CONVAL          ;GET CONSOLE VALUE
+  041A'   FE 00                         CPI     0               ;ZERO?
+  041C'   C0                             TMCTOT  EQU     $
+  03FB'   C9                            RET                     ;BACK TO CALLER
+  03FC'                         TMDTIN  EQU     $
+  03FC'   C9                            RET                     ;BACK TO CALLER
+  03FD'                RNZ                     ;NO - OK RETURN
+  041D'   3E 01                         MVI     A,1             ;YES - CHANGE TO ONE
+  041F'   C9                            RET                     ;RETURN
+                                ;
+                              TMDTOT  EQU     $
+  03FD'   C9                            RET                     ;BACK TO CALLER
+  03FE'   3E 02                 RTMODE: MVI     A,DEVICE        ;GET DEVICE MODE
+  0400'   C9                            RET                                 ;
+  0420'   00                    CONVAL: DB      4800/CONSPD
+                                ;
+                                ;
+  0421'                         SETIO   EQU     $
+  0421'   3E 03                 	MVI     A,IODEV         ;G;BACK TO CALLER
+  0401'   3E 01                 RTCMPR: MVI     A,COMPRS        ;GET COMPRESS MODE
+  0403'   C9                            RET                     ;BACK TO CALLER
+  0404'   21 01A3'              RTCMTB: LXI     H,CMDTAB        ;GET CONSOET IODEV VALUE
+                                ;
+  0423'   C9                            RET                     ;BACK TO CALLER
+                                ;
+  0424'                         SETCPU  EQU     $
+  0424'   3E 04                         MVI     A,CPUSPD        ;GET CPU SPEED
+  0426'   2A 0434'                      LHLD    TIMVAL          ;GET TIME CONSTANT
+  0429'   44                            MOV     B,H             ;PUT INTO
+  042A'   4D                            MOV     C,L    BUF          
+01A3'	CMDTAB          0001 	COMPRS          2580 	CONSPD          
+0420'	CONVAL          0005 	CPM             0004 	CPUSPD          
+0028 	DATA            0002 	DEVICE          043F'	DTREXT          
+02C4'	EBCASC          0162'	ERRMSG            ;REG B,C
+  042B'   21 0000                       LXI     H,0             ;CLEAR H,L
+  042E'                         SETVAL  EQU     $
+  042E'   09                            DAD     B               ;GET NEW TIME CONSTANT
+  042F'   3D                 0437'	EXTEXT          
+0000 	FALSE           005D'	FILLBUF         03C4'	FILXTB          
+0436'	FSTEXT          01AC'	HASPCM          0002 	IN8251          
+0003 	IN8274          0438'	INEXT           043A'	INTEXT          
+0003 	IODEV                            DCR     A               ;FINISHED?
+  0430'   C2 042E'                      JNZ     SETVAL          ;NO - ADD AGAIN
+  0433'   C9                            RET                     ;YES - RETURN
+                                ;
+        0194'	LISTAT          0059'	LSTDRV          
+00C9'	LSTTAB          0004 	M2770           0000 	M2780           
+0006 	M3741           0002 	M3780           015E'	MAXTRY          
+0008 	MCPU            01A1'	NEXT1           0439'	OUTEXT          
+015C'                         ;
+  0434'   00B7                  TIMVAL: DW      00B7H           ;TIME CONSTANT
+  0436'   C9                    FSTEXT:	RET
+  0437'   C9                    EXTEXT:	RET
+  0438'   C9                    INEXT:	RET
+  0439'   C9  	OUTPTR          01B0'	POWRCM          012F'	PR1             
+00D5'	PRT1            00E5'	PRT2            0102'	PRT4            
+0105'	PRT5            010F'	PRT6            0119'	PRT7            
+0127'	PRT8            0128'	PRT9            FFAC 	PRTAB                    OUTEXT:	RET
+  043A'   C9                    INTEXT:	RET
+  043B'   C9                    RTSEXT:	RET
+  043C'   C9                    RSTEXT:	RET
+  043D'   C9                    XMTEXT:	RET
+  043E'   C9                    RCVEXT:	RET
+         
+00FC'	PRTC            0001 	RCONSL          043E'	RCVEXT          
+0440'	RECVXT          019E'	RETFF           00BA'	RETRY           
+0000 	RFILE           0002 	RLIST           043C'	RSTEXT          
+0401'	RTCMPR          0404'	RTCMTB         043F'   C9                    DTREXT: RET
+  0000                          RFILE	EQU	00H		; RECEIVE DEVICE IS A DISK FILE
+  0001                          RCONSL	EQU	01H		; RECEIVE DEVICE IS THE CONSOLE
+  0002                          RLIST	EQU	02H		; R   0417'	RTCNTM          
+040C'	RTFLEX          03FE'	RTMODE          0410'	RTRTSA          
+0413'	RTSCBR          043B'	RTSEXT          0408'	RTXLAT          
+0424'	SETCPU          0421'	SETIO           042E'	SETVAL          
+00BE'	SNDERR          01BECEIVE DEVICE IS THE PRINTER
+                                ;
+                                ;
+  0440'                         RECVXT	EQU	$
+  0440'   C9                    	RET
+                                ;
+                                     7'	ST1             01C4'	ST2             
+01B6'	STARTUP         0029 	STAT            0036'	SUPPTR          
+0434'	TIMVAL          03FB'	TMCTOT          03FC'	TMDTIN          
+03FD'	TMDTOT          0001 	TRUE            0014 	USART3          
+0028 	USD   END
+	MACRO-80 3.44	09-Dec-81	PAGE	S
+
+
+Macros:
+
+Symbols:
+00AD'	$1              0086'	$2              0160'	ACTTRY          
+01C4'	ASCEBC          0100 	BASEAD          12C0 	BAUDRT          
+013A'	BUFFER          015A'	BUFPTR          0076'	CLRATA          03EF'	USDTIN          03F2'	USDTOT          
+0029 	USSTAT          03F5'	USSTIN          03F8'	USSTOT          
+0138'	WORK1           0139'	WORK2           043D'	XMTEXT          
+0003 	Z80SIO          
+
+
+
+No Fatal error(s)
+
+
+    01B

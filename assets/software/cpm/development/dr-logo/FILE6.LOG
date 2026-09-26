@@ -1,0 +1,129 @@
+to polyspi :side :angle :inc :size
+fd :side
+rt :angle
+if :side > :size [stop]
+polyspi :side + :inc :angle :inc :size
+end
+
+to c :size :level
+if :level = 0 [fd :size stop]
+c :size :level - 1
+rt 90
+c :size :level - 1
+lt 90
+end
+
+to oneside :leven curve]
+ht pu
+setpos [40 -30]
+pd
+ldragon 4 10
+repeat?
+end
+
+to c.curv
+cs
+title -45 100 [c curve]
+ht pu
+seth -90
+setpos [20 -40]
+pd
+c 2 10
+repeat?
+end
+
+to poly2
+cs
+title -70 100 [polyspi 121]
+ht pu
+home
+pd
+polyspi 1 121 2 160
+repeal
+if :level = 0 [stop]
+oneside :level - 1
+rt 45
+fd :diag
+rt 45
+oneside :level - 1
+lt 90
+fd :side
+lt 90
+oneside :level - 1
+rt 45
+fd :diag
+rt 45
+oneside :level - 1
+end
+
+to sierpinski :side :level
+make "diag :side / sqrt 2
+repeat 4 [onesidet?
+end
+
+
+to poly1
+cs
+title -55 100 [polyspi 92]
+ht pu
+home
+pd
+polyspi 1 92 1 140
+repeat?
+end
+
+
+to sierp.curv
+cs
+title -95 100 [sierpinski curve]
+ht
+pu
+setpos [-100 -100]
+pd
+sierpinski 6 4
+repeat?
+end
+
+ :level rt 45 fd :diag rt 45]
+end
+
+to hilbert :size :level :parity
+if :level = 0 [stop]
+lt :parity * 90
+hilbert :size :level - 1 (0 - :parity)
+fd :size
+rt :parity * 90
+hilbert :size :level - 1 :parity
+fd :size
+hilbert :size :level - 1 :parity
+rווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווt :parity * 90
+fd :size
+hilbert :size :level - 1 (0 - :parity)
+lt :parity * 90
+end
+
+to ldragon :size :level
+if :level = 0 [fd :size stop]
+ldragon :size :level - 1
+lt 90
+rdragon :size :level - 1
+end
+
+to rdragon :size :level
+if :level = 0 [fd :ווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווsize stop]
+ldragon :size :level - 1
+rt 90
+rdragon :size :level - 1
+end
+
+to repeat?
+ct
+pr [press any key to continue, esc to exit]
+make "key rc
+if :key = char 27 [cs ct ht demo]
+end
+
+to start 
+ct cs ht settext 2
+setcursor [5 8]
+pr [recursiveוווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווווו

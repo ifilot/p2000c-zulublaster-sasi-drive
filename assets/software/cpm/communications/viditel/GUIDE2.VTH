@@ -1,0 +1,124 @@
+-------------------------------------------------------------------------------
+VIEWTEXT USER GUIDE   Section 2.1                            (C) T SYSTEMS 1984
+Version 1.0                                                  (C) TANDATA   1984
+-------------                               (C) TANDATA   1984
+-------------------------------------------------------------------------------
+CREATING A DIRECTORY ENTRY - on entry to the dialling directory the user is    
+prompted for a directory page number (1-9).------------------------------------------------------------------
+               PROGRAMMING AND USING THE DIALLING DIRECTORY                    
+                                                                               
+The Dialling Directory hol The selected page is then displayed
+and will be blank if no numbers are present. To enter a number, select (1-8),  
+and the cursor will jump to the first position of the "number" field.          
+                                                        ds up to 72 telephone numbers and their associated   
+passwords arranged as 9 pages, with each page having up to 8 entries. This     
+directory is called from the MAIN MENU (function 1). The modem can store up to 
+8 numbers and their passwords, and dire                       
+Enter the number with "," characters if a pause is required in the dialling    
+sequence (ie. an entry 334,55678 will pause after the 4). Simple editing can be
+performed on each field using the BACKSPACE key. When the number has ctory entries can be loaded to the modem
+in any of the 8 positions. The modem status parameters can also be set.        
+                                                                               
+The data for the directory is held in a file DIAL.DAbeen      
+entered, pressing RETURN will exit from edit mode and re-display the prompt.   
+                                                                               
+To program the next field, do not enter RETURN. Press the space bar until the  
+cT on the VIEWTEXT disc, and
+can be (optionally) updated on leaving the dialling directory. It is advisable 
+to make a back-up copy of the DIAL.DAT file occasionally as DIAL.BAK. If a new 
+directory is required the utility DIALGEN.COM on the VIEWTEXT disursor jumps to the start of the next field, then enter the new information.   
+When RETURN is entered, all characters in that field after the current cursor  
+position will be discarded. When programming the "id" field, remember that any 
+non-trailing sc can be run  
+under CP/M to create a new file. NOTE that DIALGEN.COM will first erase any    
+existing DIAL.DAT file on the VIEWTEXT disc, so make a back-up before running. 
+                                                                              paces will be sent to the modem as ID characters, so do not use  
+spaces in the middle of the ID unless the password contains spaces.            
+-------------------------------------------------------------------------------
+Press any key to continue o 
+The DIAL.DAT file supplied with VIEWTEXT is preset to all spaces.              
+-------------------------------------------------------------------------------
+Press any key to continue or press ESCAPE twice to return to MAIN MENU
+
+-----------------r press ESCAPE twice to return to MAIN MENU
+
+------------------------------------------------------------------------------$
+-------------------------------------------------------------------------------
+VIEWTEXT USER GUIDE   Section 2.3              -------------------------------------------------------------$
+-------------------------------------------------------------------------------
+VIEWTEXT USER GUIDE   Section 2.2                            (C) T SYSTEMS 1984
+Version 1.0                                 (C) T SYSTEMS 1984
+Version 1.0                                                  (C) TANDATA   1984
+-------------------------------------------------------------------------------
+When the directory entries have been completed, press ESCAPE twice to return to
+the dialling prompt. Press "L" to load a number to the modem. If the modem is  
+off the user will be prompted to turn it on and press RETURN.                  
+                                                                         nd after the BELL tone enter (1-8) to dial the selected number.       
+If the modem does not respond a timeout message will be displayed. If this     
+happens, check the cable connections and power connection to the modem.        
+The modem will dial th      
+The dialling entry is then selected (1-8) followed by "," and then the modem   
+directory number. (ie. entering "3,7" will load dialling entry 3 to the modem  
+in position 7). This operation takes a few seconds depending on the number of  
+charae selected number, and when a connection has been made   
+will send any "id" characters. The incoming pages will be displayed on the     
+left half of the screen. To switch screens, enter CTRL-P at the end of each    
+page. A prompt "P>" will appear at cters to be loaded. If the dialling prompt or a timeout message is not    
+displayed after a wait of 20 seconds, press ESCAPE twice and repeat the load   
+operation.                                                                     
+In order to make tthe bottom of the page to be overwritten.   
+                                                                               
+Entering the HASH character seizes the line for manual dialling or when the    
+modem is connected to a leased line which is dirhe most efficient use of the dialling directory it is better 
+to leave at least one modem directory slot free for infrequently used numbers. 
+NOTE that your passwords and ID's are hidden by "*" characters when they are   
+displayed. They are visible wheectly connected at both ends.  
+Pressing ESCAPE twice will return to the MAIN MENU at most points in the dial  
+sequence. Remember to disconnect (MAIN MENU function 17) when finished, as     
+charges will be incurred for telephone access.               n a new entry is made to the directory until    
+overlayed by a new directory page, and will always be hidden by stars for each 
+subsequent display.                                                            
+--------------------------------------------                  
+-------------------------------------------------------------------------------
+Press any key to continue or press ESCAPE twice to return to MAIN MENU
+
+------------------------------------------------------------------------------$
+-----------------------------------
+Press any key to continue or press ESCAPE twice to return to MAIN MENU
+
+------------------------------------------------------------------------------$
+-----------------------------------------------------------------------------------------------------------------------------------------------
+VIEWTEXT USER GUIDE   Section 2.5                            (C) T SYSTEMS 1984
+Version 1.0                                                  (C) TANDATA   1984
+----------------------------
+VIEWTEXT USER GUIDE   Section 2.4                            (C) T SYSTEMS 1984
+Version 1.0                                                  (C) TANDATA   1984
+-----------------------------------------------------------------------------------------------------------------------------------------------
+CHANGING THE MODEM STATUS PARAMETERS - the LOAD to modem command can also be   
+used to set modem interface and status parameters (modem directory number 9).  
+The parameters vary with m--
+DIALLING A NUMBER - enter the dialling directory and press "D". If the modem is
+off the user will be prompted to turn it on and press RETURN. The screen will  
+clear and the modem directory page will be displayed on the left half of the   
+screen, aodem type (refer to manual supplied with the modem), 
+and are loaded to the "number" field of a dialling directory with a user HASH  
+character as the terminator. All other fields can be used as comment, as they  
+are not sent to the modem. The example shown below will program a Td1616 modem 
+for Microline 80 printer, Centronics interface, key click on:-                 
+                                                                               
+1  Number >>> 200! any chars  <<< Ident String >>> arepetitive tasks can be placed 
+in files, and with a combination of commonly used command files and a small    
+amount of keyboard input, complex operations can be performed easily.          
+                                                             fter the "!" can be <<<    
+   Id     >>> used as comment <<<              >>> if required          <<<    
+                                                                               
+When loading to the modem, the user is prompted for the dialling                   
+-------------------------------------------------------------------------------
+Press any key to return to the HELP MENU or press ESCAPE twice to return to the
+MAIN MENU                                                                 directory     
+number, COMMA, and then either modem directory number (1-8) or for the modem   
+status line (9). Assuming that the above example was to be loaded, the user    
+would enter:-   1,9    and then RETURN.                                            
+------------------------------------------------------------------------------%
+
+

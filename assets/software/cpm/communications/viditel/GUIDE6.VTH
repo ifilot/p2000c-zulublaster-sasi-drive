@@ -1,0 +1,123 @@
+-------------------------------------------------------------------------------
+VIEWTEXT USER GUIDE   Section 6.1                            (C) T SYSTEMS 1984
+Version 1.0                                                  (C) TANDATA   1984
+-------------                               (C) TANDATA   1984
+-------------------------------------------------------------------------------
+The user is then prompted to select the "L" or "R" screen for display, and the 
+file will then be loaded to the appropriate------------------------------------------------------------------
+                SAVE AND RECALL PAGES, THE FILE CAROUSEL                       
+                                                                               
+The VIEWTEXT system uses a screen buffer. The page can then   
+be displayed by pressing RETURN, or ESCAPE twice to return to the MAIN MENU.   
+                                                                               
+SAVE PAGE TO DISC - function 12 of the MAIN MENU is used split screen to display 2 pages side-by-side, with  
+each page having a 40 character by 24 line format. The pages are identified as 
+left (L) and right (R) in all relevant commands. The bottom line of each page  
+is normally reserved for prompts and er to save pages. The    
+user is prompted for a file name (as for RECALL) and the screen to be saved. If
+a file already exists with that name, permission to overwrite is requested. If 
+the user responds with "N", the save is abandoned and the MAIN MENU iror messages.                           
+                                                                               
+RECALL PAGE FROM DISC - function 11 of the MAIN MENU is used to recall any page
+from disc. The user is prompted for the name of the s then    
+re-displayed. If the response is "Y" the user is then prompted for an IDENT    
+string, which can be up to 40 characters long. Simple editing of the string    
+can be performed using the BACKSPACE key. The file is then saved, and RETURN   
+wfile, which can be up to   
+8 characters long in upper or lower case. If no extension is supplied (up to   
+3 characters) the default extension .PGE will be used. The file name can be    
+preceded by a drive code (A-H) followed by a ":" character. If noill display the page(s) or ESCAPE twice will recall the MAIN MENU. If the     
+screen selected is empty, an error message is displayed.                       
+                                                                               
+If the file ca drive code is
+supplied the drive is assumed to be the "current" drive, which will always be  
+the VIEWTEXT disc.                                                             
+                                                                              nnot be saved for any reason (write protected or disc full) an   
+error message is displayed. Pressing RETURN will restore the MAIN MENU.        
+-------------------------------------------------------------------------------
+Press any key to continue o 
+An error message is issued on the prompt line if the file cannot be found.     
+-------------------------------------------------------------------------------
+Press any key to continue or press ESCAPE twice to return to MAIN MENU
+
+-----------------r press ESCAPE twice to return to MAIN MENU
+
+------------------------------------------------------------------------------$
+-------------------------------------------------------------------------------
+VIEWTEXT USER GUIDE   Section 6.3              -------------------------------------------------------------$
+-------------------------------------------------------------------------------
+VIEWTEXT USER GUIDE   Section 6.2                            (C) T SYSTEMS 1984
+Version 1.0                                 (C) T SYSTEMS 1984
+Version 1.0                                                  (C) TANDATA   1984
+-------------------------------------------------------------------------------
+FILE CAROUSEL - this is a list of up to 100 file names which can be loaded by  
+the PAGE, SPEED PAGE or FORMS directories. Each directory will load all file   
+names on the selected drive by entering a "*" before the drive code, and will  
+clear the CAROUSEL if a "*" is entered after the drive code. The number o has expired, the next 2 pages are displayed. The CAROUSEL will cycle 
+back to the start of the list when all files have been displayed. Note that if 
+an odd number of names are present the right page will be blank when the last  
+file is displayed. Thif     
+files currently held on the CAROUSEL is displayed on the front page of the     
+directories, and an error message is issued if the CAROUSEL is full. As an     
+example, entering "*B*" will clear and then load all filenames matching the    
+direcs ensures that the order of the displayed files is the   
+same for each cycle of the CAROUSEL. Files will be displayed in the order used 
+when loading. The block load commands "*drive" and "*drive*" will load files   
+in the order presented by the disc tory entension on disc B. "*B" will append the filenames to the CAROUSEL. 
+Note that the name is held and not the file itself. When the CAROUSEL is run,  
+the appropriate disc(s) MUST be currently in the drive(s) used to load the name
+to the CAROUSEL. Idictionary.                                 
+                                                                               
+The delay can be terminated by pressing a key, and the next 2 pages will be    
+displayed. If RETURN is pressed, the MAIN MENU wndividual files can be loaded by entering the drive code, and
+when the file names, dates and strings have been displayed the user can enter  
+"C" to select the CAROUSEL loader. The cursor will move to the first file name,
+and if it is to be loaded enterill be restored at the end of  
+the current display.                                                           
+If a file cannot be found an error message is displayed, and pressing RETURN   
+will return to the MAIN MENU.                                ing "C" will highlight the name and move the    
+cursor to the next name. If not to be loaded, pressing RETURN will just move   
+the cursor to the next name. Pressing ESCAPE twice will exit from the loader.  
+--------------------------------------------                  
+-------------------------------------------------------------------------------
+Press any key to continue or press ESCAPE twice to return to MAIN MENU
+
+------------------------------------------------------------------------------$
+-----------------------------------
+Press any key to continue or press ESCAPE twice to return to MAIN MENU
+
+------------------------------------------------------------------------------$
+-----------------------------------------------------------------------------------------------------------------------------------------------
+VIEWTEXT USER GUIDE   Section 6.5                            (C) T SYSTEMS 1984
+Version 1.0                                                  (C) TANDATA   1984
+----------------------------
+VIEWTEXT USER GUIDE   Section 6.4                            (C) T SYSTEMS 1984
+Version 1.0                                                  (C) TANDATA   1984
+-----------------------------------------------------------------------------------------------------------------------------------------------
+CAROUSEL PRINT - after the time delay has been entered, the user is prompted   
+to request a print operation. If "N" is entered, the normal CAROUSEL cycle is  
+performed. If "Y" is enter--
+RUNNING THE CAROUSEL - function 16 of the MAIN MENU will call the CAROUSEL, and
+if empty an error message is displayed. The user is prompted to enter a delay  
+in seconds (127 maximum), and the first 2 pages are loaded and displayed. When 
+the delayed, the delay value just entered is ignored, and the 
+page(s) displayed will be printed. At the end of the print operation the MAIN  
+MENU is displayed.                                                             
+                                                                               
+This facility in combination with the "*B*" carousel loader allows the entire  
+contents of a disc to be printed with the minimum of keyboard interaction. The 
+pages are printed in the order displayed.                                          (C) TANDATA   1984
+-------------------------------------------------------------------------------
+PREPARING A COMMAND FILE - The command file is produced using any text editor  
+which does not introduce "special" characte                           
+                                                                               
+                                                                               
+                                                                 rs into the file (VIEWTEXT editor or
+WORDSTAR in non-document mode). In most cases, the sequence of characters is   
+that which would be entered via the keyboard, with the following exceptions:-  
+                                                                      
+                                                                               
+                                                                               
+                                                                                                     
+ESCAPE      -      use the (!) sequence    RETURN    -    use the \ character  
+SPACE       -      use

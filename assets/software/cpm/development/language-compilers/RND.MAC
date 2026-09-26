@@ -1,0 +1,32 @@
+; RND: A FORTRAN-CALLABLE FUNCTION
+;      TO GENERATE A RANDOM
+;      NUMBER FROM 0 TO 1
+;
+; USAGE:  X = RND(NPASS)
+;  NPASS IS THE NUMBER OF TIMES TO SKIP
+;
+;
+          TITLE     RANDOM-NUMBER GENERATOR
+          EXT       $AC,$MA,$SA
+          ееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееENTRY     RND
+;
+RND:      MVI       B,1       ;SET FOR ONE PASS
+          MOV       A,M       ;GET ARGUMENT
+          ANI       0FH       ;TAKE 4 BITS
+          JZ        NEXTN     ;CHANGE 0 TO 1
+          MOV       B,A
+NEXTN:    LHLD      WORD2    ееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее ;HIGH 2 BYTES
+          XCHG                ;PUT IN D,E
+          LHLD      WORD1     ;LOW 2 BYTES
+          DAD       H         ;SHIFT LEFT
+          MOV       A,E
+          RAL                 ;SHIFT LEFT
+          MOV       E,A
+          XRA    ееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееееее   L         ;FEEDBACK
+          JP        SKIP
+          INX       H
+SKIP:     SHLD      WORD1     ;HIGH 1 BYTES
+          XCHG
+          SHLD      WORD2     ;HIGH 2 BYTES
+          DCR       B         ;COUNT
+          JNZ       NEXTN     ;DO IT AG
