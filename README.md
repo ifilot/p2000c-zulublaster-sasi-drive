@@ -11,6 +11,17 @@ prompt for the full P2000C experience, with an optional CoPower RAM drive at G:.
 An additional [text-mode boot menu](docs/menu.md) can be built with `make menu`
 and Z88DK, with cascading categories, editable program links and a screensaver.
 
+## P2000C Navigator
+
+The optional Navigator provides a Dutch text-mode interface with categories,
+program descriptions, keyboard navigation and automatic return after programs
+exit. The screenshots use the P2000C character ROM and terminal attributes.
+Click either image for the full-size 80-column display.
+
+| Category overview | Selected application |
+| --- | --- |
+| [![Navigator category overview](docs/screenshots/navigator-overview.png)](docs/screenshots/navigator-overview.png) | [![Navigator Games menu with Schaken selected](docs/screenshots/navigator-games.png)](docs/screenshots/navigator-games.png) |
+
 The ZuluBlaster used for this project came from
 [Studio Services](https://studio-services.de/produkt/zuluscsi-blaster-rp2350b),
 which is a good EU option. Check for a suitable local vendor as well.
