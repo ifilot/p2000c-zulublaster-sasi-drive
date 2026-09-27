@@ -17,6 +17,7 @@ Hoofdletters en kleine letters maken niet uit.
 | `TETRIS` | Start het Nederlandstalige Tetris-spel. |
 | `MINES` | Speel Mijnenveger op drie niveaus. |
 | `SCHAKEN` | Speel het nieuwe Nederlandstalige schaakspel. |
+| `KAKURO` | Los een van 95 Japanse cijferpuzzels op. |
 | `CHESS` | Start het klassieke Super-Chess 2000. |
 | `D:README` | Toon de indeling van toepassingen op D:. |
 | `USER 3` | Schakel naar gebruikersgebied 3 voor SuperCalc 2. |

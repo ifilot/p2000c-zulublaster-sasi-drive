@@ -95,8 +95,8 @@ repository. [`games.lock.toml`](../../games.lock.toml) records the declared
 upstream version and selects an exact immutable commit for this distribution.
 For Tetris it also pins a GitHub source-archive SHA-256, a reproducible build
 date, command, and the hash of the installed result. Schaken, Mijnenveger,
-Zeeslag and Othello use hash-verified official release assets. The
-build downloads the selected immutable sources or assets and rejects files with
+Zeeslag, Othello and Kakuro use hash-verified official release assets. The build
+downloads the selected immutable sources or assets and rejects files with
 a different hash.
 
 | Program | Repository | Selected release | Installed file(s) |
@@ -106,11 +106,12 @@ a different hash.
 | Zeeslag | [p2000c-battleship](https://github.com/ifilot/p2000c-battleship) | `v1.0.2` (`49b70781c2d0c3b13befdf1665ddcd228bed2afe`) | `ZEESLAG.COM` |
 | Othello | [p2000c-othello](https://github.com/ifilot/p2000c-othello) | `v1.0.1` (`9a498d3483c7ba20ce1283d524d2c6e15bf0a219`) | `OTHELLO.COM` |
 | Tetris | [p2000c-tetris](https://github.com/ifilot/p2000c-tetris) | `v1.0.0` (`619d73057e08e42403d52ca4f7c7e0f74e4b1e25`) | `TETRIS.COM` |
+| Kakuro | [p2000c-kakuro](https://github.com/ifilot/p2000c-kakuro) | `v1.0.0` (`6e0982c62ca7b9900a3e928d80869ffae0971f88`) | `KAKURO.COM` |
 
-Schaken, Mijnenveger, Zeeslag and Othello are pinned to their official release
-assets. Their current source builds do not reproduce the deployed binaries with
-the pinned Z88DK Docker image, so the release assets are the reproducible
-choice. `DIAG.COM` is not part of the distro.
+Schaken, Mijnenveger, Zeeslag, Othello and Kakuro are pinned to their official
+release assets. The first four source builds do not reproduce the deployed
+binaries with the pinned Z88DK Docker image, so the release assets are the
+reproducible choice. `DIAG.COM` is not part of the distro.
 
 The first build stores verified artifacts in
 `~/.cache/p2000c-disk-tool/games/<lock-hash>/`; set `P2000C_GAME_CACHE` to use
@@ -119,8 +120,8 @@ builds invoke the upstream `make build` command and therefore require Docker
 with the `z88dk/z88dk` image available. Changing a game requires updating the
 lock data and deliberately releasing a new distro version.
 
-Zeeslag, Mijnenveger and Schaken use the P2000C 512x252 graphics plane during
-play. Tetris remains entirely in the 80x24 character display.
+Zeeslag, Mijnenveger, Schaken and Kakuro use the P2000C 512x252 graphics plane
+during play. Tetris remains entirely in the 80x24 character display.
 
 ## Ladder and Pac-Man
 

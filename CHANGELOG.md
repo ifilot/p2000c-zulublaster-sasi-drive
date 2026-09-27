@@ -7,6 +7,13 @@ features, and PATCH for backwards-compatible fixes.
 
 ## [Unreleased]
 
+## [1.2.1] - 2026-09-27
+
+### Added
+
+- Kakuro v1.0.0, with 95 number-crossword puzzles, to drive F: and the
+  Navigator Games menu.
+
 ## [1.2.0] - 2026-09-27
 
 ### Added

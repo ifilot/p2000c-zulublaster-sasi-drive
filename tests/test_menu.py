@@ -91,7 +91,7 @@ def test_help_contains_build_information(menu_package, headless_emulator):
     assert "S laadt de screensaver" in display
     assert "S spaart het scherm" not in display
     assert "R herlaadt" not in display
-    assert "SASI-distributie: v1.2.0" in display
+    assert "SASI-distributie: v1.2.1" in display
     assert "github.com/ifilot/p2000c-zulublaster-sasi-drive" in display
     assert re.search(r"Compilatiedatum: \d{4}-\d{2}-\d{2}", display)
     assert "BEDIENING" in display and "INFORMATIE" in display
@@ -140,6 +140,7 @@ def test_menu_boot_navigation_help_and_exit(menu_package, headless_emulator):
     assert "Zork I" in display and "Zork II" in display and "Zork III" in display
     assert "Othello" in display and "Chess" in display and "Schaken" in display
     assert "Mijnenveger" in display and "Zeeslag" in display and "Tetris" in display
+    assert "Kakuro" in display
     assert "Ontdek klassieke avonturen" in display
     assert "Tekstavontuur in het Grote Ondergrondse Rijk" not in display
     assert "Bestandsbeheer" not in display
@@ -299,8 +300,20 @@ def test_tetris_launches_from_menu_in_text_mode(menu_package, headless_emulator)
     )
     display = screen(state)
     assert state["graphics_mode"] == "character"
-    assert state["nonzero_graphics_bytes"] == 0
     assert "P2000C NAVIGATOR" in display
+    assert state["nonzero_graphics_bytes"] == 0
+
+
+def test_kakuro_launches_from_menu(menu_package, headless_emulator):
+    state = scenario(
+        menu_package,
+        headless_emulator,
+        "--send", "\\x06" + "\\n" * 9 + "\\r",
+        "--wait-for", "Puzzel  1:",
+        "--run", "3000000",
+    )
+    assert state["graphics_mode"] == "character"
+    assert state["nonzero_graphics_bytes"] == 0
 
 
 def test_mbasic_521_launches_from_menu(menu_package, headless_emulator):

@@ -43,6 +43,7 @@ def test_local_games_build_current_working_trees_without_locked_hashes(tmp_path)
         "ZEESLAG.COM": "battleship-development",
         "OTHELLO.COM": "othello-development",
         "TETRIS.COM": "tetris-development",
+        "KAKURO.COM": "kakuro-development",
     }
     assert all(path.read_text() == "stale" for repository in repositories.iterdir()
                for path in (repository / "build").iterdir())
@@ -58,6 +59,7 @@ def test_local_games_build_current_working_trees_without_locked_hashes(tmp_path)
         "ZEESLAG.COM": "battleship-newer",
         "OTHELLO.COM": "othello-newer",
         "TETRIS.COM": "tetris-newer",
+        "KAKURO.COM": "kakuro-newer",
     }
 
 

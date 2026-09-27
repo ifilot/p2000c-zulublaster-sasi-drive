@@ -1,4 +1,4 @@
-# Immutable external games included in P2000C SASI Distribution v1.2.0.
+# Immutable external games included in P2000C SASI Distribution v1.2.1.
 # Source archives and every installed artifact are SHA-256 verified.
 schema = 1
 
@@ -82,3 +82,16 @@ user = 0
 [[games.artifacts]]
 path = "build/TETRIS.COM"
 sha256 = "d22678ff6d670c785653ab72e3f2cb0cb4e6d3e52df68c90ec8cd1f0491d4c5b"
+
+[[games]]
+id = "kakuro"
+repository = "https://github.com/ifilot/p2000c-kakuro"
+version = "v1.0.0"
+commit = "6e0982c62ca7b9900a3e928d80869ffae0971f88"
+drive = "F"
+user = 0
+
+[[games.artifacts]]
+path = "KAKURO.COM"
+sha256 = "1848d9b9ef24d9b1d0af138df6947a9c9ee39269c0c7224499e6f529c2102e7a"
+release_url = "https://github.com/ifilot/p2000c-kakuro/releases/download/v1.0.0/KAKURO.COM"

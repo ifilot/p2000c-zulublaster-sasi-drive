@@ -23,10 +23,10 @@ def test_pro_builds_all_drives_reproducibly(tmp_path):
     manifest = json.loads((output / "manifest.json").read_text())
     assert manifest["schema"] == 4
     assert manifest["name"] == "P2000C SASI Distribution"
-    assert manifest["version"] == "1.2.0"
-    assert (output / "VERSION.txt").read_text() == "P2000C SASI Distribution v1.2.0\n"
+    assert manifest["version"] == "1.2.1"
+    assert (output / "VERSION.txt").read_text() == "P2000C SASI Distribution v1.2.1\n"
     expected = {("HD0_256.hda", "low"): 20, ("HD0_256.hda", "high"): 14,
-                ("HD1_256.hda", "low"): 0, ("HD1_256.hda", "high"): 16}
+                ("HD1_256.hda", "low"): 0, ("HD1_256.hda", "high"): 17}
     for (image, partition), count in expected.items():
         assert len(list_files(output / image, partition)) == count
     assert "RAMTEST.COM" not in {f.normalized_filename for f in list_files(output / "HD0_256.hda", "low")}

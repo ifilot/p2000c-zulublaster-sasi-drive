@@ -70,6 +70,13 @@ user = 0
 command = "TETRIS"
 description = """Stapel vallende blokken en maak volledige rijen om punten te verdienen. Kies een startniveau van 0 tot 9 en voer het tempo steeds verder op. Gebruik de pijltjes of W, A, S en D om te spelen."""
 
+[[categories.programs]]
+label = "Kakuro"
+drive = "F"
+user = 0
+command = "KAKURO"
+description = """Los Japanse kruiswoordpuzzels met cijfers op. Vul iedere witte reeks met verschillende cijfers van 1 tot 9 die samen de aangegeven som vormen. Kies uit 95 puzzels in diverse maten en niveaus."""
+
 [[categories]]
 label = "Kantoor"
 description = """Maak tabellen en berekeningen met een vertrouwd CP/M-programma. SuperCalc is geschikt voor dagelijks thuisgebruik. Geef eigen werkbladen altijd een duidelijke bestandsnaam."""

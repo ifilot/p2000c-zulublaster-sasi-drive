@@ -14,10 +14,11 @@ The project produces a CP/M prompt edition and an optional [program-menu edition
 
 `make all` builds all four editions from the versions in `games.lock.toml`.
 `make dev` instead reads the sibling `p2000c-chess`, `p2000c-minesweeper`,
-`p2000c-battleship`, `p2000c-othello`, and `p2000c-tetris` repositories. It
+`p2000c-battleship`, `p2000c-othello`, `p2000c-tetris`, and `p2000c-kakuro`
+repositories. It
 copies and builds their current working trees, including uncommitted source
 files, without changing those repositories. Set `GAME_REPOS=/path/to/parent`
-when the five repositories do not share this repository’s parent directory.
+when the six repositories do not share this repository’s parent directory.
 Development output is kept under `dist/dev/` so it cannot replace a locked
 release build accidentally. Built games are cached in `dist/dev/.game-cache/`
 using a fingerprint of each working tree. A later `make dev` therefore rebuilds
@@ -26,7 +27,7 @@ four image variants are built with two workers by default. Set `DEV_JOBS=1` for
 sequential operation or raise it on a machine with enough CPU and memory.
 
 Every package reads its semantic version from the repository-root `VERSION`
-file; the current SASI distribution is `v1.2.0`. All variants carry that version
+file; the current SASI distribution is `v1.2.1`. All variants carry that version
 in `manifest.json` and root `VERSION.txt`, and release ZIP filenames include it.
 Releases use stable Semantic Versioning (`MAJOR.MINOR.PATCH`). Increment MAJOR
 for incompatible distribution changes, MINOR for backwards-compatible features,
