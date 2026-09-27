@@ -60,6 +60,13 @@
 #define DEFAULT_SAVER_SECONDS 120
 #define SAVER_TICKS_PER_SECOND 100
 
+#ifndef NAVIGATOR_VERSION
+#define NAVIGATOR_VERSION "onbekend"
+#endif
+#ifndef NAVIGATOR_BUILD_DATE
+#define NAVIGATOR_BUILD_DATE "onbekend"
+#endif
+
 /*
  * Real P2000C cursor keys emit Ctrl-S/D/E/X navigation codes. The
  * graphical emulator emits terminal cursor-control bytes, so both are valid.
@@ -232,6 +239,23 @@ static void draw_frame_line(unsigned char row, unsigned char column,
     write_console(TABLE_HORIZONTAL);
   }
   write_console(right);
+}
+
+/**
+ * @brief Draws a rectangular panel using native P2000C table glyphs.
+ */
+static void draw_frame_box(unsigned char top, unsigned char bottom,
+                           unsigned char column, unsigned char width) {
+  unsigned char row;
+
+  draw_frame_line(top, column, TABLE_TOP_LEFT, TABLE_TOP_RIGHT, width);
+  for (row = top + 1; row < bottom; ++row) {
+    move_cursor(row, column);
+    write_console(TABLE_VERTICAL);
+    move_cursor(row, column + width + 1);
+    write_console(TABLE_VERTICAL);
+  }
+  draw_frame_line(bottom, column, TABLE_BOTTOM_LEFT, TABLE_BOTTOM_RIGHT, width);
 }
 
 /**
@@ -683,6 +707,12 @@ static void draw_help(void) {
   clear_screen();
   draw_bar(0, title, SCREEN_WIDTH);
   draw_bar(FOOTER_ROW, footer, FOOTER_WIDTH);
+  draw_frame_box(2, 12, 2, 74);
+  move_cursor(2, 5);
+  write_text(" BEDIENING ");
+  draw_frame_box(14, 20, 2, 74);
+  move_cursor(14, 5);
+  write_text(" INFORMATIE ");
   move_cursor(3, 4);
   write_text("OMHOOG/OMLAAG of J/K kiest een onderdeel.");
   move_cursor(5, 4);
@@ -690,10 +720,16 @@ static void draw_help(void) {
   move_cursor(7, 4);
   write_text("ENTER start het gekozen programma.");
   move_cursor(9, 4);
-  write_text("S spaart het scherm. R herlaadt MENU.DAT. Q sluit af.");
-  move_cursor(12, 4);
+  write_text("S laadt de screensaver. Q sluit af.");
+  move_cursor(11, 4);
   write_text("Na afloop van een programma keert Navigator automatisch terug.");
-  move_cursor(20, 4);
+  move_cursor(15, 4);
+  write_text("SASI-distributie: " NAVIGATOR_VERSION);
+  move_cursor(17, 4);
+  write_text("GitHub: github.com/ifilot/p2000c-zulublaster-sasi-drive");
+  move_cursor(19, 4);
+  write_text("Compilatiedatum: " NAVIGATOR_BUILD_DATE);
+  move_cursor(21, 4);
   write_text("Druk op een toets om terug te keren.");
 }
 
@@ -1053,9 +1089,6 @@ static void run_menu(void) {
       if (wait_for_key() == -1) {
         run_screen_saver();
       }
-      draw_menu();
-    } else if (key == 'r' || key == 'R') {
-      load_config();
       draw_menu();
     } else if (category_count) {
       programs = count_category_programs(selected_category);

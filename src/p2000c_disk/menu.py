@@ -1,6 +1,7 @@
 """Compile the host-side TOML menu and the Z88DK CP/M executable."""
 from __future__ import annotations
 
+from datetime import date
 import argparse
 import os
 from pathlib import Path
@@ -12,7 +13,7 @@ import tempfile
 import tomllib
 from typing import Mapping, Sequence
 
-from .assembly import ROOT
+from .assembly import ROOT, assemble_program
 from .version import DISPLAY_VERSION
 
 MAGIC = b"P2MN"
@@ -148,9 +149,40 @@ def compile_menu_data(source: Path, destination: Path,
     return destination
 
 
+def _map_address(link_map: str, symbol: str) -> int:
+    """Read one hexadecimal address from a Z88DK map."""
+    match = re.search(
+        rf"^{re.escape(symbol)}\s*=\s*\$([0-9A-Fa-f]+)\s*;",
+        link_map,
+        re.MULTILINE,
+    )
+    if match is None:
+        raise ValueError(f"Z88DK map does not define {symbol}")
+    return int(match.group(1), 16)
+
+
+def _write_compact_application(binary: Path, link_map: Path,
+                               destination: Path) -> None:
+    """Omit trailing BSS bytes; the Z88DK startup clears that memory."""
+    data = binary.read_bytes()
+    symbols = link_map.read_text(encoding="ascii", errors="strict")
+    bss_start = _map_address(symbols, "__BSS_head")
+    bss_end = _map_address(symbols, "__BSS_END_tail")
+    origin = 0x100
+    if bss_end != origin + len(data) or not origin < bss_start <= bss_end:
+        raise ValueError("Z88DK map and MENU.BIN layout disagree")
+    file_end = bss_start - origin
+    if any(data[file_end:]):
+        raise ValueError("MENU.BIN BSS contains nonzero data and cannot be omitted")
+    destination.write_bytes(data[:file_end])
+    if not 0 < destination.stat().st_size <= 32768:
+        raise ValueError("Z88DK did not produce a MENU.BIN between 1 and 32768 bytes")
+
+
 def build_menu(destination: Path, zcc: str = "zcc", root: Path = ROOT,
-               available_programs: Mapping[str, Mapping[int, Sequence[Path]]] | None = None) -> Path:
-    """Build MENU.COM and compile menu.toml into MENU.DAT."""
+               available_programs: Mapping[str, Mapping[int, Sequence[Path]]] | None = None,
+               assembler: str = "z80asm") -> Path:
+    """Build the MENU.COM launcher, MENU.BIN application and MENU.DAT."""
     executable = shutil.which(zcc)
     if executable is None and zcc == "zcc":
         for relative in ("z88dk/bin/zcc", "z88dk/z88dk/bin/zcc"):
@@ -166,19 +198,36 @@ def build_menu(destination: Path, zcc: str = "zcc", root: Path = ROOT,
     config = Path(executable).parent.parent / "lib/config"
     if config.is_dir():
         environment.setdefault("ZCCCFG", str(config) + os.sep)
+    build_date = environment.get("BUILD_DATE", date.today().isoformat())
+    try:
+        if date.fromisoformat(build_date).isoformat() != build_date:
+            raise ValueError
+    except ValueError as exc:
+        raise ValueError("BUILD_DATE must use YYYY-MM-DD") from exc
     destination.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory(prefix=".menu-", dir=destination) as temporary:
         stage = Path(temporary).resolve()
+        application = stage / "MENUAPP"
         subprocess.run([executable, "+cpm", "-O2", "-m", "-create-app",
                         "-pragma-define:CRT_ENABLE_COMMANDLINE=0",
+                        f'-DNAVIGATOR_VERSION=\\"{DISPLAY_VERSION}\\"',
+                        f'-DNAVIGATOR_BUILD_DATE=\\"{build_date}\\"',
                         str(root / "src/menu/menu.c"), str(root / "src/menu/platform.asm"),
-                        "-o", str(stage / "MENU")], cwd=stage, env=environment,
+                        "-o", str(application)], cwd=stage, env=environment,
                        check=True, capture_output=True, text=True)
-        binary = stage / "MENU.COM"
-        if not binary.is_file() or not 0 < binary.stat().st_size <= 32768:
-            raise ValueError("Z88DK did not produce a MENU.COM between 1 and 32768 bytes")
+        _write_compact_application(
+            application.with_suffix(".COM"),
+            application.with_suffix(".map"),
+            stage / "MENU.BIN",
+        )
+        assemble_program(
+            root / "src/menu/bootstrap.asm",
+            stage / "MENU.COM",
+            assembler,
+            maximum_size=256,
+        )
         compile_menu_data(root / "src/menu/menu.toml", stage / "MENU.DAT", available_programs)
-        for name in ("MENU.COM", "MENU.DAT"):
+        for name in ("MENU.COM", "MENU.BIN", "MENU.DAT"):
             os.replace(stage / name, destination / name)
         (destination / "VERSION.txt").write_text(
             f"P2000C SASI Distribution {DISPLAY_VERSION}\n", encoding="ascii"
@@ -194,9 +243,12 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, default=ROOT / "dist/tools")
     parser.add_argument("--zcc", default=os.environ.get("ZCC", "zcc"))
+    parser.add_argument("--assembler", default="z80asm")
     args = parser.parse_args()
     try:
-        print(f"Built {build_menu(args.output, args.zcc)}")
+        print(
+            f"Built {build_menu(args.output, args.zcc, assembler=args.assembler)}"
+        )
     except subprocess.CalledProcessError as exc:
         parser.exit(1, exc.stderr or str(exc))
     except (OSError, ValueError) as exc:

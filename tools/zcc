@@ -1,0 +1,23 @@
+#!/bin/sh
+# Run the exact Z88DK image used for reproducible distribution builds.
+set -eu
+
+image="${Z88DK_IMAGE:-z88dk/z88dk@sha256:93f3c7c04486b300fdeccc600b48618e291ff1763aff608639fbfae0ee1623a5}"
+script_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+root=$(CDPATH= cd -- "$script_dir/.." && pwd)
+
+if ! command -v docker >/dev/null 2>&1; then
+  echo "Docker is required for the pinned Z88DK compiler." >&2
+  exit 127
+fi
+
+case "$PWD/" in
+  "$root/"*)
+    exec docker run --rm --user "$(id -u):$(id -g)" \
+      -v "$root:$root" -w "$PWD" "$image" zcc "$@"
+    ;;
+  *)
+    exec docker run --rm --user "$(id -u):$(id -g)" \
+      -v "$root:$root" -v "$PWD:$PWD" -w "$PWD" "$image" zcc "$@"
+    ;;
+esac

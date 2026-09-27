@@ -30,6 +30,7 @@ class GameArtifact:
 
     path: str
     sha256: str
+    release_url: str | None = None
 
 
 @dataclass(frozen=True)
@@ -119,24 +120,43 @@ def load_game_lock(path: Path = ROOT / "games.lock.toml") -> tuple[LockedGame, .
         artifacts: list[GameArtifact] = []
         for artifact_index, raw_artifact in enumerate(raw_artifacts, 1):
             artifact_context = f"{context}.artifacts[{artifact_index}]"
-            if not isinstance(raw_artifact, dict) or set(raw_artifact) != {"path", "sha256"}:
-                raise ValueError(f"{artifact_context} must contain path and sha256")
+            if (not isinstance(raw_artifact, dict) or
+                    not {"path", "sha256"}.issubset(raw_artifact) or
+                    set(raw_artifact) - {"path", "sha256", "release_url"}):
+                raise ValueError(
+                    f"{artifact_context} must contain path and sha256, "
+                    "with an optional release_url"
+                )
             artifact_path = _safe_relative(_require_string(raw_artifact, "path", artifact_context), artifact_context)
+            artifact_url = raw_artifact.get("release_url")
+            if (artifact_url is not None and
+                    (not isinstance(artifact_url, str) or not artifact_url.startswith(
+                        repository + "/releases/download/" + version + "/"
+                    ))):
+                raise ValueError(
+                    f"{artifact_context}.release_url must be an asset for {version}"
+                )
             target = (drive, user, artifact_path.name.upper())
             if target in targets:
                 raise ValueError(f"duplicate installed game artifact: {artifact_path.name}")
             targets.add(target)
             artifacts.append(GameArtifact(artifact_path.as_posix(), _require_hash(
-                _require_string(raw_artifact, "sha256", artifact_context), f"{artifact_context}.sha256")))
+                _require_string(raw_artifact, "sha256", artifact_context),
+                f"{artifact_context}.sha256"), artifact_url))
         release_url = raw.get("release_url")
         archive_sha256 = raw.get("archive_sha256")
         build_date = raw.get("build_date")
         build_command = raw.get("build_command")
         source_build = archive_sha256 is not None or build_date is not None or build_command is not None
+        artifact_releases = [artifact.release_url is not None for artifact in artifacts]
+        if any(artifact_releases) and not all(artifact_releases):
+            raise ValueError(f"{context} must provide release_url for every artifact")
         if release_url is not None:
-            if source_build or not isinstance(release_url, str) or not release_url.startswith(repository + "/releases/download/"):
+            if (source_build or any(artifact_releases) or
+                    not isinstance(release_url, str) or
+                    not release_url.startswith(repository + "/releases/download/")):
                 raise ValueError(f"{context}.release_url must be the only artifact source")
-        else:
+        elif not all(artifact_releases) or source_build:
             if not (isinstance(archive_sha256, str) and isinstance(build_date, str) and isinstance(build_command, list)):
                 raise ValueError(f"{context} needs source archive, build date, and build command")
             archive_sha256 = _require_hash(archive_sha256, f"{context}.archive_sha256")
@@ -321,7 +341,10 @@ def materialize_games(destination: Path, lock_path: Path = ROOT / "games.lock.to
             game_cache.mkdir(parents=True, exist_ok=True)
             with tempfile.TemporaryDirectory(prefix=f".game-{game.identifier}-", dir=destination) as temporary:
                 work = Path(temporary)
-                if game.release_url:
+                if all(artifact.release_url for artifact in game.artifacts):
+                    sources = {artifact.path: _download(artifact.release_url)
+                               for artifact in game.artifacts}
+                elif game.release_url:
                     sources = {artifact.path: _download(game.release_url) for artifact in game.artifacts}
                 else:
                     repository_path = game.repository.removeprefix("https://github.com/")

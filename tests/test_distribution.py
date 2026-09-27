@@ -23,8 +23,8 @@ def test_pro_builds_all_drives_reproducibly(tmp_path):
     manifest = json.loads((output / "manifest.json").read_text())
     assert manifest["schema"] == 4
     assert manifest["name"] == "P2000C SASI Distribution"
-    assert manifest["version"] == "1.0.1"
-    assert (output / "VERSION.txt").read_text() == "P2000C SASI Distribution v1.0.1\n"
+    assert manifest["version"] == "1.2.0"
+    assert (output / "VERSION.txt").read_text() == "P2000C SASI Distribution v1.2.0\n"
     expected = {("HD0_256.hda", "low"): 20, ("HD0_256.hda", "high"): 14,
                 ("HD1_256.hda", "low"): 0, ("HD1_256.hda", "high"): 16}
     for (image, partition), count in expected.items():

@@ -4,10 +4,17 @@
 
 The menu is a native CP/M 2.2 application written in C and compiled with
 Z88DK. It uses the P2000C's 80-column, 24-line character terminal, with a
-Dutch interface, a `P2000C NAVIGATOR v1.0.1` title bar and a `Home Computer Museum | SASI-distro v1.0.1` footer,
+Dutch interface, a `P2000C NAVIGATOR` title bar and a
+`Home Computer Museum` footer,
 inverse selection bar, DOS-style cascading category windows, help and a dim
 moving screensaver. Navigator itself never enters graphics mode; a launched
 game may do so.
+
+The [browser emulator](https://ifilot.github.io/p2000c-zulublaster-sasi-drive/)
+uses WebAssembly to run the same Z80, terminal and SASI device models as the
+native test emulator. It boots the generated Navigator hard disks, so CP/M and
+the bundled applications execute in-browser rather than being reimplemented in
+JavaScript. Browser disk writes last only until the page is reloaded.
 
 ## Build and boot
 
@@ -24,12 +31,18 @@ If `zcc` is on PATH or installed under `~/z88dk/bin/` or
 `~/z88dk/z88dk/bin/`, omit `ZCC`. `make run` defaults to the menu edition;
 `make run VARIANT=pro` previews the CP/M prompt. The builder adds sibling executables to
 PATH and finds `lib/config` in a standard Z88DK installation. An explicitly
-set `ZCCCFG` takes precedence. The actual compilation is:
+set `ZCCCFG` takes precedence. The C application is compiled with:
 
 ```console
 zcc +cpm -O2 -m -create-app -pragma-define:CRT_ENABLE_COMMANDLINE=0 \
-    src/menu/menu.c src/menu/platform.asm -o MENU
+    src/menu/menu.c src/menu/platform.asm -o MENUAPP
 ```
+
+The builder uses the generated map to omit trailing BSS from `MENU.BIN`, then
+assembles `src/menu/bootstrap.asm` as the small `MENU.COM` launcher.
+The help screen receives the host's current compilation date. Set
+`BUILD_DATE=YYYY-MM-DD` to make that date explicit for a reproducible or
+historical build.
 
 Copy `HD0_256.hda`, `HD1_256.hda` and `zuluscsi.ini` from `dist/menu/` to the
 SD card as a set.
@@ -43,11 +56,13 @@ For just the program and compiled menu data:
 make menu-com ZCC=/path/to/z88dk/bin/zcc
 ```
 
-This produces `dist/tools/MENU.COM` and `MENU.DAT`. Install both on A: in
-user area 0. From CP/M, enter `USER 0` and then `A:MENU`. The compiled data is
-always read from A: user 0, including when starting from another drive.
-The menu-edition disk marks `MENU.DAT` as a CP/M System file, so ordinary
-`DIR` does not show it; Navigator can still read it normally.
+This produces `dist/tools/MENU.COM`, `MENU.BIN` and `MENU.DAT`. Install all
+three on A: in user area 0. From CP/M, enter `USER 0` and then `A:MENU`.
+`MENU.COM` is a tiny launcher that displays `Inladen menu...` and loads the
+Navigator application from `MENU.BIN`; the compiled configuration in
+`MENU.DAT` is always read from A: user 0. The menu-edition disk marks
+`MENU.BIN` and `MENU.DAT` as CP/M System files, so ordinary `DIR` does not
+show them; Navigator can still read them normally.
 Use the menu edition for controlled automatic startup. Its guarded warm-boot
 switch distinguishes a program returning to Navigator from **Q** exiting to CP/M.
 
@@ -59,8 +74,9 @@ switch distinguishes a program returning to Navigator from **Q** exiting to CP/M
 - **Left** returns to the category window.
 - In the program window, **RETURN** starts the selected program.
 - **H** or **?** opens help; any key returns to the menu.
+  The help screen also shows the SASI distribution version, repository URL and
+  compilation date.
 - **S** starts the screensaver immediately. Any key wakes it; that key is consumed.
-- **R** reloads the configuration.
 - **Q**, **Escape** or **Ctrl-C** asks for confirmation before returning to the
   CP/M prompt. Answer **J** to confirm or **N** to remain in Navigator.
 
@@ -78,8 +94,8 @@ corrupt updates are rejected cleanly.
 
 ```toml
 [menu]
-title = "Welcome to your Philips P2000C {version}"
-footer = "Home Computer Museum | SASI-distro {version}"
+title = "Welcome to your Philips P2000C"
+footer = "Home Computer Museum"
 screensaver_seconds = 120
 
 [[categories]]
@@ -106,7 +122,9 @@ command = "ZORK1"
 description = "Explore the Great Underground Empire."
 ```
 
-`{version}` in `menu.title` or `menu.footer` expands to the canonical distro version from the repository-root `VERSION` file. Descriptions may use TOML multiline strings. The compiler folds whitespace so
+`{version}` remains available for custom titles or footers, but the default
+menu keeps version information on the help screen. The token expands from the
+repository-root `VERSION` file. Descriptions may use TOML multiline strings. The compiler folds whitespace so
 they wrap cleanly over the three description lines. `arguments` and
 `description` may be omitted when empty. All displayed text must be printable
 ASCII because it is rendered by the P2000C character ROM.
@@ -157,10 +175,14 @@ were smoke-tested.
 
 ## Memory and terminal details
 
-`menu.c` contains the UI, binary data reader, saver and launch preparation.
-`platform.asm` supplies a short calibrated delay and the final program-load
-trampoline, where returning to C after overwriting the menu is impossible.
-The application is around 27 KiB, below the requested 32 KiB budget.
+`MENU.COM` is a 189-byte first-stage launcher, so CP/M only has to read two
+records before it displays `Inladen menu...`. Its relocated loader then reads
+the C application from `MENU.BIN`. The application is about 12 KiB on disk:
+the build removes roughly 13 KiB of trailing zero-filled BSS, which Z88DK's
+normal startup code still clears in memory. `menu.c` contains the UI, binary
+data reader, saver and launch preparation. `platform.asm` supplies a short
+calibrated delay and the final program-load trampoline, where returning to C
+after overwriting the menu is impossible.
 
 Before loading, the menu checks the COM's record count against the normal
 CP/M 2.2 CCP boundary. The loader and its private FCB are copied into the

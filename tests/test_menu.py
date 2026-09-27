@@ -1,5 +1,6 @@
 """Execute Z88DK's actual COM under the Philips CP/M BIOS, not a BDOS mock."""
 import os
+import re
 from pathlib import Path
 import shutil
 
@@ -66,6 +67,45 @@ description = \"{description}\"
 """
 
 
+def test_menu_shows_loading_message_before_second_stage(menu_package, headless_emulator):
+    state = run_scenario([
+        "--hard-disk-0", str(menu_package / "HD0_256.hda"),
+        "--hard-disk-1", str(menu_package / "HD1_256.hda"),
+        "--fast-storage", "--chunk-cycles", "1000",
+        "--wait-for", "Inladen menu...",
+        "--wait-for", "Omhoog/Omlaag kiezen",
+    ], command=headless_emulator)
+
+    assert "P2000C NAVIGATOR" in screen(state)
+
+
+def test_help_contains_build_information(menu_package, headless_emulator):
+    state = scenario(
+        menu_package,
+        headless_emulator,
+        "--send", "h",
+        "--wait-for", "Druk op een toets om terug te keren",
+    )
+
+    display = screen(state)
+    assert "S laadt de screensaver" in display
+    assert "S spaart het scherm" not in display
+    assert "R herlaadt" not in display
+    assert "SASI-distributie: v1.2.0" in display
+    assert "github.com/ifilot/p2000c-zulublaster-sasi-drive" in display
+    assert re.search(r"Compilatiedatum: \d{4}-\d{2}-\d{2}", display)
+    assert "BEDIENING" in display and "INFORMATIE" in display
+    assert state["screen"][2][2] == chr(0xA9)
+    assert state["screen"][2][77] == chr(0xB9)
+    assert state["screen"][12][2] == chr(0xAA)
+    assert state["screen"][12][77] == chr(0xBA)
+    assert state["screen"][14][2] == chr(0xA9)
+    assert state["screen"][14][77] == chr(0xB9)
+    assert state["screen"][20][2] == chr(0xAA)
+    assert state["screen"][20][77] == chr(0xBA)
+    assert state["screen"][3][2] == state["screen"][15][77] == chr(0xFA)
+
+
 def test_menu_boot_navigation_help_and_exit(menu_package, headless_emulator):
     verify_distribution(menu_package)
     menu_files = {
@@ -74,18 +114,27 @@ def test_menu_boot_navigation_help_and_exit(menu_package, headless_emulator):
         if entry.user_number == 0 and entry.normalized_filename.startswith("MENU.")
     }
     assert menu_files["MENU.DAT"].is_system
+    assert menu_files["MENU.BIN"].is_system
     assert not menu_files["MENU.COM"].is_system
+    assert menu_files["MENU.COM"].record_count == 2
+    assert 0 < menu_files["MENU.BIN"].record_count < 150
     menu_data = read_file(
         menu_package / "HD0_256.hda", "MENU.DAT", partition="low", user_number=0
     )
+    launcher = read_file(
+        menu_package / "HD0_256.hda", "MENU.COM", partition="low", user_number=0
+    )
+    assert b"Inladen menu..." in launcher
     assert menu_data.startswith(b"P2MN\x01")
     menu_source = (Path(__file__).parents[1] / "src/menu/menu.toml").read_text()
     assert "WordStar" not in menu_source and "P2EDIT" not in menu_source
     assert not (menu_package / "WORDSTAR.FLP").exists()
     state = scenario(menu_package, headless_emulator, "--run", "3000000")
     display = screen(state)
-    assert "P2000C NAVIGATOR v1.0.1" in display
-    assert "Home Computer Museum | SASI-distro v1.0.1" in display
+    assert "P2000C NAVIGATOR" in display
+    assert "P2000C NAVIGATOR v" not in display
+    assert "Home Computer Museum" in display
+    assert "SASI-distro" not in display
     assert "Spellen" in display and "Kantoor" in display and "Hulpmiddelen" in display
     assert 'command = "MBASIC"' in menu_source
     assert "Zork I" in display and "Zork II" in display and "Zork III" in display
@@ -186,7 +235,7 @@ def test_real_application_warm_boot_returns_to_menu(menu_package, headless_emula
         "--wait-for", "D: APPLICATIONS BY CP/M USER AREA",
         "--wait-for", "Omhoog/Omlaag kiezen",
     )
-    assert "P2000C NAVIGATOR v1.0.1" in screen(state)
+    assert "P2000C NAVIGATOR" in screen(state)
     assert "MENU?" not in screen(state)
     assert not state["cursor"]["visible"]
 
@@ -251,7 +300,7 @@ def test_tetris_launches_from_menu_in_text_mode(menu_package, headless_emulator)
     display = screen(state)
     assert state["graphics_mode"] == "character"
     assert state["nonzero_graphics_bytes"] == 0
-    assert "P2000C NAVIGATOR v1.0.1" in display
+    assert "P2000C NAVIGATOR" in display
 
 
 def test_mbasic_521_launches_from_menu(menu_package, headless_emulator):
@@ -267,7 +316,7 @@ def test_mbasic_521_launches_from_menu(menu_package, headless_emulator):
         "--wait-for", "Omhoog/Omlaag kiezen",
     )
     display = screen(state)
-    assert "P2000C NAVIGATOR v1.0.1" in display
+    assert "P2000C NAVIGATOR" in display
     assert "MENU?" not in display
 
 def test_large_com_arguments_user_and_full_memory(menu_package, tmp_path, headless_emulator):

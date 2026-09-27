@@ -2,6 +2,16 @@
 
 [Documentation](../README.md)
 
+## Browser character generator
+
+The website's 2,265-byte `web/p2000c-font.png` is copied unchanged from
+`p2000c-emulator/assets/font/P2000C font mini.png`. Its SHA-256 is
+`daac2776c03a24beac228f0ed0f7ff04ee0fe44dce06d4fafc4e52bb6a9cb87d`.
+The browser decodes the same 192×192 character sheet, 12-pixel sheet pitch,
+and 8×12 glyph cells as the native emulator. This historical machine/reference
+asset is not relicensed by this repository's MIT license.
+
+
 The collection is organized under `assets/software/cpm/` by software category. The `assets/software/core/`
 directory contains the Philips CP/M utilities used by the reproducible disk
 builds.
@@ -83,10 +93,11 @@ others hang or return to the prompt. These copies remain outside the defaults.
 The games maintained in their own repositories are not copied into this
 repository. [`games.lock.toml`](../../games.lock.toml) records the declared
 upstream version and selects an exact immutable commit for this distribution.
-For Chess, Mijnenveger,
-Zeeslag and Tetris it also pins a GitHub source-archive SHA-256, a reproducible
-build date, command, and the hash of each installed result. The build downloads
-that immutable archive, builds it, and rejects a result with a different hash.
+For Tetris it also pins a GitHub source-archive SHA-256, a reproducible build
+date, command, and the hash of the installed result. Schaken, Mijnenveger,
+Zeeslag and Othello use hash-verified official release assets. The
+build downloads the selected immutable sources or assets and rejects files with
+a different hash.
 
 | Program | Repository | Selected release | Installed file(s) |
 | --- | --- | --- | --- |
@@ -96,10 +107,10 @@ that immutable archive, builds it, and rejects a result with a different hash.
 | Othello | [p2000c-othello](https://github.com/ifilot/p2000c-othello) | `v1.0.1` (`9a498d3483c7ba20ce1283d524d2c6e15bf0a219`) | `OTHELLO.COM` |
 | Tetris | [p2000c-tetris](https://github.com/ifilot/p2000c-tetris) | `v1.0.0` (`619d73057e08e42403d52ca4f7c7e0f74e4b1e25`) | `TETRIS.COM` |
 
-Othello is pinned to its official `v1.0.1` release asset. Its current source
-build does not reproduce the deployed binary with the current Z88DK Docker
-image, so the release asset is the reproducible choice. `DIAG.COM` is not part
-of the distro.
+Schaken, Mijnenveger, Zeeslag and Othello are pinned to their official release
+assets. Their current source builds do not reproduce the deployed binaries with
+the pinned Z88DK Docker image, so the release assets are the reproducible
+choice. `DIAG.COM` is not part of the distro.
 
 The first build stores verified artifacts in
 `~/.cache/p2000c-disk-tool/games/<lock-hash>/`; set `P2000C_GAME_CACHE` to use

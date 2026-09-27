@@ -185,11 +185,12 @@ def build_distribution(variant: str, dist: Path, *, coboard: bool = False,
             payload["A"].setdefault(0, []).append(trkdump)
             payload["D"].setdefault(0, []).append(readme)
             if variant == "menu":
-                build_menu(work, zcc, root, payload)
+                build_menu(work, zcc, root, payload, assembler)
                 names = {p.name.upper() for p in payload["A"].get(0, [])}
-                if names & {"MENU.COM", "MENU.DAT"}:
-                    raise ValueError("MENU.COM and MENU.DAT are reserved in the menu edition")
-                payload["A"].setdefault(0, []).extend([work / "MENU.COM", work / "MENU.DAT"])
+                menu_names = {"MENU.COM", "MENU.BIN", "MENU.DAT"}
+                if names & menu_names:
+                    raise ValueError("MENU.COM, MENU.BIN and MENU.DAT are reserved in the menu edition")
+                payload["A"].setdefault(0, []).extend(work / name for name in sorted(menu_names))
             for image in SD_FILES[:2]:
                 build_image(stage / image, tracks, layout="split")
             for drive, mapping in SASI_DRIVES.items():
@@ -198,10 +199,11 @@ def build_distribution(variant: str, dist: Path, *, coboard: bool = False,
                         put_files(stage / mapping["image"], paths,
                                   partition=mapping["partition"], user_number=user)
             if variant == "menu":
-                set_system_attribute(
-                    stage / SD_FILES[0], "MENU.DAT", partition="low",
-                    user_number=0,
-                )
+                for name in ("MENU.BIN", "MENU.DAT"):
+                    set_system_attribute(
+                        stage / SD_FILES[0], name, partition="low",
+                        user_number=0,
+                    )
             apply_config_updates(stage / SD_FILES[0], ConfigUpdates(autostart="A:MENU") if variant == "menu"
                                  else ConfigUpdates(clear_autostart=True))
             if variant == "menu":

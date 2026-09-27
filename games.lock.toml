@@ -1,4 +1,4 @@
-# Immutable external games included in P2000C SASI Distribution v1.0.1.
+# Immutable external games included in P2000C SASI Distribution v1.2.0.
 # Source archives and every installed artifact are SHA-256 verified.
 schema = 1
 
@@ -16,10 +16,12 @@ user = 0
 [[games.artifacts]]
 path = "build/SCHAKEN.COM"
 sha256 = "5c28e0ab4e03b610e90f9839b705441886991e184eea371fddf30c6c09d519a0"
+release_url = "https://github.com/ifilot/p2000c-chess/releases/download/v1.1.0/SCHAKEN.COM"
 
 [[games.artifacts]]
 path = "build/SCHAKEN.GFX"
 sha256 = "8d00d3adf373dd98fdcded61b9020387132c78afd75626b57c08ff477b247816"
+release_url = "https://github.com/ifilot/p2000c-chess/releases/download/v1.1.0/SCHAKEN.GFX"
 
 [[games]]
 id = "minesweeper"
@@ -35,6 +37,7 @@ user = 0
 [[games.artifacts]]
 path = "build/MINES.COM"
 sha256 = "03ffd04af46616975ac5e8f554cc3fad3a4e95653a1a62ecd3af6748b43bbf56"
+release_url = "https://github.com/ifilot/p2000c-minesweeper/releases/download/v1.0.1/MINES.COM"
 
 [[games]]
 id = "battleship"
@@ -50,6 +53,7 @@ user = 0
 [[games.artifacts]]
 path = "build/ZEESLAG.COM"
 sha256 = "20c7edbd75275616f3998a5e512b15ca00f655505e64ff114021d9b8886ddbaf"
+release_url = "https://github.com/ifilot/p2000c-battleship/releases/download/v1.0.2/ZEESLAG.COM"
 
 [[games]]
 id = "othello"
@@ -77,4 +81,4 @@ user = 0
 
 [[games.artifacts]]
 path = "build/TETRIS.COM"
-sha256 = "fede564de887f97be709925e824a1180d18b686cd74ba73ede1139755223d7ab"
+sha256 = "d22678ff6d670c785653ab72e3f2cb0cb4e6d3e52df68c90ec8cd1f0491d4c5b"

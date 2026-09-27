@@ -26,7 +26,7 @@ four image variants are built with two workers by default. Set `DEV_JOBS=1` for
 sequential operation or raise it on a machine with enough CPU and memory.
 
 Every package reads its semantic version from the repository-root `VERSION`
-file; the current SASI distribution is `v1.0.1`. All variants carry that version
+file; the current SASI distribution is `v1.2.0`. All variants carry that version
 in `manifest.json` and root `VERSION.txt`, and release ZIP filenames include it.
 Releases use stable Semantic Versioning (`MAJOR.MINOR.PATCH`). Increment MAJOR
 for incompatible distribution changes, MINOR for backwards-compatible features,
@@ -45,6 +45,20 @@ standard library. Override `PYTHON=/path/to/python` or
 `ASSEMBLER=/path/to/z80asm` when needed.
 
 ## Preview without hardware
+
+`make site` builds a fresh Navigator distribution, compiles the native emulator
+core to WebAssembly, and assembles `_site/`. It requires Docker and `z80asm`;
+the target pins the Z88DK image and uses a pinned Emscripten image when no local
+`emcmake` is installed. Serve that directory
+over HTTP to run the complete setup in a browser. The static site contains the
+IPL and gzip-compressed copies of both generated 10 MiB SASI images. The browser
+expands them before mounting them; guest writes remain in its temporary memory
+filesystem. GitHub Actions publishes the same output through
+[GitHub Pages](https://ifilot.github.io/p2000c-zulublaster-sasi-drive/) after a
+successful `master` build.
+
+The browser interface opens in Dutch; its NL/EN switch translates the controls,
+instructions and live status text and remembers the selection locally.
 
 On Linux or WSL with WSLg, `make run` builds a disposable menu package with Z88DK and opens
 it in the graphical [P2000C emulator](https://github.com/ifilot/p2000c-emulator).

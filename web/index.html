@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#020604">
+  <meta id="page-description" name="description" content="Gebruik de Philips P2000C Navigator-distributie in uw browser.">
+  <title>P2000C Navigator — browseremulator</title>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="p2000c-web.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <header class="masthead">
+    <a class="wordmark" href="./" aria-label="P2000C Navigator-startpagina"
+       data-i18n-aria-label="homeLabel">
+      <span class="prompt">&gt;</span> PHILIPS P2000C<span class="cursor-mark">_</span>
+    </a>
+    <div class="header-actions">
+      <nav aria-label="Projectlinks" data-i18n-aria-label="projectLinks">
+        <a data-i18n="source" href="https://github.com/ifilot/p2000c-zulublaster-sasi-drive">BRONCODE</a>
+        <a data-i18n="download" href="https://github.com/ifilot/p2000c-zulublaster-sasi-drive/releases/latest">DOWNLOAD</a>
+      </nav>
+      <button id="language-toggle" class="language-toggle" type="button" role="switch"
+              aria-checked="false" aria-label="Taal: Nederlands. Schakel naar Engels.">
+        <span class="lang-option lang-nl">NL</span>
+        <span class="lang-divider" aria-hidden="true">/</span>
+        <span class="lang-option lang-en">EN</span>
+      </button>
+    </div>
+  </header>
+  <main>
+    <section class="machine" aria-label="Philips P2000C-emulator" data-i18n-aria-label="machineLabel">
+      <div class="machine-top">
+        <div class="drive-lights" aria-label="Emulatorstatus" data-i18n-aria-label="emulatorStatus">
+          <span><i id="power-light"></i> POWER</span>
+          <span><i id="disk-light"></i> SASI</span>
+        </div>
+      </div>
+      <div id="terminal" class="terminal" tabindex="0" role="application"
+           aria-label="Interactief P2000C-scherm" data-i18n-aria-label="terminalLabel">
+        <div class="glass">
+          <div id="loading" class="loading" aria-live="polite">
+            <span id="loading-message">WEBASSEMBLY INITIALISEREN…</span>
+            <span class="loading-bar"><i id="loading-progress"></i></span>
+          </div>
+          <canvas id="display-screen" class="display-screen" width="1280" height="576"
+                  aria-label="P2000C-scherm met de originele 8 bij 12 tekengenerator" data-i18n-aria-label="canvasLabel"></canvas>
+        </div>
+      </div>
+      <div class="machine-controls">
+        <p id="status">Emulator laden…</p>
+        <label><span data-i18n="speed">Snelheid</span>
+          <select id="speed">
+            <option data-i18n="speedOriginal" value="1" selected>1× origineel</option>
+            <option data-i18n="speedTurbo4" value="4">4× turbo</option>
+            <option data-i18n="speedTurbo8" value="8">8× turbo</option>
+          </select>
+        </label>
+        <button id="reset" type="button" data-i18n="reset">RESET</button>
+      </div>
+      <div class="keyboard" aria-label="Bediening op het scherm" data-i18n-aria-label="controlsLabel">
+        <div class="arrows">
+          <button type="button" data-key="5" aria-label="Omhoog" data-i18n-aria-label="up">↑</button>
+          <button type="button" data-key="19" aria-label="Links" data-i18n-aria-label="left">←</button>
+          <button type="button" data-key="24" aria-label="Omlaag" data-i18n-aria-label="down">↓</button>
+          <button type="button" data-key="4" aria-label="Rechts" data-i18n-aria-label="right">→</button>
+        </div>
+        <button type="button" data-key="13" data-i18n="enter">ENTER</button>
+        <button type="button" data-key="72" data-i18n="help">HULP</button>
+        <button type="button" data-key="83" data-i18n="saver">SCHERMREST</button>
+        <button type="button" data-key="81" data-i18n="quit">STOPPEN</button>
+      </div>
+    </section>
+    <section class="about" aria-labelledby="about-title">
+      <h2 id="about-title" data-i18n="aboutTitle">P2000C-webemulator</h2>
+      <p data-i18n-html="aboutBody">Dit is een webemulator van de Philips P2000C.
+        De emulator draait P2000C Navigator en de meegeleverde CP/M-software
+        volledig in uw browser.</p>
+      <p data-i18n-html="controlsBody">Klik op het scherm om uw toetsenbord te gebruiken. Gebruik
+        <strong>↑/↓</strong> om te kiezen, <strong>→</strong> of <strong>Enter</strong>
+        om te openen en <strong>←</strong> om terug te gaan. Met <strong>H</strong>
+        opent u de hulp, met <strong>S</strong> start u de schermbeveiliging en met
+        <strong>Q</strong> sluit u af naar CP/M. Met Reset start u de geëmuleerde computer opnieuw.</p>
+    </section>
+  </main>
+  <footer>
+    <p><span data-i18n="distribution">P2000C SASI-DISTRIBUTIE</span> <span>v1.2.0</span></p>
+    <p data-i18n="museum">GEMAAKT VOOR HET HOME COMPUTER MUSEUM</p>
+  </footer>
+</body>
+</html>

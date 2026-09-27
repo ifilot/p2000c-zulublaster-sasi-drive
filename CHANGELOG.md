@@ -7,6 +7,43 @@ features, and PATCH for backwards-compatible fixes.
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-09-27
+
+### Added
+
+- A neon-green, CRT-styled browser version of the complete P2000C emulator,
+  booting the same Navigator SASI images as the physical machine.
+- Automated GitHub Pages builds and deployment from the `master` branch.
+
+### Changed
+
+- The browser emulator uses WebAssembly for the Z80, terminal and SASI hardware
+  models, with native keyboard controls, graphics, and the exact P2000C 8×12
+  character generator rendered as a continuous CRT raster.
+- The website now opens directly on the emulator and expands every native
+  display dot into an exact 2×2 pixel block at a 1280×576 desktop canvas.
+- The browser interface defaults to Dutch and provides a persistent NL/EN
+  switch for all page copy, controls, status messages and accessibility labels.
+- GitHub Pages ships the SASI disk images as gzip streams which the browser
+  expands before mounting, reducing their combined transfer by roughly 97%.
+- Navigator now starts through a 189-byte `MENU.COM` launcher which immediately
+  displays `Inladen menu...`, then loads the hidden `MENU.BIN` application.
+  Omitting its zero-filled BSS from disk reduces the application image from
+  roughly 25 KiB to 12 KiB without changing its initialized memory layout.
+- Navigator's normal title and footer no longer repeat the version or
+  `SASI-distro` label. Help now identifies distribution v1.2.0, the GitHub
+  repository and compilation date, and describes **S** as loading the
+  screensaver. The **R** configuration-reload shortcut has been removed.
+
+
+### Fixed
+
+- Local `make site` builds pin their Z88DK and Emscripten toolchains, and
+  consume the hash-verified Schaken release assets instead of a non-reproducing
+  source rebuild.
+- Re-locked the source-built Tetris binary to the repository pinned Z88DK
+  digest so clean builds reproduce it.
+
 ## [1.0.1] - 2026-09-26
 
 ### Added

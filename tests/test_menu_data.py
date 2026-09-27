@@ -4,7 +4,7 @@ import struct
 
 import pytest
 
-from p2000c_disk.menu import compile_menu_data, crc16
+from p2000c_disk.menu import _write_compact_application, compile_menu_data, crc16
 
 VALID = '''[menu]
 title = "Test menu"
@@ -61,7 +61,39 @@ def test_invalid_menu_is_rejected(tmp_path, old, replacement, message):
 
 def test_distribution_reference_must_exist(tmp_path):
     available = {"D": {0: [tmp_path / "OTHER.COM"]}}
+
     with pytest.raises(ValueError, match="missing D: user 0 README.COM"):
         compile_text(tmp_path, VALID, available)
     available["D"][0].append(tmp_path / "README.COM")
     compile_text(tmp_path, VALID, available)
+
+
+def test_compact_application_omits_zero_filled_bss(tmp_path):
+    binary = tmp_path / "MENUAPP.COM"
+    link_map = tmp_path / "MENUAPP.map"
+    output = tmp_path / "MENU.BIN"
+    binary.write_bytes(b"application" + bytes(12))
+    link_map.write_text(
+        "__BSS_head = $010B ;\n"
+        "__BSS_END_tail = $0117 ;\n",
+        encoding="ascii",
+    )
+
+    _write_compact_application(binary, link_map, output)
+
+    assert output.read_bytes() == b"application"
+
+
+def test_compact_application_rejects_initialized_bss(tmp_path):
+    binary = tmp_path / "MENUAPP.COM"
+    link_map = tmp_path / "MENUAPP.map"
+    output = tmp_path / "MENU.BIN"
+    binary.write_bytes(b"application" + bytes(11) + b"x")
+    link_map.write_text(
+        "__BSS_head = $010B ;\n"
+        "__BSS_END_tail = $0117 ;\n",
+        encoding="ascii",
+    )
+
+    with pytest.raises(ValueError, match="nonzero"):
+        _write_compact_application(binary, link_map, output)

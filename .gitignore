@@ -3,6 +3,7 @@ tests/fixtures/references/
 build/
 dist/
 release/
+_site/
 *.egg-info/
 .pytest_cache/
 __pycache__/

@@ -1,6 +1,6 @@
 [menu]
-title = "P2000C NAVIGATOR {version}"
-footer = "Home Computer Museum | SASI-distro {version}"
+title = "P2000C NAVIGATOR"
+footer = "Home Computer Museum"
 screensaver_seconds = 120
 
 [[categories]]

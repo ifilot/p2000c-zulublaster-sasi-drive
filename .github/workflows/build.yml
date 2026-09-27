@@ -38,6 +38,11 @@ jobs:
           sudo apt-get install --yes make cmake g++ z80asm
           python -m pip install --upgrade pip pytest
 
+      - name: Install WebAssembly compiler
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        run: |
+          sudo apt-get install --yes emscripten
+
       - name: Prepare pinned Z88DK compiler
         run: |
           docker pull "$Z88DK_IMAGE"
@@ -62,12 +67,47 @@ jobs:
       - name: Build deployment archives
         run: make release
 
+      - name: Build browser emulator
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        run: |
+          make emulator-web
+          PYTHONPATH=src python -m p2000c_disk.site \
+            --output _site \
+            --media dist/menu \
+            --emulator build/emulator-web/p2000c-web
+
+      - name: Configure GitHub Pages
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        uses: actions/configure-pages@v5
+
+      - name: Upload GitHub Pages site
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
       - name: Upload deployment archives
         uses: actions/upload-artifact@v4
         with:
           name: p2000c-zulublaster-dist
           path: release/
           retention-days: 90
+
+  pages:
+    needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy GitHub Pages site
+        id: deployment
+        uses: actions/deploy-pages@v4
 
   release:
     needs: build

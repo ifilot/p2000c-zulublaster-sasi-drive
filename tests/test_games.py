@@ -1,9 +1,11 @@
+from hashlib import sha256
 from pathlib import Path
 import subprocess
 from threading import Barrier
 
 from p2000c_disk.assembly import ROOT
-from p2000c_disk.games import load_game_lock, materialize_local_games
+from p2000c_disk import games as games_module
+from p2000c_disk.games import load_game_lock, materialize_games, materialize_local_games
 from p2000c_disk import distribution
 
 
@@ -103,3 +105,33 @@ def test_development_build_normalizes_paths_and_builds_variants_in_parallel(monk
                options["coboard_system"].is_absolute()
                for _, _, options in seen)
 
+
+
+def test_artifact_release_urls_are_downloaded_and_verified(monkeypatch, tmp_path):
+    payload = b"official release"
+    digest = sha256(payload).hexdigest()
+    lock = tmp_path / "games.lock.toml"
+    lock.write_text(f"""schema = 1
+[[games]]
+id = "release-game"
+repository = "https://github.com/owner/release-game"
+version = "v1.2.3"
+commit = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+drive = "F"
+user = 0
+[[games.artifacts]]
+path = "GAME.COM"
+sha256 = "{digest}"
+release_url = "https://github.com/owner/release-game/releases/download/v1.2.3/GAME.COM"
+""")
+    seen = []
+    monkeypatch.setattr(games_module, "_download",
+                        lambda url: seen.append(url) or payload)
+    monkeypatch.setenv("P2000C_GAME_CACHE", str(tmp_path / "cache"))
+
+    installed = materialize_games(tmp_path / "stage", lock)
+
+    assert installed["F"][0][0].read_bytes() == payload
+    assert seen == [
+        "https://github.com/owner/release-game/releases/download/v1.2.3/GAME.COM"
+    ]
