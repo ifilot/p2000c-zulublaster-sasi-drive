@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 P2000C SASI Distribution contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Canonical semantic-version metadata for the P2000C SASI distribution."""
 from __future__ import annotations
 

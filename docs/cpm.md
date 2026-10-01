@@ -19,7 +19,7 @@ Hoofdletters en kleine letters maken niet uit.
 | `SCHAKEN` | Speel het nieuwe Nederlandstalige schaakspel. |
 | `KAKURO` | Los een van 95 Japanse cijferpuzzels op. |
 | `CHESS` | Start het klassieke Super-Chess 2000. |
-| `D:README` | Toon de indeling van toepassingen op D:. |
+| `D:CPMHELP` | Open de Nederlandstalige uitleg over werken met CP/M. |
 | `USER 3` | Schakel naar gebruikersgebied 3 voor SuperCalc 2. |
 | `USER 0` | Ga terug naar het standaardgebruikersgebied. |
 | `TYPE NAAM.TXT` | Lees een tekstbestand. |

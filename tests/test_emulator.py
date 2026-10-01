@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 P2000C SASI Distribution contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Check the Python/native boundary and useful failure diagnostics."""
 import json
 import subprocess

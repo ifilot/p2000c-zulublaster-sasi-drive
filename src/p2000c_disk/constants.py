@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 P2000C SASI Distribution contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Known geometry and observed layout of P2000C hard-drive images."""
 
 IMAGE_SIZE = 10_485_760

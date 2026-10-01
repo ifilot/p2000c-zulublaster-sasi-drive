@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 P2000C SASI Distribution contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 #!/usr/bin/env python3
 """Decode sector data from IMD and HFE floppy images.
 

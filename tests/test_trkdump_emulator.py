@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 P2000C SASI Distribution contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Run the capture COM under real CP/M in the bundled headless core."""
 import shutil
 import subprocess

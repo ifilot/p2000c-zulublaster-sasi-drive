@@ -2,18 +2,18 @@
 
 [![Build distributions](https://github.com/ifilot/p2000c-zulublaster-sasi-drive/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/ifilot/p2000c-zulublaster-sasi-drive/actions/workflows/build.yml)
 [![Latest release](https://img.shields.io/github/v/release/ifilot/p2000c-zulublaster-sasi-drive?display_name=tag&label=latest%20release)](https://github.com/ifilot/p2000c-zulublaster-sasi-drive/releases/latest)
+[![License: GPL v3+](https://img.shields.io/github/license/ifilot/p2000c-zulublaster-sasi-drive?label=license)](LICENSE)
+
+This repository contains the source code to create hard drive images for the
+[Zulublaster SASI drive emulator]() for the Philips P2000C. Several versions of
+the drive images exists, either with or without a launch menu (mainly catering
+to the [Home Computer Museum in Helmond]()) and with support for a RAM drive
+when the P2000C comes equiped with the 8088 CoPower board.
+
+For a live demonstration, have a look at the [WebAssembly
+emulator](https://ifilot.github.io/p2000c-zulublaster-sasi-drive/).
 
 See [CHANGELOG.md](CHANGELOG.md) for the changes included in each semantic version.
-
-Build versioned P2000C SASI distributions for the Philips P2000C, with CP/M and supplied
-applications, programming tools and games. It boots directly to the CP/M
-prompt for the full P2000C experience, with an optional CoPower RAM drive at G:.
-An additional [text-mode boot menu](docs/menu.md) can be built with `make menu`
-and Z88DK, with cascading categories, editable program links and a screensaver.
-The [browser emulator](https://ifilot.github.io/p2000c-zulublaster-sasi-drive/)
-runs that complete Navigator distribution directly through WebAssembly.
-Its surrounding controls and instructions default to Dutch and can be switched
-to English with the NL/EN control.
 
 ## P2000C Navigator
 
@@ -24,7 +24,7 @@ Click either image for the full-size 80-column display.
 
 | Category overview | Selected application |
 | --- | --- |
-| [![Navigator category overview](docs/screenshots/navigator-overview.png)](docs/screenshots/navigator-overview.png) | [![Navigator Games menu with Schaken selected](docs/screenshots/navigator-games.png)](docs/screenshots/navigator-games.png) |
+| [![Navigator category overview](docs/screenshots/navigator-overview.png)](docs/screenshots/navigator-overview.png) | [![Navigator Documentatie menu with CP/M uitleg selected](docs/screenshots/navigator-cpm-guide.png)](docs/screenshots/navigator-cpm-guide.png) |
 
 The ZuluBlaster used for this project came from
 [Studio Services](https://studio-services.de/produkt/zuluscsi-blaster-rp2350b),
@@ -125,8 +125,9 @@ selection latch and LUN-to-ID mapping enabled; parity, SCSI-2 and unit attention
 disabled. Do not replace it with a generic ZuluSCSI configuration.
 
 **A:** system and development tools · **B:/C:** floppies · **D:** applications
-in documented CP/M user areas · **E:** spare · **F:** games. Run `D:README`
-from user 0 for the D: layout. The system opens the CP/M prompt. See
+in documented CP/M user areas · **E:** spare · **F:** games. Run `D:CPMHELP`
+from user 0 for the Dutch, multi-page CP/M introduction. The system opens the
+CP/M prompt. See
 [Aan de slag met CP/M](docs/cpm.md) for everyday commands and what to do if a
 program gets stuck.
 
@@ -144,12 +145,13 @@ diagnostics.
 
 ## Licensing
 
-The original build tools, menu source, assembly utilities and documentation are
-available under the [MIT License](LICENSE). The bundled emulator is GPLv3 and
-retains its own license, while its third-party CPU cores retain their MIT and
-ISC notices. Historical CP/M binaries, firmware and other third-party assets
-remain the property of their respective owners and are not relicensed by this
-repository; see the [software provenance notes](docs/technical/software-sources.md).
+The project-owned build tools, Navigator source, assembly utilities, web
+interface, tests and documentation are available under the
+[GNU GPL v3 or later](LICENSE).
+The bundled emulator retains its upstream GPLv3 license, while its third-party
+CPU cores retain their MIT and ISC notices. Historical CP/M binaries, firmware
+and other third-party assets remain the property of their respective owners and
+are not relicensed by this repository; see the [software provenance notes](docs/technical/software-sources.md).
 
 ## References
 

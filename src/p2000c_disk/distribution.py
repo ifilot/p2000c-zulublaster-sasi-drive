@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 P2000C SASI Distribution contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Build the CP/M SD-card package for P2000C/ZuluBlaster."""
 from __future__ import annotations
 
@@ -21,7 +24,7 @@ from .config import ConfigUpdates, apply_config_updates, inspect_config
 from .filesystem import put_files, set_system_attribute
 from .games import materialize_games, materialize_local_games
 from .layout import detect_image_layout
-from .menu import build_menu
+from .menu import build_cpm_guide, build_menu
 from .menu_boot import cold_menu_boot, is_menu_boot
 from .payload import load_payload
 from .verify import require_valid_image
@@ -179,11 +182,13 @@ def build_distribution(variant: str, dist: Path, *, coboard: bool = False,
             for drive, areas in game_files.items():
                 for user, paths in areas.items():
                     payload[drive].setdefault(user, []).extend(paths)
-            trkdump, readme = (work / f"{p}.COM" for p in ("TRKDUMP", "README"))
+            trkdump = work / "TRKDUMP.COM"
+            cpmhelp = work / "CPMHELP.COM"
+            guide = work / "CPMHELP.TXT"
             assemble_program(root / "src/asm/trkdump.asm", trkdump, assembler, maximum_size=0x3F00)
-            assemble_program(root / "src/asm/readme.asm", readme, assembler, maximum_size=0x1000)
+            build_cpm_guide(work, assembler, root)
             payload["A"].setdefault(0, []).append(trkdump)
-            payload["D"].setdefault(0, []).append(readme)
+            payload["D"].setdefault(0, []).extend((cpmhelp, guide))
             if variant == "menu":
                 build_menu(work, zcc, root, payload, assembler)
                 names = {p.name.upper() for p in payload["A"].get(0, [])}

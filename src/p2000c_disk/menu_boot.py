@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 P2000C SASI Distribution contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Controlled menu startup for the two bundled, 62K Philips CP/M BIOS layouts.
 
 The BIOS reloads CCP/BDOS at D680 before relocating them to DC00. Its warm

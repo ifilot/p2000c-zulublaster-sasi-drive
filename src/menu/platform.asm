@@ -1,3 +1,6 @@
+; SPDX-FileCopyrightText: 2026 P2000C SASI Distribution contributors
+; SPDX-License-Identifier: GPL-3.0-or-later
+
 ; Small hardware/transfer boundary; the menu, parser and launch preparation are C.
 SECTION code_user
 PUBLIC _idle_tick, _chain_program, _set_menu_warm_boot, _set_program_warm_boot

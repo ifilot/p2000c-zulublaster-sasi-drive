@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 P2000C SASI Distribution contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Detection and description of supported P2000C CP/M disk layouts."""
 
 from __future__ import annotations

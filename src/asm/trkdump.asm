@@ -1,3 +1,6 @@
+; SPDX-FileCopyrightText: 2026 P2000C SASI Distribution contributors
+; SPDX-License-Identifier: GPL-3.0-or-later
+
 ; TRKDUMP B[:]|C[:] -- capture P2000C 640K floppy boot tracks to A:COBOARD.TRK.
 ; z80asm syntax, CP/M 2.2. Run under the reference SASI A:/floppy B:/C: system.
 ; All source I/O uses BIOS READ; there is no BIOS WRITE call in this program.

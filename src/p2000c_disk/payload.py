@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 P2000C SASI Distribution contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Read the shared drive configuration before starting a distribution build."""
 from __future__ import annotations
 
@@ -41,7 +44,8 @@ def load_payload(path: Path, root: Path) -> tuple[dict, dict[str, dict[int, list
                         raise ValueError(f"Not a software file inside assets/software: {source}")
                     name = normalize_cpm_filename(source.name)
                     reserved = ((drive == "A" and user == 0 and name == "TRKDUMP.COM")
-                                or (drive == "D" and user == 0 and name == "README.COM"))
+                                or (drive == "D" and user == 0 and
+                                    name in {"CPMHELP.COM", "CPMHELP.TXT"}))
                     if name in selected or reserved:
                         raise ValueError(f"Drive {drive} user {user}: duplicate or reserved filename {name}")
                     selected[name] = source

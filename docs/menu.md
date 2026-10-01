@@ -56,8 +56,9 @@ For just the program and compiled menu data:
 make menu-com ZCC=/path/to/z88dk/bin/zcc
 ```
 
-This produces `dist/tools/MENU.COM`, `MENU.BIN` and `MENU.DAT`. Install all
-three on A: in user area 0. From CP/M, enter `USER 0` and then `A:MENU`.
+This produces `dist/tools/MENU.COM`, `MENU.BIN`, `MENU.DAT`, `CPMHELP.COM` and
+`CPMHELP.TXT`. Install the `MENU` files on A: user area 0 and the `CPMHELP`
+files on D: user area 0. From CP/M, enter `USER 0` and then `A:MENU`.
 `MENU.COM` is a tiny launcher that displays `Inladen menu...` and loads the
 Navigator application from `MENU.BIN`; the compiled configuration in
 `MENU.DAT` is always read from A: user 0. The menu-edition disk marks
@@ -84,6 +85,12 @@ After an application exits through the normal CP/M warm boot, Navigator starts
 again automatically. Choose **Q** and confirm to return deliberately to the
 CP/M prompt. Navigator does not remain resident and cannot protect the screen
 while another application is running.
+
+The **CP/M uitleg** entry under **Documentatie** starts a compact page reader.
+Its Dutch text is not
+embedded in the executable: `CPMHELP.COM` reads each page sequentially from
+`D:CPMHELP.TXT`. Press **Return** or **Space** for the next page and **Q** to
+return to Navigator.
 
 ## Editing the menu
 
@@ -163,7 +170,8 @@ menu-configuration shortcut and floppy-track capture utility to prevent
 accidental storage or configuration changes. Their binaries remain available
 to experienced users from the CP/M prompt.
 
-The **Microsoft BASIC** entry launches `D:` user 1, command `MBASIC`. The
+The **Microsoft BASIC** entry under **Programmeren** launches `D:` user 1,
+command `MBASIC`. The
 bundled binary is Microsoft BASIC-80 5.21 imported unchanged from the sibling
 `p2000m-cpm` project. On the P2000C emulator it starts from SASI, executes an
 interactive calculation and a saved BASIC program, and returns to CP/M with

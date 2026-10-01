@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 P2000C SASI Distribution contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 from hashlib import sha256
 from pathlib import Path
 import subprocess
@@ -137,3 +140,52 @@ release_url = "https://github.com/owner/release-game/releases/download/v1.2.3/GA
     assert seen == [
         "https://github.com/owner/release-game/releases/download/v1.2.3/GAME.COM"
     ]
+
+
+def test_locked_make_build_date_overrides_upstream_makefile(monkeypatch, tmp_path):
+    archive = b"source archive"
+    payload = b"reproducible game"
+    lock = tmp_path / "games.lock.toml"
+    lock.write_text(f'''schema = 1
+[[games]]
+id = "source-game"
+repository = "https://github.com/owner/source-game"
+version = "v1.2.3"
+commit = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+archive_sha256 = "{sha256(archive).hexdigest()}"
+build_date = "2026-09-27"
+build_command = ["make", "build"]
+drive = "F"
+user = 0
+[[games.artifacts]]
+path = "build/GAME.COM"
+sha256 = "{sha256(payload).hexdigest()}"
+''')
+    seen = {}
+
+    def extract(_archive, destination):
+        seen["archive"] = _archive
+
+    def run(command, *, cwd, env, check, capture_output, text):
+        seen.update(command=command, build_date=env["BUILD_DATE"], check=check,
+                    capture_output=capture_output, text=text)
+        output = cwd / "build" / "GAME.COM"
+        output.parent.mkdir()
+        output.write_bytes(payload)
+
+    monkeypatch.setattr(games_module, "_download", lambda _url: archive)
+    monkeypatch.setattr(games_module, "_extract_source", extract)
+    monkeypatch.setattr(games_module.subprocess, "run", run)
+    monkeypatch.setenv("P2000C_GAME_CACHE", str(tmp_path / "cache"))
+
+    installed = materialize_games(tmp_path / "stage", lock)
+
+    assert installed["F"][0][0].read_bytes() == payload
+    assert seen == {
+        "archive": archive,
+        "command": ["make", "build", "BUILD_DATE=2026-09-27"],
+        "build_date": "2026-09-27",
+        "check": True,
+        "capture_output": True,
+        "text": True,
+    }

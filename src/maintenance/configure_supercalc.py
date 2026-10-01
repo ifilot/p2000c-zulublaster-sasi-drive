@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 P2000C SASI Distribution contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 #!/usr/bin/env python3
 """Apply the P2000C terminal profile to SuperCalc 2 release 1.00."""
 from __future__ import annotations

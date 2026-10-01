@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 P2000C SASI Distribution contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Execute Z88DK's actual COM under the Philips CP/M BIOS, not a BDOS mock."""
 import os
 import re
@@ -91,7 +94,7 @@ def test_help_contains_build_information(menu_package, headless_emulator):
     assert "S laadt de screensaver" in display
     assert "S spaart het scherm" not in display
     assert "R herlaadt" not in display
-    assert "SASI-distributie: v1.2.1" in display
+    assert "SASI-distributie: v1.2.2" in display
     assert "github.com/ifilot/p2000c-zulublaster-sasi-drive" in display
     assert re.search(r"Compilatiedatum: \d{4}-\d{2}-\d{2}", display)
     assert "BEDIENING" in display and "INFORMATIE" in display
@@ -135,7 +138,8 @@ def test_menu_boot_navigation_help_and_exit(menu_package, headless_emulator):
     assert "P2000C NAVIGATOR v" not in display
     assert "Home Computer Museum" in display
     assert "SASI-distro" not in display
-    assert "Spellen" in display and "Kantoor" in display and "Hulpmiddelen" in display
+    assert "Spellen" in display and "Kantoor" in display
+    assert "Programmeren" in display and "Documentatie" in display
     assert 'command = "MBASIC"' in menu_source
     assert "Zork I" in display and "Zork II" in display and "Zork III" in display
     assert "Othello" in display and "Chess" in display and "Schaken" in display
@@ -150,7 +154,7 @@ def test_menu_boot_navigation_help_and_exit(menu_package, headless_emulator):
     assert state["screen"][5][3] == chr(0xA9)
     assert state["screen"][5][22] == chr(0xB9)
     assert state["screen"][6][3] == chr(0xFA)
-    assert state["screen"][9][3] == chr(0xAA)
+    assert state["screen"][10][3] == chr(0xAA)
     assert not state["cursor"]["visible"]
     state = scenario(menu_package, headless_emulator, "--send", "h",
                      "--wait-for", "Druk op een toets om terug te keren",
@@ -168,13 +172,14 @@ def test_menu_boot_navigation_help_and_exit(menu_package, headless_emulator):
     assert "MENU     DAT" not in screen(state)
 
 
-def test_tools_menu_contains_microsoft_basic(menu_package, headless_emulator):
+def test_programmeren_menu_contains_microsoft_basic(menu_package, headless_emulator):
     state = scenario(menu_package, headless_emulator,
-                     "--send", "\\n\\n\\x06\\n",
+                     "--send", "\\n\\n\\x06",
                      "--wait-for", "Leer programmeren met Microsoft BASIC-80")
     display = screen(state)
     assert "Microsoft BASIC" in display
-    assert "Programmagids" in display
+    assert "CP/M uitleg" not in display
+    assert "Documentatie" in display
 
 
 def test_category_selection_changes_cascading_submenu(menu_package, headless_emulator,
@@ -188,30 +193,30 @@ def test_category_selection_changes_cascading_submenu(menu_package, headless_emu
     assert "WordStar voor de P2000C" not in display
 
     state = scenario(menu_package, headless_emulator, "--send", "\\x06\\n",
-                     "--wait-for", "Het avontuur gaat verder", "--run", "3000000")
+                     "--wait-for", "Los Japanse kruiswoordpuzzels", "--run", "3000000")
     display = screen(state)
-    assert "Het avontuur gaat verder" in display
+    assert "Los Japanse kruiswoordpuzzels" in display
     assert "Tekstavontuur in het Grote Ondergrondse Rijk" not in display
 
-    # Enter Office's program panel, move within it, then return to categories.
+    # Enter Kantoor's program panel, then return and move to Programmeren.
     state = scenario(menu_package, headless_emulator, "--send", "\\n\\x06\\n\\x15\\n",
                      "--run", "8000000")
     display = screen(state)
-    assert "Programmagids" in display
+    assert "Microsoft BASIC" in display
     assert "Tekstverwerker" not in display
-    assert "Leer programmeren en ontdek" in display
+    assert "Leer programmeren op de P2000C" in display
 
-    state = scenario(menu_package, headless_emulator, "--send", "\\n\\n\\x06",
-                     "--wait-for", "Bekijk een overzicht van de programma's",
+    state = scenario(menu_package, headless_emulator, "--send", "\\n\\n\\n\\x06",
+                     "--wait-for", "Lees in het Nederlands hoe CP/M werkt",
                      "--run", "3000000")
     display = screen(state)
-    assert "Bekijk een overzicht van de programma's" in display
+    assert "Lees in het Nederlands hoe CP/M werkt" in display
     assert "veilige achtergrondinformatie" not in display
 
     trace = tmp_path / "terminal.bin"
     scenario(menu_package, headless_emulator, "--trace-terminal", str(trace),
              "--send", "\\x06", "--run", "1000000")
-    selected = b"\x1b0P" + b"Zork I".ljust(32) + b"\x1b0@"
+    selected = b"\x1b0P" + b"Chess".ljust(32) + b"\x1b0@"
     assert selected in trace.read_bytes()
 
 
@@ -228,12 +233,19 @@ def test_hardware_arrow_codes(menu_package, headless_emulator):
                      "--wait-for", "Ontdek klassieke avonturen")
     assert "Zork I" in screen(state)
 
-def test_real_application_warm_boot_returns_to_menu(menu_package, headless_emulator):
+def test_cpm_guide_pages_and_warm_boot_return_to_menu(
+        menu_package, headless_emulator):
     state = scenario(
         menu_package,
         headless_emulator,
-        "--send", "\\n\\n\\x06\\r",
-        "--wait-for", "D: APPLICATIONS BY CP/M USER AREA",
+        "--send", "\\n\\n\\n\\x06\\r",
+        "--wait-for", "CP/M IN HET KORT",
+        "--wait-for", "ENTER/SPATIE volgende pagina",
+        "--send", "\\r",
+        "--wait-for", "STATIONS EN GEBRUIKERSGEBIEDEN",
+        "--wait-for", "ENTER/SPATIE volgende pagina",
+        "--run", "1000000",
+        "--send", "q",
         "--wait-for", "Omhoog/Omlaag kiezen",
     )
     assert "P2000C NAVIGATOR" in screen(state)
@@ -248,7 +260,7 @@ def test_schaken_launches_from_menu(menu_package, headless_emulator):
     state = scenario(
         menu_package,
         headless_emulator,
-        "--send", "\\x06" + "\\n" * 5 + "\\r",
+        "--send", "\\x06" + "\\n" * 4 + "\\r",
         "--run", "24000000",
         "--send", " ",
         "--wait-for", "Sterkte van de computer",
@@ -260,7 +272,7 @@ def test_mijnenveger_launches_from_menu(menu_package, headless_emulator):
     state = scenario(
         menu_package,
         headless_emulator,
-        "--send", "\\x06" + "\\n" * 6 + "\\r",
+        "--send", "\\x06" + "\\n" * 2 + "\\r",
         "--wait-for", "Kies een niveau",
         "--send", "1",
         "--run", "18000000",
@@ -274,7 +286,7 @@ def test_zeeslag_launches_from_menu(menu_package, headless_emulator):
     state = scenario(
         menu_package,
         headless_emulator,
-        "--send", "\\x06" + "\\n" * 7 + "\\r",
+        "--send", "\\x06" + "\\n" * 6 + "\\r",
         "--run", "12000000",
         "--send", " ",
         "--wait-for", "1, 2 of 3: spelen",
@@ -289,7 +301,7 @@ def test_tetris_launches_from_menu_in_text_mode(menu_package, headless_emulator)
     state = scenario(
         menu_package,
         headless_emulator,
-        "--send", "\\x06" + "\\n" * 8 + "\\r",
+        "--send", "\\x06" + "\\n" * 5 + "\\r",
         "--wait-for", "KIES STARTNIVEAU",
         "--send", "0",
         "--wait-for", "VOLGENDE",
@@ -308,7 +320,7 @@ def test_kakuro_launches_from_menu(menu_package, headless_emulator):
     state = scenario(
         menu_package,
         headless_emulator,
-        "--send", "\\x06" + "\\n" * 9 + "\\r",
+        "--send", "\\x06\\n\\r",
         "--wait-for", "Puzzel  1:",
         "--run", "3000000",
     )
@@ -320,7 +332,7 @@ def test_mbasic_521_launches_from_menu(menu_package, headless_emulator):
     state = scenario(
         menu_package,
         headless_emulator,
-        "--send", "\\n\\n\\x06\\n\\r",
+        "--send", "\\n\\n\\x06\\r",
         "--wait-for", "BASIC-80 Rev. 5.21",
         "--wait-for", "Ok",
         "--send", "PRINT 6*7\\r",
@@ -400,7 +412,7 @@ message: db 'LARGE PROGRAM READY','$'
 def test_saver_moves_and_wake_does_not_launch(menu_package, tmp_path, headless_emulator):
     package = custom_package(
         menu_package, tmp_path,
-        one_program_menu("Guide", "README", "Read the guide", saver=5),
+        one_program_menu("Guide", "CPMHELP", "Read the guide", saver=5),
     )
     trace = tmp_path / "saver-terminal.bin"
     first = scenario(package, headless_emulator, "--trace-terminal", str(trace),
@@ -471,8 +483,11 @@ def test_menu_coboard_cold_and_warm_boot(tmp_path, headless_emulator):
     state = run_scenario([
         "--hard-disk-0", str(package / "HD0_256.hda"), "--copower", "--fast-storage",
         "--wait-for", "Omhoog/Omlaag kiezen",
-        "--send", "\\n\\n\\x06\\r",
-        "--wait-for", "D: APPLICATIONS BY CP/M USER AREA",
+        "--send", "\\n\\n\\n\\x06\\r",
+        "--wait-for", "CP/M IN HET KORT",
+        "--wait-for", "ENTER/SPATIE volgende pagina",
+        "--run", "1000000",
+        "--send", "q",
         "--wait-for", "Omhoog/Omlaag kiezen",
         "--send", "q", "--wait-for", "Navigator afsluiten",
         "--send", "j", "--wait-for", "A>",

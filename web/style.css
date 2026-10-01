@@ -1,3 +1,6 @@
+/* SPDX-FileCopyrightText: 2026 P2000C SASI Distribution contributors */
+/* SPDX-License-Identifier: GPL-3.0-or-later */
+
 :root {
   color-scheme: dark;
   --black: #010403;
@@ -96,15 +99,6 @@ button:active { color: #001407; background: var(--green); }
 .language-toggle[aria-checked="true"] .lang-en {
   color: #001407; background: var(--green); box-shadow: 0 0 8px var(--glow);
 }
-.keyboard { display: flex; justify-content: center; align-items: end; gap: .5rem; margin-top: 1.3rem; }
-.arrows {
-  display: grid; grid-template-columns: repeat(3, 2.5rem);
-  grid-template-areas: ". up ." "left down right"; gap: .2rem;
-}
-.arrows button:nth-child(1) { grid-area: up; }
-.arrows button:nth-child(2) { grid-area: left; }
-.arrows button:nth-child(3) { grid-area: down; }
-.arrows button:nth-child(4) { grid-area: right; }
 .about {
   width: min(760px, calc(100% - 2rem)); margin: 3rem auto 5rem;
   border-top: 1px solid var(--green-faint); padding-top: 1.25rem;
@@ -123,7 +117,6 @@ footer span { color: var(--green); }
 @media (max-width: 700px) {
   .machine-controls { flex-wrap: wrap; }
   .machine-controls p { flex-basis: 100%; }
-  .keyboard > button { font-size: .62rem; padding-inline: .45rem; }
   footer { display: block; }
   .masthead { align-items: flex-start; }
   .header-actions { flex-direction: column; align-items: flex-end; gap: .7rem; }

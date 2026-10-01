@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 P2000C SASI Distribution contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Evidence-based analysis of possible CP/M allocation mappings.
 
 This module intentionally models several hypotheses.  It does not establish any

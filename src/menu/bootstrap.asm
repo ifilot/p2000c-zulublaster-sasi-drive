@@ -1,3 +1,6 @@
+; SPDX-FileCopyrightText: 2026 P2000C SASI Distribution contributors
+; SPDX-License-Identifier: GPL-3.0-or-later
+
 ; Tiny first-stage launcher for P2000C Navigator.
 ;
 ; CP/M must read a complete COM file before executing it. Keeping MENU.COM

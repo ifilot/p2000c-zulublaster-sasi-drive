@@ -9,7 +9,7 @@ The website's 2,265-byte `web/p2000c-font.png` is copied unchanged from
 `daac2776c03a24beac228f0ed0f7ff04ee0fe44dce06d4fafc4e52bb6a9cb87d`.
 The browser decodes the same 192×192 character sheet, 12-pixel sheet pitch,
 and 8×12 glyph cells as the native emulator. This historical machine/reference
-asset is not relicensed by this repository's MIT license.
+asset is not relicensed by the project's GPL license.
 
 
 The collection is organized under `assets/software/cpm/` by software category. The `assets/software/core/`

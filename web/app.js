@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: 2026 P2000C SASI Distribution contributors
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 (() => {
   "use strict";
   const ASSETS = [
@@ -28,20 +31,11 @@
       machineLabel: "Philips P2000C-emulator",
       terminalLabel: "Interactief P2000C-scherm",
       canvasLabel: "P2000C-scherm met de originele 8 bij 12 tekengenerator",
-      controlsLabel: "Bediening op het scherm",
-      up: "Omhoog",
-      left: "Links",
-      down: "Omlaag",
-      right: "Rechts",
       speed: "Snelheid",
       speedOriginal: "1× origineel",
       speedTurbo4: "4× turbo",
       speedTurbo8: "8× turbo",
       reset: "RESET",
-      enter: "ENTER",
-      help: "HULP",
-      saver: "SCHERMREST",
-      quit: "STOPPEN",
       aboutTitle: "P2000C-webemulator",
       aboutBody: "Dit is een webemulator van de Philips P2000C. De emulator draait " +
         "P2000C Navigator en de meegeleverde CP/M-software volledig in uw browser.",
@@ -80,20 +74,11 @@
       terminalLabel: "Interactive P2000C display",
       machineLabel: "Philips P2000C emulator",
       canvasLabel: "P2000C display rendered with the original 8 by 12 character generator",
-      controlsLabel: "On-screen controls",
-      up: "Up",
-      left: "Left",
-      down: "Down",
-      right: "Right",
       speed: "Speed",
       speedOriginal: "1× original",
       speedTurbo4: "4× turbo",
       speedTurbo8: "8× turbo",
       reset: "RESET",
-      enter: "ENTER",
-      help: "HELP",
-      saver: "SAVER",
-      quit: "QUIT",
       aboutTitle: "P2000C web emulator",
       aboutBody: "This is a web-based emulator of the Philips P2000C. It runs P2000C " +
         "Navigator and its bundled CP/M software entirely in your browser.",
@@ -449,9 +434,6 @@
       event.preventDefault();
       queueKey(value);
     }
-  });
-  document.querySelectorAll("[data-key]").forEach(button => {
-    button.addEventListener("click", () => queueKey(Number(button.dataset.key)));
   });
   document.querySelector("#reset").addEventListener("click", () => {
     if (!running) return;

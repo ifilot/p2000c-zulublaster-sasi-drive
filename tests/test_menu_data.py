@@ -1,10 +1,15 @@
+# SPDX-FileCopyrightText: 2026 P2000C SASI Distribution contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Host-side tests for the TOML to MENU.DAT compiler."""
 from pathlib import Path
 import struct
 
 import pytest
 
-from p2000c_disk.menu import _write_compact_application, compile_menu_data, crc16
+from p2000c_disk.menu import (
+    _write_compact_application, compile_guide, compile_menu_data, crc16,
+)
 
 VALID = '''[menu]
 title = "Test menu"
@@ -17,7 +22,7 @@ description = "A useful category"
 label = "Guide"
 drive = "D"
 user = 0
-command = "README"
+command = "CPMHELP"
 description = "Read the guide"
 '''
 
@@ -47,10 +52,20 @@ def test_multiline_description_is_normalized(tmp_path):
     assert b"\\n" not in data
 
 
+def test_guide_pages_are_compiled_for_cpm(tmp_path):
+    source = tmp_path / "guide.txt"
+    destination = tmp_path / "GUIDE.TXT"
+    source.write_text("PAGE ONE\n%%PAGE%%\nPAGE TWO\n")
+
+    compile_guide(source, destination)
+
+    assert destination.read_bytes() == b"PAGE ONE\r\n\x0cPAGE TWO\r\n\x1a"
+
+
 @pytest.mark.parametrize("old, replacement, message", [
     ("screensaver_seconds = 60", "screensaver_seconds = 2", "screensaver_seconds"),
     ("user = 0", "user = 16", ".user"),
-    ('command = "README"', 'command = "BAD.COM"', ".command"),
+    ('command = "CPMHELP"', 'command = "BAD.COM"', ".command"),
     ('description = "Read the guide"', 'description = "é"', "printable ASCII"),
     ('footer = "Museum"', 'footer = "Museum"\nmystery = "value"', "unknown key"),
 ])
@@ -62,9 +77,9 @@ def test_invalid_menu_is_rejected(tmp_path, old, replacement, message):
 def test_distribution_reference_must_exist(tmp_path):
     available = {"D": {0: [tmp_path / "OTHER.COM"]}}
 
-    with pytest.raises(ValueError, match="missing D: user 0 README.COM"):
+    with pytest.raises(ValueError, match="missing D: user 0 CPMHELP.COM"):
         compile_text(tmp_path, VALID, available)
-    available["D"][0].append(tmp_path / "README.COM")
+    available["D"][0].append(tmp_path / "CPMHELP.COM")
     compile_text(tmp_path, VALID, available)
 
 

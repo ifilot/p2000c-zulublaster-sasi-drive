@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 P2000C SASI Distribution contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 import configparser
 from hashlib import sha256
 import json
@@ -23,9 +26,9 @@ def test_pro_builds_all_drives_reproducibly(tmp_path):
     manifest = json.loads((output / "manifest.json").read_text())
     assert manifest["schema"] == 4
     assert manifest["name"] == "P2000C SASI Distribution"
-    assert manifest["version"] == "1.2.1"
-    assert (output / "VERSION.txt").read_text() == "P2000C SASI Distribution v1.2.1\n"
-    expected = {("HD0_256.hda", "low"): 20, ("HD0_256.hda", "high"): 14,
+    assert manifest["version"] == "1.2.2"
+    assert (output / "VERSION.txt").read_text() == "P2000C SASI Distribution v1.2.2\n"
+    expected = {("HD0_256.hda", "low"): 20, ("HD0_256.hda", "high"): 15,
                 ("HD1_256.hda", "low"): 0, ("HD1_256.hda", "high"): 17}
     for (image, partition), count in expected.items():
         assert len(list_files(output / image, partition)) == count
@@ -50,13 +53,19 @@ def test_pro_builds_all_drives_reproducibly(tmp_path):
             ROOT / "assets/software/cpm/applications/supercalc-2" / name
         ).read_bytes()
     assert {(file.user_number, file.normalized_filename) for file in applications} >= {
-        (0, "README.COM"), (1, "MBASIC.COM"), (2, "COBOL.COM"),
+        (0, "CPMHELP.COM"), (0, "CPMHELP.TXT"), (1, "MBASIC.COM"), (2, "COBOL.COM"),
         (3, "SC2.COM"),
     }
     assert not {file.normalized_filename for file in applications if file.user_number == 4}
-    assert b"WordStar" not in read_file(
-        output / "HD0_256.hda", "README.COM", partition="high", user_number=0
+    guide_program = read_file(
+        output / "HD0_256.hda", "CPMHELP.COM", partition="high", user_number=0
     )
+    guide_pages = read_file(
+        output / "HD0_256.hda", "CPMHELP.TXT", partition="high", user_number=0
+    )
+    assert b"CP/M IN HET KORT" not in guide_program
+    assert b"CP/M IN HET KORT\r\n" in guide_pages
+    assert guide_pages.count(b"\x0c") == 4
     mbasic = read_file(
         output / "HD0_256.hda", "MBASIC.COM", partition="high", user_number=1
     )

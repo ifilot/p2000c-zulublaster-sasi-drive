@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 P2000C SASI Distribution contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Preview lifecycle: disposable media, isolated preferences and CLI failures."""
 from pathlib import Path
 import subprocess

@@ -7,6 +7,19 @@ features, and PATCH for backwards-compatible fixes.
 
 ## [Unreleased]
 
+## [1.2.2] - 2026-10-01
+
+### Changed
+
+- Sorted the games in the Navigator menu alphabetically.
+- Removed the on-screen navigation and shortcut buttons from the browser emulator.
+- Relicensed the project-owned code from MIT to GNU GPL v3 or later.
+- Made source-built games use their locked build date even when an upstream
+  Makefile assigns its own date.
+- Replaced the immediate-exit Programmagids with a Dutch, multi-page CP/M guide
+  under Documentatie; its small reader loads page text from a separate disk
+  file. Microsoft BASIC now has its own Programmeren category.
+
 ## [1.2.1] - 2026-09-27
 
 ### Added

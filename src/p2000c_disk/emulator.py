@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 P2000C SASI Distribution contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Build and drive the repository's headless native emulator.
 
 Python sends a whole scenario to one process; the CPU loop stays in C++.

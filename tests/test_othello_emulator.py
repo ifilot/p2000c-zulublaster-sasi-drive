@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 P2000C SASI Distribution contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Smoke-test the released P2000C-native Othello game on F:."""
 import shutil
 import subprocess

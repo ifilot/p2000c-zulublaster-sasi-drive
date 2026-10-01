@@ -27,7 +27,7 @@ four image variants are built with two workers by default. Set `DEV_JOBS=1` for
 sequential operation or raise it on a machine with enough CPU and memory.
 
 Every package reads its semantic version from the repository-root `VERSION`
-file; the current SASI distribution is `v1.2.1`. All variants carry that version
+file; the current SASI distribution is `v1.2.2`. All variants carry that version
 in `manifest.json` and root `VERSION.txt`, and release ZIP filenames include it.
 Releases use stable Semantic Versioning (`MAJOR.MINOR.PATCH`). Increment MAJOR
 for incompatible distribution changes, MINOR for backwards-compatible features,
@@ -79,14 +79,14 @@ the same 8.3 name separate.
 
 User areas range from `"0"` to `"15"`. Include companion data and overlay
 files. Duplicate names within an area, missing patterns and paths outside the
-software library are rejected. `TRKDUMP.COM` on A: and `README.COM` on D:
+software library are rejected. `TRKDUMP.COM` on A: and `CPMHELP.COM` plus `CPMHELP.TXT` on D:
 user 0 are build-reserved.
 
 The default layout has ASM/LOAD/DDT/ED and Kermit on A:, games on F:, and:
 
 | User | Contents | Start command |
 | ---: | --- | --- |
-| 0 | README, P2EDIT and P2FILE | `README`, `P2EDIT`, `P2FILE` |
+| 0 | Dutch CP/M guide, P2EDIT and P2FILE | `CPMHELP`, `P2EDIT`, `P2FILE` |
 | 1 | Microsoft BASIC-80 | `MBASIC` |
 | 2 | Microsoft COBOL compiler, overlays, library and linker | `COBOL` |
 | 3 | SuperCalc 2 | `SC2` |

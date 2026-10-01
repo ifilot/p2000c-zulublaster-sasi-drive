@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 P2000C SASI Distribution contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Exercise the combined SASI/CoPower boot system with both original size profiles."""
 import shutil
 import subprocess

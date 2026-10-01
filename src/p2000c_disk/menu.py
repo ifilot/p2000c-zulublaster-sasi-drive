@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 P2000C SASI Distribution contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Compile the host-side TOML menu and the Z88DK CP/M executable."""
 from __future__ import annotations
 
@@ -22,6 +25,9 @@ MAX_CATEGORIES, MAX_ITEMS, MAX_CATEGORY_ITEMS = 8, 32, 14
 MAX_LABEL_LENGTH, MAX_PROGRAM_LENGTH = 24, 8
 MAX_ARGUMENT_LENGTH, MAX_DESCRIPTION_LENGTH, MAX_TITLE_LENGTH = 100, 200, 48
 PROGRAM_RE = re.compile(r"[A-Z0-9_$-]{1,8}\Z")
+GUIDE_PAGE_SEPARATOR = "%%PAGE%%"
+MAX_GUIDE_LINES = 20
+MAX_GUIDE_WIDTH = 78
 
 
 def crc16(data: bytes) -> int:
@@ -32,6 +38,51 @@ def crc16(data: bytes) -> int:
         for _ in range(8):
             crc = ((crc << 1) ^ 0x1021) & 0xFFFF if crc & 0x8000 else (crc << 1) & 0xFFFF
     return crc
+
+
+def compile_guide(source: Path, destination: Path) -> Path:
+    """Compile readable source pages into a CP/M text file."""
+    pages: list[list[str]] = [[]]
+    for line_number, line in enumerate(source.read_text(encoding="utf-8").splitlines(), 1):
+        if line == GUIDE_PAGE_SEPARATOR:
+            if not pages[-1]:
+                raise ValueError(f"empty guide page before line {line_number}")
+            pages.append([])
+            continue
+        try:
+            encoded = line.encode("ascii")
+        except UnicodeEncodeError as exc:
+            raise ValueError(f"guide line {line_number} must use printable ASCII") from exc
+        if any(byte < 32 or byte > 126 for byte in encoded):
+            raise ValueError(f"guide line {line_number} must use printable ASCII")
+        if len(encoded) > MAX_GUIDE_WIDTH:
+            raise ValueError(
+                f"guide line {line_number} exceeds {MAX_GUIDE_WIDTH} characters"
+            )
+        pages[-1].append(line)
+        if len(pages[-1]) > MAX_GUIDE_LINES:
+            raise ValueError(
+                f"guide page {len(pages)} exceeds {MAX_GUIDE_LINES} lines"
+            )
+    if not pages[-1]:
+        raise ValueError("guide must not end with an empty page")
+    payload = b"\x0c".join(
+        b"\r\n".join(line.encode("ascii") for line in page) + b"\r\n"
+        for page in pages
+    ) + b"\x1a"
+    destination.write_bytes(payload)
+    return destination
+
+
+def build_cpm_guide(destination: Path, assembler: str = "z80asm",
+                    root: Path = ROOT) -> Path:
+    """Build the small viewer and its disk-backed Dutch CP/M pages."""
+    destination.mkdir(parents=True, exist_ok=True)
+    program = destination / "CPMHELP.COM"
+    assemble_program(root / "src/asm/cpmhelp.asm", program, assembler,
+                     maximum_size=0x1000)
+    compile_guide(root / "src/menu/cpm-guide.txt", destination / "CPMHELP.TXT")
+    return program
 
 
 def _table(value: object, context: str) -> dict:
@@ -246,9 +297,9 @@ def main() -> None:
     parser.add_argument("--assembler", default="z80asm")
     args = parser.parse_args()
     try:
-        print(
-            f"Built {build_menu(args.output, args.zcc, assembler=args.assembler)}"
-        )
+        menu = build_menu(args.output, args.zcc, assembler=args.assembler)
+        guide = build_cpm_guide(args.output, args.assembler)
+        print(f"Built {menu}, {guide} and {guide.with_suffix('.TXT')}")
     except subprocess.CalledProcessError as exc:
         parser.exit(1, exc.stderr or str(exc))
     except (OSError, ValueError) as exc:

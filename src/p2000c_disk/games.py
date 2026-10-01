@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 P2000C SASI Distribution contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Fetch and verify the immutable external games used by a distribution."""
 from __future__ import annotations
 
@@ -357,8 +360,11 @@ def materialize_games(destination: Path, lock_path: Path = ROOT / "games.lock.to
                     _extract_source(archive, source)
                     environment = dict(os.environ)
                     environment["BUILD_DATE"] = game.build_date or ""
+                    command = list(game.build_command)
+                    if Path(command[0]).name in {"make", "gmake"}:
+                        command.append(f"BUILD_DATE={game.build_date}")
                     try:
-                        subprocess.run(game.build_command, cwd=source, env=environment,
+                        subprocess.run(command, cwd=source, env=environment,
                                        check=True, capture_output=True, text=True)
                     except subprocess.CalledProcessError as exc:
                         output = "\n".join(part.strip() for part in (exc.stdout, exc.stderr)

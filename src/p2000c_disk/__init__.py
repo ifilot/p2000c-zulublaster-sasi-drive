@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 P2000C SASI Distribution contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """Tools for Philips P2000C CP/M hard-drive images."""
 
 from .allocation import AllocationAnalysisReport, analyze_allocation

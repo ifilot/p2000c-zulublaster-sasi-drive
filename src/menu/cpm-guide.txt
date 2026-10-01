@@ -1,0 +1,93 @@
+CP/M IN HET KORT
+================
+
+CP/M is het besturingssysteem van deze Philips P2000C. Het beheert de
+schijven, bestanden en programma's. Na het opstarten ziet u een opdrachtregel:
+
+    A>
+
+De letter is het gekozen station. Typ een opdracht en druk op RETURN.
+Hoofdletters en kleine letters maken voor CP/M geen verschil.
+
+Voorbeelden:
+    DIR       toont bestanden
+    F:        kiest station F
+    ZORK1     start het programma ZORK1.COM
+
+Deze uitleg staat in CPMHELP.TXT en wordt per pagina vanaf schijf gelezen.
+%%PAGE%%
+STATIONS EN GEBRUIKERSGEBIEDEN
+==============================
+
+Een station is een afzonderlijke schijf of partitie:
+
+    A:  CP/M, systeemprogramma's en gereedschap
+    B:  eerste diskette
+    C:  tweede diskette
+    D:  toepassingen
+    E:  vrije gegevensschijf
+    F:  spellen
+    G:  tijdelijke RAM-schijf, alleen bij een CoPower-uitvoering
+
+Typ bijvoorbeeld D: om van station te wisselen. Met DIR F: bekijkt u F:
+zonder het gekozen station te veranderen.
+
+Elk station heeft gebruikersgebieden 0 tot en met 15. USER 3 kiest gebied 3;
+USER 0 keert terug. Bestanden in andere gebieden verschijnen niet bij DIR.
+%%PAGE%%
+BESTANDEN EN NAMEN
+==================
+
+Een CP/M-bestandsnaam heeft maximaal acht tekens, een punt en een extensie
+van maximaal drie tekens. Voorbeelden zijn BRIEF.TXT en MBASIC.COM.
+
+Veelgebruikte extensies:
+    .COM  uitvoerbaar programma
+    .TXT  tekstbestand
+    .BAS  BASIC-programma
+    .ASM  assemblerbron
+
+Vraagtekens en sterretjes zijn jokertekens:
+    DIR *.COM       toont alle programma's
+    DIR BRIEF?.TXT  toont onder andere BRIEF1.TXT
+
+TYPE NAAM.TXT toont een tekstbestand. ERA NAAM.TXT wist het bestand.
+Gebruik ERA voorzichtig: CP/M heeft geen prullenbak.
+%%PAGE%%
+PROGRAMMA'S EN OPDRACHTEN
+=========================
+
+CP/M zoekt een opdracht eerst tussen zijn ingebouwde opdrachten en daarna als
+een .COM-bestand op het gekozen station en in het gekozen gebruikersgebied.
+
+Voorbeelden:
+    DIR             toon de inhoud van het huidige gebied
+    REN NIEUW=OUD   hernoem een bestand
+    TYPE TEKST.TXT  toon een tekstbestand
+    D:MBASIC        start MBASIC.COM op D:
+
+Sommige toepassingen hebben meerdere bestanden nodig. Houd .COM-, hulp- en
+gegevensbestanden daarom bij elkaar in hetzelfde gebruikersgebied.
+
+Een programma keert normaal terug naar de opdrachtregel. Navigator start na
+een programma automatisch opnieuw en toont dan weer het keuzemenu.
+%%PAGE%%
+VEILIG WERKEN
+=============
+
+Geef eigen bestanden meteen een herkenbare naam en noteer op welk station en
+in welk gebruikersgebied u ze bewaart. Controleer met DIR of ze aanwezig zijn.
+
+De RAM-schijf G: is snel maar vluchtig. Bij uitschakelen verdwijnt de inhoud.
+Kopieer belangrijk werk eerst naar een blijvende schijf.
+
+Schakel de computer niet uit terwijl een programma naar schijf schrijft.
+Sluit een toepassing zo mogelijk via zijn eigen opdracht af.
+
+Handige eerste stappen:
+    A>DIR
+    A>D:
+    D>USER 1
+    D>MBASIC
+
+Met Q verlaat u deze uitleg en keert u terug naar Navigator.
