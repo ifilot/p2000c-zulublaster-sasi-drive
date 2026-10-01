@@ -14,9 +14,9 @@ from p2000c_disk.version import DISPLAY_VERSION, VERSION, validate_semantic_vers
 
 def test_version_is_shared_by_packaging_menu_changelog_and_archives():
     root = Path(__file__).parents[1]
-    assert (root / "VERSION").read_text() == "1.2.2\n"
-    assert VERSION == "1.2.2"
-    assert DISPLAY_VERSION == "v1.2.2"
+    assert (root / "VERSION").read_text() == "1.2.3\n"
+    assert VERSION == "1.2.3"
+    assert DISPLAY_VERSION == "v1.2.3"
     metadata = tomllib.loads((root / "pyproject.toml").read_text())
     assert metadata["project"]["license"]["text"] == "GPL-3.0-or-later"
     assert ("License :: OSI Approved :: GNU General Public License v3 or later "
@@ -26,9 +26,9 @@ def test_version_is_shared_by_packaging_menu_changelog_and_archives():
     assert "{version}" not in menu
     menu_program = (root / "src/menu/menu.c").read_text()
     assert '"SASI-distributie: " NAVIGATOR_VERSION' in menu_program
-    assert PREFIX == "p2000c-zulublaster-v1.2.2-"
+    assert PREFIX == "p2000c-zulublaster-v1.2.3-"
     notes = release_notes()
-    assert notes.startswith("## [1.2.2] - 2026-10-01\n")
+    assert notes.startswith("## [1.2.3] - 2026-10-01\n")
     assert "### Changed" in notes
 
 

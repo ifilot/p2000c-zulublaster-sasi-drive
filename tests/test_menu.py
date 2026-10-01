@@ -94,7 +94,7 @@ def test_help_contains_build_information(menu_package, headless_emulator):
     assert "S laadt de screensaver" in display
     assert "S spaart het scherm" not in display
     assert "R herlaadt" not in display
-    assert "SASI-distributie: v1.2.2" in display
+    assert "SASI-distributie: v1.2.3" in display
     assert "github.com/ifilot/p2000c-zulublaster-sasi-drive" in display
     assert re.search(r"Compilatiedatum: \d{4}-\d{2}-\d{2}", display)
     assert "BEDIENING" in display and "INFORMATIE" in display

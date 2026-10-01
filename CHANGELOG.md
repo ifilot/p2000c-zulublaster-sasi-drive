@@ -7,6 +7,12 @@ features, and PATCH for backwards-compatible fixes.
 
 ## [Unreleased]
 
+## [1.2.3] - 2026-10-01
+
+### Changed
+
+- Updated Kakuro to v1.0.1.
+
 ## [1.2.2] - 2026-10-01
 
 ### Changed
