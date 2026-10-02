@@ -27,6 +27,20 @@
       projectLinks: "Projectlinks",
       source: "BRONCODE",
       download: "DOWNLOAD",
+      gallery: "GALERIJ",
+      galleryTitle: "De Philips P2000C in beeld",
+      galleryPrevious: "Vorige foto",
+      galleryNext: "Volgende foto",
+      galleryChoose: "Kies een foto",
+      galleryPhoto: "Foto {number}",
+      galleryHint: "← / → bladeren",
+      galleryCaption: "{number} / {total} · {caption}",
+      photoNavigator: "P2000C Navigator op de Philips P2000C",
+      photoMinesweeper: "Mijnenveger op de Philips P2000C",
+      photoKakuro: "Kakuro op het originele groene beeldscherm",
+      photoChessTitle: "Het startscherm van Schaken",
+      photoChess: "Schaken op de Philips P2000C",
+      photoZork: "Zork I op de Philips P2000C",
       emulatorStatus: "Emulatorstatus",
       machineLabel: "Philips P2000C-emulator",
       terminalLabel: "Interactief P2000C-scherm",
@@ -70,6 +84,20 @@
       projectLinks: "Project links",
       source: "SOURCE",
       download: "DOWNLOAD",
+      gallery: "GALLERY",
+      galleryTitle: "The Philips P2000C in pictures",
+      galleryPrevious: "Previous photo",
+      galleryNext: "Next photo",
+      galleryChoose: "Choose a photo",
+      galleryPhoto: "Photo {number}",
+      galleryHint: "← / → browse",
+      galleryCaption: "{number} / {total} · {caption}",
+      photoNavigator: "P2000C Navigator on the Philips P2000C",
+      photoMinesweeper: "Minesweeper on the Philips P2000C",
+      photoKakuro: "Kakuro on the original green display",
+      photoChessTitle: "The Chess title screen",
+      photoChess: "Chess on the Philips P2000C",
+      photoZork: "Zork I on the Philips P2000C",
       emulatorStatus: "Emulator status",
       terminalLabel: "Interactive P2000C display",
       machineLabel: "Philips P2000C emulator",
@@ -122,6 +150,19 @@
   const diskLight = document.querySelector("#disk-light");
   const speed = document.querySelector("#speed");
   const languageToggle = document.querySelector("#language-toggle");
+  const gallery = document.querySelector("#gallery");
+  const galleryImage = document.querySelector("#gallery-image");
+  const galleryCaption = document.querySelector("#gallery-caption");
+  const galleryPositions = document.querySelector("#gallery-positions");
+  const photos = [
+    {file: "navigator", caption: "photoNavigator"},
+    {file: "minesweeper", caption: "photoMinesweeper"},
+    {file: "kakuro", caption: "photoKakuro"},
+    {file: "chess-title", caption: "photoChessTitle"},
+    {file: "chess", caption: "photoChess"},
+    {file: "zork", caption: "photoZork"},
+  ];
+  let photoIndex = 0;
   let language = "nl";
   let statusState = {key: "loadingEmulator", values: {}};
   let loadingState = {key: "initializingWasm", values: {}};
@@ -185,6 +226,7 @@
     document.querySelectorAll("[data-i18n-aria-label]").forEach(element => {
       element.setAttribute("aria-label", text(element.dataset.i18nAriaLabel));
     });
+    updateGallery(false);
     languageToggle.setAttribute("aria-checked", language === "en" ? "true" : "false");
     languageToggle.setAttribute("aria-label", text("languageToggle"));
     loadingMessage.textContent = text(loadingState.key, loadingState.values);
@@ -195,7 +237,59 @@
   languageToggle.addEventListener("click", () => {
     applyLanguage(language === "nl" ? "en" : "nl", true);
   });
+  function updateGallery(loadImage = true) {
+    const photo = photos[photoIndex];
+    if (loadImage) {
+      galleryImage.srcset = `gallery/${photo.file}-768.webp 768w, gallery/${photo.file}.webp 1448w`;
+      galleryImage.sizes = "(max-width: 1060px) calc(100vw - 3rem), 1018px";
+      galleryImage.src = `gallery/${photo.file}.webp`;
+    }
+    galleryImage.alt = text(photo.caption);
+    galleryCaption.textContent = text("galleryCaption", {
+      number: photoIndex + 1, total: photos.length, caption: text(photo.caption),
+    });
+    [...galleryPositions.children].forEach((button, index) => {
+      button.setAttribute("aria-pressed", String(index === photoIndex));
+      button.setAttribute("aria-label", text("galleryPhoto", {number: index + 1}));
+    });
+  }
+
+  function cyclePhoto(direction) {
+    photoIndex = (photoIndex + direction + photos.length) % photos.length;
+    updateGallery();
+  }
+
+  photos.forEach((_photo, index) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.textContent = String(index + 1).padStart(2, "0");
+    button.addEventListener("click", () => {
+      photoIndex = index;
+      updateGallery();
+    });
+    galleryPositions.append(button);
+  });
+  document.querySelector("#gallery-previous").addEventListener("click", () => cyclePhoto(-1));
+  document.querySelector("#gallery-next").addEventListener("click", () => cyclePhoto(1));
+  gallery.addEventListener("keydown", event => {
+    if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+      event.preventDefault();
+      cyclePhoto(event.key === "ArrowLeft" ? -1 : 1);
+    }
+  });
+  let swipeStart = null;
+  galleryImage.addEventListener("pointerdown", event => {
+    if (event.pointerType === "touch") swipeStart = event.clientX;
+  });
+  galleryImage.addEventListener("pointerup", event => {
+    if (swipeStart !== null && Math.abs(event.clientX - swipeStart) > 50) {
+      cyclePhoto(event.clientX < swipeStart ? 1 : -1);
+    }
+    swipeStart = null;
+  });
+  galleryImage.addEventListener("pointercancel", () => { swipeStart = null; });
   applyLanguage(savedLanguage());
+  updateGallery();
 
   async function download(asset, index) {
     message("loadingAsset", 10 + index * 24, {name: asset.name});
@@ -468,7 +562,9 @@
       powerLight.classList.add("on");
       setStatus("running");
       running = true;
-      terminal.focus();
+      if (document.activeElement === document.body && location.hash !== "#gallery") {
+        terminal.focus();
+      }
       requestAnimationFrame(tick);
     } catch (error) {
       console.error(error);

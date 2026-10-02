@@ -20,6 +20,7 @@
     </a>
     <div class="header-actions">
       <nav aria-label="Projectlinks" data-i18n-aria-label="projectLinks">
+        <a id="gallery-open" class="gallery-open" href="#gallery" data-i18n="gallery">GALERIJ</a>
         <a data-i18n="source" href="https://github.com/ifilot/p2000c-zulublaster-sasi-drive">BRONCODE</a>
         <a data-i18n="download" href="https://github.com/ifilot/p2000c-zulublaster-sasi-drive/releases/latest">DOWNLOAD</a>
       </nav>
@@ -72,6 +73,24 @@
         om te openen en <strong>←</strong> om terug te gaan. Met <strong>H</strong>
         opent u de hulp, met <strong>S</strong> start u de schermbeveiliging en met
         <strong>Q</strong> sluit u af naar CP/M. Met Reset start u de geëmuleerde computer opnieuw.</p>
+    </section>
+    <section id="gallery" class="gallery" aria-labelledby="gallery-title" tabindex="-1">
+      <div class="gallery-header">
+        <h2 id="gallery-title" data-i18n="galleryTitle">De Philips P2000C in beeld</h2>
+      </div>
+      <figure class="gallery-figure">
+        <div class="gallery-stage">
+          <img id="gallery-image" src="gallery/navigator.webp" width="1448" height="1086"
+               alt="P2000C Navigator op de Philips P2000C" loading="lazy" decoding="async">
+        </div>
+        <figcaption id="gallery-caption" aria-live="polite" aria-atomic="true"></figcaption>
+      </figure>
+      <div class="gallery-controls">
+        <button id="gallery-previous" type="button" data-i18n-aria-label="galleryPrevious" aria-label="Vorige foto">←</button>
+        <div id="gallery-positions" class="gallery-positions" role="group" data-i18n-aria-label="galleryChoose" aria-label="Kies een foto"></div>
+        <button id="gallery-next" type="button" data-i18n-aria-label="galleryNext" aria-label="Volgende foto">→</button>
+      </div>
+      <p class="gallery-hint" data-i18n="galleryHint">← / → bladeren</p>
     </section>
   </main>
   <footer>

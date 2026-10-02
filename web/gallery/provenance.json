@@ -1,0 +1,48 @@
+{
+  "tool": "built-in image_gen",
+  "prompt": "Use case: precise-object-edit. Asset type: photograph for a website gallery. Input image is the edit target, not merely inspiration. Replace ONLY all background surroundings and tabletop with a uniform very dark anthracite black (#151719) seamless background. Remove room, shelves, books, display cabinet, tabletop, other objects, and unrelated cables. Keep exactly the visible Philips P2000C computer including its black metal stand, keyboard where present, and coiled keyboard cable where present. Preserve original framing and angle; do not invent keyboard or computer parts outside the photo in close-ups. Preserve the computer, key labels, logos, colors, texture, lighting, and ALL existing CRT screen text and graphics EXACTLY unchanged; do not regenerate or reinterpret screen content. Clean precise cutout edges around computer, stand and coiled cable, with anthracite background also visible through openings and cable gaps. No extra objects, no labels, no watermark. Output one edited photograph matching original 4:3 aspect ratio.",
+  "exports": {
+    "desktop": [
+      1448,
+      1086
+    ],
+    "mobile": [
+      768,
+      576
+    ],
+    "format": "WebP",
+    "quality": 85
+  },
+  "photos": [
+    {
+      "file": "navigator.webp",
+      "source": "IMG20261002075424.jpg",
+      "processing": "AI background replacement; resized"
+    },
+    {
+      "file": "minesweeper.webp",
+      "source": "IMG20261002075512.jpg",
+      "processing": "AI background replacement; resized"
+    },
+    {
+      "file": "kakuro.webp",
+      "source": "IMG20261002075542.jpg",
+      "processing": "AI background replacement; resized"
+    },
+    {
+      "file": "chess-title.webp",
+      "source": "IMG20261002075609.jpg",
+      "processing": "Original resized; computer already fills the entire frame"
+    },
+    {
+      "file": "chess.webp",
+      "source": "IMG20261002075626.jpg",
+      "processing": "AI background replacement; resized"
+    },
+    {
+      "file": "zork.webp",
+      "source": "IMG20261002075836.jpg",
+      "processing": "AI background replacement; resized"
+    }
+  ]
+}

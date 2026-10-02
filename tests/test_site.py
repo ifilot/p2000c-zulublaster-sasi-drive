@@ -19,6 +19,8 @@ def fixture_tree(tmp_path: Path):
     )
     (root / "web/app.js").write_text("const emulator = true;")
     (root / "web/p2000c-font.png").write_bytes(bytes(2265))
+    (root / "web/gallery").mkdir()
+    (root / "web/gallery/navigator.webp").write_bytes(b"gallery image")
     (root / "tools/emulator/firmware").mkdir(parents=True)
     (root / "tools/emulator/firmware/IPLDUMP.BIN").write_bytes(bytes(4096))
     media = tmp_path / "media"
@@ -45,6 +47,7 @@ def test_site_contains_real_emulator_and_distribution(tmp_path):
     assert (output / "p2000c-web.js").is_file()
     assert (output / "p2000c-web.wasm").read_bytes() == b"wasm"
     assert (output / "p2000c-font.png").stat().st_size == 2265
+    assert (output / "gallery/navigator.webp").read_bytes() == b"gallery image"
 
 
 def test_site_rejects_incomplete_media_without_replacing_output(tmp_path):
